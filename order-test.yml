@@ -18,7 +18,7 @@ spring:
     port: 5672
 
 server:
-  port: 8081
+  port: 8089
 mybatis:
   mapper-locations: classpath:/mapper/*Mapper.xml
   type-aliases-package: order.common.entity
