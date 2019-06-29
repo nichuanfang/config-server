@@ -4,7 +4,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql:///sell?useSSL=false&amp&serverTimezone=UTC&characterEncoding=utf-8
+    url: jdbc:mysql://127.0.0.1:3306/sell?useSSL=false&amp&serverTimezone=UTC&characterEncoding=utf-8
     username: root
     password: 123456
     redis:
