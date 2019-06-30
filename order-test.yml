@@ -16,7 +16,7 @@ spring:
     password: guest
     username: guest
     port: 5672
-pq: 16
+pq: 12
 
 server:
   port: 8081
