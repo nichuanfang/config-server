@@ -13,8 +13,8 @@ spring:
 
   rabbitmq:
     addresses: 192.168.43.107
-    password: admin
-    username: admin
+    password: guest
+    username: guest
     port: 5672
 
 server:
