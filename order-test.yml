@@ -16,7 +16,6 @@ spring:
     password: admin
     username: admin
     port: 5672
-pq: 12
 
 server:
   port: 8081
