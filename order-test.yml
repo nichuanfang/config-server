@@ -14,7 +14,7 @@ spring:
   rabbitmq:
     addresses: 192.168.43.107
     password: admin
-    username:admin
+    username: admin
     port: 5672
 pq: 12
 
