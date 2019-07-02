@@ -14,3 +14,10 @@ zuul:
 #    order: /myorder/**
   ignored-patterns:
 #    - /**/byIds
+
+spring:
+  rabbitmq:
+    username: guest
+    password: guest
+    addresses: 192.168.43.107
+    port: 5672
