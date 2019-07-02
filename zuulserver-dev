@@ -3,7 +3,6 @@ management:
     web:
       exposure:
         include: "*"
-name: 2
 zuul:
   routes:
     myroute:
