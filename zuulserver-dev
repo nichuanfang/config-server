@@ -1,13 +1,44 @@
-zuul:
-  routes:
-    myroute:
-      path: /myorder/**
-      serviceId: order
-      sensitiveHeaders:
+server:
+  port: 9999
+
 spring:
+  application:
+    name: zuulserver
+  profiles:
+    active: dev
+  cloud:
+    bus:
+      id: ${vcap.application.name:${spring.application.name:application}}:${vcap.application.instance_index:${spring.profiles.active:${local.server.port:${server.port:0}}}}:${vcap.application.instance_id:${random.value}}
+    config:
+      discovery:
+        service-id: config-server
+        enabled: true
+      profile: dev
   rabbitmq:
     username: guest
     password: guest
     addresses: 192.168.43.107
     port: 5672
-  
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://192.168.43.107/eureka/
+
+logging:
+  level:
+    org.springframework.cloud.bus: debug
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+zuul:
+  routes: 
+    myroute:
+      path: /myorder/**
+      serviceId: order
+
