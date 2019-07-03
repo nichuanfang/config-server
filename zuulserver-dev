@@ -6,12 +6,12 @@ management:
 zuul:
   routes:
     myroute:
-      path: /myorder/**
+      path: /myorders/**
       serviceId: order
       url: http://localhost:8081
       sensitiveHeaders:
 #    匿名路由  微服务ID: path
-#    order: /myorders/**
+#    order: /myorder/**
   ignored-patterns:
 #    - /**/byIds
 
