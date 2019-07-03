@@ -2,7 +2,7 @@
 zuul:
   routes:
     myroute:
-      path: /myorders/**
+      path: /myorder/**
       serviceId: order
       url: http://localhost:8081
       sensitiveHeaders:
