@@ -39,6 +39,6 @@ management:
 zuul:
   routes: 
     myroute:
-      path: /myorder/**
+      path: /myorders/**
       serviceId: order
 
