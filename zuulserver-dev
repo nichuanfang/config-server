@@ -1,15 +1,9 @@
-
 zuul:
   routes:
     myroute:
       path: /myorder/**
       serviceId: order
       sensitiveHeaders:
-#    匿名路由  微服务ID: path
-#    order: /myorders/**
-  ignored-patterns:
-#    - /**/byIds
-
 spring:
   rabbitmq:
     username: guest
