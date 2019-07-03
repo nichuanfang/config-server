@@ -11,7 +11,7 @@ zuul:
       url: http://localhost:8081
       sensitiveHeaders:
 #    匿名路由  微服务ID: path
-#    order: /myorder/**
+#    order: /myorders/**
   ignored-patterns:
 #    - /**/byIds
 
