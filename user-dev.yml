@@ -6,8 +6,5 @@ spring:
     password: 123456
   rabbitmq:
     addresses: 192.168.43.107
-  redis:
-		host: 192.168.43.107
-		password: 123456
     
     
