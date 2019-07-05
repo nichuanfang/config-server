@@ -1,0 +1,13 @@
+spring:
+  jpa:
+    show-sql: true
+  redis:
+    host: 192.168.43.107
+    password: 123456
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql:///sell?useSSL=false&amp&serverTimezone=UTC&characterEncoding=utf-8
+    username: root
+    password: 123456
+  rabbitmq:
+    addresses: 192.167.43.107
