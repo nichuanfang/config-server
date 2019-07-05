@@ -41,4 +41,5 @@ zuul:
     myroute:
       path: /myorders/**
       serviceId: order
+  sensitive-headers:
 
