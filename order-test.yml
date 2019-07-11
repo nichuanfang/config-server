@@ -1,16 +1,12 @@
 spring:
-  application:
-    name: order
-
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/sell?useSSL=false&amp&serverTimezone=UTC&characterEncoding=utf-8
+    url: jdbc:mysql://192.168.43.158:3306/sell?useSSL=false&amp&serverTimezone=UTC&characterEncoding=utf-8
     username: root
     password: 123456
-    redis:
+  redis:
       host: 192.168.43.107
       password: 123456
-
   rabbitmq:
     addresses: 192.168.43.107
     password: guest
