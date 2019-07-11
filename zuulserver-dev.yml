@@ -32,10 +32,7 @@ zuul:
       path: /myorders/**
       serviceId: order
   sensitive-headers:
-
-ribbon:
-  ReadTimeout: 5000
-  SocketTimeout: 5000
+  
 
 
 
