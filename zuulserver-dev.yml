@@ -24,7 +24,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://192.168.43.107/eureka/
+      defaultZone: http://eureka1:8001/eureka/,http://eureka2:8002/eureka/
 
 logging:
   level:
@@ -42,4 +42,10 @@ zuul:
       path: /myorders/**
       serviceId: order
   sensitive-headers:
+
+ribbon:
+  ReadTimeout: 5000
+  SocketTimeout: 5000
+
+
 
