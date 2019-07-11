@@ -33,6 +33,8 @@ zuul:
       serviceId: order
   sensitive-headers:
   
-
+zuul:
+  ReadTimeout: 5000
+  SocketTimeout: 5000
 
 
