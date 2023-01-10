@@ -342,6 +342,25 @@ cat > /usr/local/etc/xray/tcp_xtls_config.json<<-EOF
     "log": {
         "loglevel": "warning"
     }, 
+    "routing": {
+        "domainStrategy": "IPOnDemand",
+        "rules": [
+            {
+                "domain": [
+                    "geosite:cn"
+                ],
+                "outboundTag": "blocked",
+                "type": "field"
+            },
+            {
+                "ip": [
+                    "geoip:cn"
+                ],
+                "outboundTag": "blocked",
+                "type": "field"
+            }
+         ]
+     },
     "inbounds": [
         {
             "listen": "0.0.0.0", 
@@ -353,7 +372,7 @@ cat > /usr/local/etc/xray/tcp_xtls_config.json<<-EOF
                         "id": "$v2uuid", 
                         "level": 0, 
                         "email": "a@b.com",
-                        "flow":"xtls-rprx-vision"
+                        "flow":"xtls-rprx-direct"
                     }
                 ], 
                 "decryption": "none", 
@@ -401,7 +420,7 @@ cat > /usr/local/etc/xray/myconfig_tcp_xtls.json<<-EOF
 端口：443
 id：${v2uuid}
 加密：none
-流控：xtls-rprx-version
+流控：xtls-rprx-direct
 别名：自定义
 传输协议：tcp
 伪装类型：none
