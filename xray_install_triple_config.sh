@@ -342,18 +342,6 @@ cat > /usr/local/etc/xray/tcp_xtls_config.json<<-EOF
     "log": {
         "loglevel": "warning"
     }, 
-    "routing": {
-        "domainStrategy": "IPIfNonMatch",
-        "rules": [
-            {
-                "type": "field",
-                "ip": [
-                    "geoip:cn"
-                ],
-                "outboundTag": "block"
-            }
-        ]
-    },
     "inbounds": [
         {
             "listen": "0.0.0.0", 
@@ -413,7 +401,7 @@ cat > /usr/local/etc/xray/myconfig_tcp_xtls.json<<-EOF
 端口：443
 id：${v2uuid}
 加密：none
-流控：xtls-rprx-direct
+流控：xtls-rprx-version
 别名：自定义
 传输协议：tcp
 伪装类型：none
