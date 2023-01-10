@@ -263,10 +263,8 @@ fi
     #nginx -t
     systemctl enable nginx.service
     green "$(date +"%Y-%m-%d %H:%M:%S") - 使用acme.sh申请https证书.
-    curl https://get.acme.sh | sh
+    wget -O -  https://get.acme.sh | sh -s email=my@example.com
     ~/.acme.sh/acme.sh  --issue  -d $your_domain  --webroot /usr/share/nginx/html/
-    ~/.acme.sh/acme.sh  --register -m f18326186224@gmail.com
-    green "$(date +"%Y-%m-%d %H:%M:%S") - 已注册邮箱: f18326186224@gmail.com
     if test -s /root/.acme.sh/$your_domain/fullchain.cer; then
         green "$(date +"%Y-%m-%d %H:%M:%S") - 申请https证书成功."
     else
