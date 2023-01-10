@@ -262,8 +262,8 @@ fi
     #green "$(date +"%Y-%m-%d %H:%M:%S") ==== 检测nginx配置文件"
     #nginx -t
     systemctl enable nginx.service
-    green "$(date +"%Y-%m-%d %H:%M:%S") - 使用acme.sh申请https证书.
-    wget -O -  https://get.acme.sh | sh -s email=my@example.com
+    green "$(date +"%Y-%m-%d %H:%M:%S") - 使用acme.sh申请https证书."
+    curl https://get.acme.sh | sh -s email=1290274972@qq.com
     ~/.acme.sh/acme.sh  --issue  -d $your_domain  --webroot /usr/share/nginx/html/
     if test -s /root/.acme.sh/$your_domain/fullchain.cer; then
         green "$(date +"%Y-%m-%d %H:%M:%S") - 申请https证书成功."
@@ -350,7 +350,7 @@ cat > /usr/local/etc/xray/tcp_xtls_config.json<<-EOF
                     "geosite:cn"
                 ],
                 "outboundTag": "blocked",
-                "type": "field":
+                "type": "field"
             },
             {
                 "ip": [
@@ -419,7 +419,7 @@ cat > /usr/local/etc/xray/tcp_xtls_config.json<<-EOF
                 }
 			}   
         }
-    ]
+     ]
 }
 EOF
 
