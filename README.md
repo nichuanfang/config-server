@@ -1,2 +1,3 @@
-# config-server
-官方文档: https://xtls.github.io/
+# 个人配置仓库
+
+Xray官方文档: https://xtls.github.io/
