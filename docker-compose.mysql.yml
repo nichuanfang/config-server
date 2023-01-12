@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  koel:
+    image: phanan/koel
+    depends_on:
+      - database
+    ports:
+      - 8080:80
+    environment:
+      - DB_CONNECTION=mysql
+      - DB_HOST=database
+      - DB_USERNAME=koel
+      - DB_PASSWORD=koel
+      - DB_DATABASE=koel
+    volumes:
+      - ./music:/music
+      - ./covers:/var/www/html/public/img/covers
+      - ./search_index:/var/www/html/storage/search-indexes
+
+  database:
+    image: mysql/mysql-server:5.7
+    volumes:
+      - db:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=koel
+      - MYSQL_USER=koel
+      - MYSQL_PASSWORD=koel
+
+volumes:
+  db:
+    driver: local
+  music:
+    driver: local
+  covers:
+    driver: local
+  search_index:
+    driver: local
