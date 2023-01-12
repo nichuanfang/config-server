@@ -31,7 +31,7 @@
    },
   "inbounds": [
     {
-      "port": 16387,
+      "port": 16256,
       "protocol": "vless",
       "settings": {
         "clients": [
@@ -79,18 +79,6 @@
                         "password": "3cb5d4a3", 
                         "level": 0,
                         "email": "love@example.com"
-                    }
-                ],
-                "fallbacks": [
-                    {
-                      "dest": 60000,
-                      "alpn": "",
-                      "xver": 1
-                    },
-                    {
-                      "dest": 60001,
-                      "alpn": "h2",
-                      "xver": 1
                     }
                 ]
             },
