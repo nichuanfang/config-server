@@ -3,10 +3,11 @@ version: '3'
 services:
   koel:
     image: phanan/koel
+    container_name: koel
     depends_on:
       - database
     ports:
-      - 8080:80
+      - 80:80
     environment:
       - DB_CONNECTION=mysql
       - DB_HOST=database
@@ -20,6 +21,7 @@ services:
 
   database:
     image: mysql/mysql-server:5.7
+    container_name: mysql
     volumes:
       - db:/var/lib/mysql
     ports:
