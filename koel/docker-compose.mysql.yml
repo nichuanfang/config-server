@@ -15,9 +15,9 @@ services:
       - DB_PASSWORD=koel
       - DB_DATABASE=koel
     volumes:
-      - /root/koel/music:/music
-      - /root/koel/covers:/var/www/html/public/img/covers
-      - /root/koel/search_index:/var/www/html/storage/search-indexes
+      - music:/music
+      - covers:/var/www/html/public/img/covers
+      - search_index:/var/www/html/storage/search-indexes
 
   database:
     image: mysql/mysql-server:5.7
