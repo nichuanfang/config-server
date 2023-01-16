@@ -14,6 +14,10 @@ services:
       - DB_USERNAME=koel
       - DB_PASSWORD=koel
       - DB_DATABASE=koel
+      - LASTFM_API_KEY=6bb5a01cd16ef392adb81a8e338b88ad
+      - LASTFM_API_SECRET=a63dd9a24807f288f960d7eb3cdf412e
+      - SPOTIFY_CLIENT_ID=c3d88d3a15e54efbbf85b20c8386eeb0
+      - SPOTIFY_CLIENT_SECRET=e7ea978b079c4153b8c115247e16b480
       - TRANSCODE_FLAC=false
     volumes:
       - music:/music
