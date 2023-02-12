@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 
 # ubuntu系统
 apt-get update
