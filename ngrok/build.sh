@@ -1,4 +1,8 @@
-export NGROK_DOMAIN="ngrok.baidu.com" #你自己的二级域名
+apt-get update
+apt-get install git golang
+cd /usr/local/
+git clone https://github.com/tutumcloud/ngrok.git
+export NGROK_DOMAIN="$0" #你自己的二级域名
 cd /usr/local/ngrok/ #这里是你自己的ngrok路径（之前clone下载的）
 openssl genrsa -out rootCA.key 2048
 openssl req -x509 -new -nodes -key rootCA.key -subj "/CN=$NGROK_DOMAIN" -days 5000 -out rootCA.pem
