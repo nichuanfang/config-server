@@ -2,7 +2,13 @@
 
 # ubuntu系统
 apt-get update
-apt-get install git golang
+apt-get install git
+rm -rf /usr/local/ngrok
+apt-get autoremove golang
+wget https://go.dev/dl/go1.20.linux-amd64.tar.gz
+rm -rf /usr/local/go && tar -C /usr/local -xzf go1.20.linux-amd64.tat.gz
+export PATH=$PATH:/usr/local/go/bin
+rm -f go1.20.linux-amd64.tat.gz
 cd /usr/local/
 git clone https://github.com/tutumcloud/ngrok.git
 export NGROK_DOMAIN="$0" #你自己的二级域名
