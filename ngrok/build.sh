@@ -1,3 +1,6 @@
+!/bin/bash
+
+# ubuntu系统
 apt-get update
 apt-get install git golang
 cd /usr/local/
