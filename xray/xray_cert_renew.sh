@@ -1,7 +1,7 @@
 #!/bin/bash
 
 /root/.acme.sh/acme.sh --issue \
-		-d "www.cinima.asia" \
+		-d "$0" \
 		--server letsencrypt \
 		--keylength ec-256 \
 		--fullchain-file /usr/local/etc/xray/cert.pem \
