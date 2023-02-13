@@ -4,7 +4,7 @@
 
 [geosite](https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat)
 
->白名单模式 Routing 配置方式：
+>Routing 配置
 ```
 "routing": {
     "domainStrategy": "IPIfNonMatch",
