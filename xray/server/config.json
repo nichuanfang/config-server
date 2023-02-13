@@ -5,7 +5,7 @@
     "loglevel": "warning"
   },
   "routing": {
-    "domainStrategy": "IPIfNonMatch",
+    "domainStrategy": "AsIs",
     "domainMatcher": "mph",
     "rules": [            
       {
@@ -127,12 +127,7 @@
                         "level": 0,
                         "email": "love@example.com"
                     }
-                ],
-                "fallbacks": [
-                     {
-       	          "dest": 80
-     	     }
-                 ]
+                ]
             },
             "streamSettings": {
                 "network": "tcp",
