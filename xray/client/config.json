@@ -72,7 +72,7 @@
         "tlsSettings": {
           "allowInsecure": false,
           "serverName": "www.cinima.asia",
-          "fingerprint": "chrome"
+          "fingerprint": "ios"
         }
       },
       "mux": {
