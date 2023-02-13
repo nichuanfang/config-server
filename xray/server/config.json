@@ -6,24 +6,17 @@
   },
   "routing": {
     "domainStrategy": "IPIfNonMatch",
+    "domainMatcher": "mph",
     "rules": [            
-      {
+      {   
         "type": "field",
-        "domain": [
-          "aliyundrive.net" 
-        ],
-        "outboundTag": "direct"
-      },
-      {
-       
-        "type": "field",
-        "ip": ["geoip:cn"],
+        "ip": ["geoip:cn","geoip:private"],
         "outboundTag": "block"
       },
       {
         "type": "field",
         "domain": [
-          "geoSite:cn"
+          "geosite:cn","geosite:private"
         ],
         "outboundTag": "block" 
       },
