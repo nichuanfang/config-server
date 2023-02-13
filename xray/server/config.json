@@ -10,7 +10,7 @@
       {
         "type": "field",
         "domain": [
-          "cn-beijing-data.aliyundrive.net" 
+          "aliyundrive.net" 
         ],
         "outboundTag": "direct"
       },
