@@ -5,15 +5,22 @@
     "loglevel": "warning"
   },
   "routing": {
-    "domainStrategy": "AsIs",
+    "domainStrategy": "IPIfNonMatch",
     "domainMatcher": "mph",
     "rules": [            
       {
         "type": "field",
         "domain": [
-          "geosite:geolocation-!cn"
+          "geosite:cn"
         ],
-        "outboundTag": "direct" 
+        "outboundTag": "block" 
+      },
+      {
+        "type": "field",
+        "ip": [
+          "geoip:cn"
+        ],
+        "outboundTag": "block"
       },
       {
         "type": "field",
