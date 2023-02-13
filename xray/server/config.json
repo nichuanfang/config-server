@@ -71,9 +71,9 @@
           "destOverride": ["http","tls"]
         }
     },
-    # windows专用 
+    # windows专用
     {
-      "port": 16256,
+      "port": 443,
       "protocol": "vless",
       "settings": {
         "clients": [
@@ -82,13 +82,24 @@
             "flow": "xtls-rprx-vision"
           }
         ],
-        "decryption": "none"
+        "decryption": "none",
+        "fallbacks": [
+          {
+            "dest": 33222
+          },
+          {
+             "alpn":"h2",
+             "dest":33223
+          }
+        ]
       },
-      "streamSettings": {
+    "streamSettings": {
         "network": "tcp",
         "security": "tls",
         "tlsSettings": {
+	        "serverName": "www.cinima.asia",
           "alpn": [
+              "h2",
               "http/1.1"
           ],
           "certificates": [
@@ -116,7 +127,12 @@
                         "level": 0,
                         "email": "love@example.com"
                     }
-                ]
+                ],
+                "fallbacks": [
+                     {
+       	          "dest": 80
+     	     }
+                 ]
             },
             "streamSettings": {
                 "network": "tcp",
