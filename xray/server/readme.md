@@ -36,8 +36,7 @@
           "geosite:category-ads-all" 
         ],
         "outboundTag": "block"
-      }
-      
+      } 
     ]
 }
 ```
