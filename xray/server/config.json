@@ -5,7 +5,7 @@
     "loglevel": "warning"
   },
   "routing": {
-    "domainStrategy": "AsIs",
+    "domainStrategy": "IpIfNonMatch",
     "domainMatcher": "mph",
     "rules": [            
       {
