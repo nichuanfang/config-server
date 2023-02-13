@@ -11,13 +11,6 @@
     "domainMatcher": "mph",
     "rules": [            
       {
-        "type": "field",
-        "domain": [
-          "aliyundrive.net" 
-        ],
-        "outboundTag": "direct"
-      },
-      {
        
         "type": "field",
         "ip": ["geoip:cn","geoip:private"],
