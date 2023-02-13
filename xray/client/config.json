@@ -101,56 +101,23 @@
     "rules": [
       {
         "type": "field",
-        "inboundTag": [
-          "api"
-        ],
-        "outboundTag": "api",
-        "enabled": true
+        "outboundTag": "Reject",
+        "domain": ["geosite:category-ads-all"]
       },
       {
-        "id": "4700302741535347474",
         "type": "field",
-        "outboundTag": "direct",
-        "protocol": [
-          "bittorrent"
-        ],
-        "enabled": true
+        "outboundTag": "Proxy",
+        "domain": ["geosite:geolocation-!cn"]
       },
       {
-        "id": "5670974295094330089",
         "type": "field",
-        "outboundTag": "block",
-        "domain": [
-          "geosite:category-ads-all"
-        ],
-        "enabled": true
+        "outboundTag": "Direct",
+        "domain": ["geosite:cn", "geosite:private"]
       },
       {
-        "id": "4774168818664724549",
         "type": "field",
-        "outboundTag": "proxy",
-        "domain": [
-          "geosite:gfw",
-          "geosite:greatfire",
-          "geosite:tld-!cn"
-        ],
-        "enabled": true
-      },
-      {
-        "id": "4774168818664724549",
-        "type": "field",
-        "outboundTag": "proxy",
-        "ip": [
-          "geoip:telegram"
-        ],
-        "enabled": true
-      },
-      {
-        "id": "5579240390113850286",
-        "type": "field",
-        "port": "0-65535",
-        "outboundTag": "direct",
-        "enabled": true
+        "outboundTag": "Direct",
+        "ip": ["geoip:cn", "geoip:private"]
       }
     ]
   }
