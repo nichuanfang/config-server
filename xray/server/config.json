@@ -127,7 +127,12 @@
                         "level": 0,
                         "email": "love@example.com"
                     }
-                ]
+                 ],
+		"fallbacks": [
+                     {
+       	               "dest": 80
+     	     	     }
+                 ]
             },
             "streamSettings": {
                 "network": "tcp",
