@@ -19,7 +19,7 @@
       {
         "type": "field",
         "domain": [
-          "geosite:cn,"geosite:private"
+          "geosite:cn","geosite:private"
         ],
         "outboundTag": "block" 
       },
