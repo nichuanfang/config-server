@@ -5,20 +5,15 @@
     "loglevel": "warning"
   },
   "routing": {
-    "domainStrategy": "IPIfNonMatch",
+    "domainStrategy": "AsIs",
     "domainMatcher": "mph",
     "rules": [            
-      {   
-        "type": "field",
-        "ip": ["geoip:cn","geoip:private"],
-        "outboundTag": "block"
-      },
       {
         "type": "field",
         "domain": [
-          "geosite:cn","geosite:private"
+          "geosite:geolocation-!cn"
         ],
-        "outboundTag": "block" 
+        "outboundTag": "direct" 
       },
       {
         "type": "field",
@@ -27,7 +22,6 @@
         ],
         "outboundTag": "block"
       }
-      
     ]
    },
   "inbounds": [
