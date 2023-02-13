@@ -5,3 +5,4 @@
 #每天定期更新geosite
 0 5 * * * wget https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -O /usr/local/share/xray/geosite.dat
 #每天重启xray 更新路由策略
+30 5 * * * systemctl restart xray
