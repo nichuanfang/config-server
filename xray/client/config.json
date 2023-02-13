@@ -101,22 +101,22 @@
     "rules": [
       {
         "type": "field",
-        "outboundTag": "Reject",
+        "outboundTag": "block",
         "domain": ["geosite:category-ads-all"]
       },
       {
         "type": "field",
-        "outboundTag": "Proxy",
+        "outboundTag": "proxy",
         "domain": ["geosite:geolocation-!cn"]
       },
       {
         "type": "field",
-        "outboundTag": "Direct",
+        "outboundTag": "direct",
         "domain": ["geosite:cn", "geosite:private"]
       },
       {
         "type": "field",
-        "outboundTag": "Direct",
+        "outboundTag": "direct",
         "ip": ["geoip:cn", "geoip:private"]
       }
     ]
