@@ -104,12 +104,7 @@
         "outboundTag": "block",
         "domain": ["geosite:category-ads-all"]
       },
-      {
-        "type": "field",
-        "outboundTag": "proxy",
-        "domain": ["geosite:geolocation-!cn"]
-      },
-      {
+     {
         "type": "field",
         "outboundTag": "direct",
         "domain": ["geosite:cn", "geosite:private"]
@@ -118,7 +113,12 @@
         "type": "field",
         "outboundTag": "direct",
         "ip": ["geoip:cn", "geoip:private"]
-      }
+      },
+      {
+        "type": "field",
+        "outboundTag": "proxy",
+        "domain": ["geosite:geolocation-!cn"]
+      } 
     ]
   }
 }
