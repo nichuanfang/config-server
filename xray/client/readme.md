@@ -18,24 +18,6 @@
       {
         "type": "field",
         "outboundTag": "Proxy",
-        "domain": [
-          "full:www.icloud.com",
-          "domain:icloud-content.com",
-          "geosite:google"
-        ]
-      },
-      {
-        "type": "field",
-        "outboundTag": "Direct",
-        "domain": [
-          "geosite:tld-cn",
-          "geosite:icloud",
-          "geosite:category-games@cn"
-        ]
-      },
-      {
-        "type": "field",
-        "outboundTag": "Proxy",
         "domain": ["geosite:geolocation-!cn"]
       },
       {
