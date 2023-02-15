@@ -1,8 +1,5 @@
-#每月1号凌晨4点执行ssl证书刷新 xray服务重启
 0 4 1 * * /bin/bash -c "$(curl -L https://github.com/nichuanfang/config-server/raw/master/xray/xray_cert_renew.sh)" www.cinima.asia
-#每天定期更新geoip
-0 5 1 * * wget https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat -O /usr/local/share/xray/geoip.dat
-#每天定期更新geosite
+0 5 * * * wget https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat -O /usr/local/share/xray/geoip.dat
 0 5 * * * wget https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -O /usr/local/share/xray/geosite.dat
-#每天重启xray 更新路由策略
 30 5 * * * systemctl restart xray
+53 0 * * * "/root/.acme.sh"/acme.sh --cron --home "/root/.acme.sh" > /dev/null;
