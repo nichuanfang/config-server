@@ -107,16 +107,16 @@
       {
         "type": "field",
         "outboundTag": "proxy",
-        "domain": ["geosite:gfw", "geosite:greatfire"]
+        "domain": ["geosite:geolocation-!cn"]
       },
       {
         "type": "field",
-        "outboundTag": "Direct",
+        "outboundTag": "direct",
         "domain": ["geosite:cn", "geosite:private"]
       },
       {
         "type": "field",
-        "outboundTag": "Direct",
+        "outboundTag": "direct",
         "ip": ["geoip:cn", "geoip:private"]
       },
       {
@@ -125,5 +125,5 @@
         "network": "tcp,udp"
       }
     ]
-  }
+  } 
 }
