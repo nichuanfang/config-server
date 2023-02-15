@@ -39,7 +39,7 @@
         "settings": {
           "clients": [
             {
-              "id": "b70189db-726e-4f18-8ad4-3f9506733686", 
+              "id": "vless密码-QX", 
               "flow": "xtls-rprx-vision"
             }
           ],
@@ -78,7 +78,7 @@
       "settings": {
         "clients": [
           {
-            "id": "87792db3-b519-412d-a2a9-131787df6d9e", 
+            "id": "vless密码-WIN10", 
             "flow": "xtls-rprx-vision"
           }
         ],
@@ -97,7 +97,7 @@
         "network": "tcp",
         "security": "tls",
         "tlsSettings": {
-	        "serverName": "www.cinima.asia",
+	        "serverName": "你的域名",
           "alpn": [
               "h2",
               "http/1.1"
@@ -123,7 +123,7 @@
             "settings": {
                 "clients": [
                     {
-                        "password": "3cb5d4a3", 
+                        "password": "trojan密码", 
                         "level": 0,
                         "email": "love@example.com"
                     }
