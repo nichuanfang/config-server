@@ -13,14 +13,14 @@
         "domain": [
           "geosite:cn"
         ],
-        "outboundTag": "wireguard-1"
+        "outboundTag": "block"
       },
       {
         "type": "field",
         "ip": [
           "geoip:cn"
         ],
-        "outboundTag": "wireguard-1"
+        "outboundTag": "block"
       }
     ]
    },
