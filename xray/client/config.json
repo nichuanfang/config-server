@@ -111,6 +111,13 @@
       },
       {
         "type": "field",
+        "outboundTag": "proxy",
+        "ip": [
+          "geoip:telegram"
+        ]
+      },
+      {
+        "type": "field",
         "outboundTag": "direct",
         "network": "tcp,udp"
       }
