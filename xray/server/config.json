@@ -5,15 +5,22 @@
     "loglevel": "warning"
   },
   "routing": {
-    "domainStrategy": "AsIs",
+    "domainStrategy": "IPIfNonMatch",
     "domainMatcher": "hybrid",
-    "rules": [            
+    "rules": [
       {
         "type": "field",
         "domain": [
           "geosite:cn"
         ],
-        "outboundTag": "block" 
+        "outboundTag": "wireguard-1"
+      },
+      {
+        "type": "field",
+        "ip": [
+          "geoip:cn"
+        ],
+        "outboundTag": "wireguard-1"
       }
     ]
    },
@@ -146,6 +153,24 @@
             "type": "none"
            }
        }
+    },
+    #回国流量导入Cloudflare
+    {
+      "protocol": "wireguard",
+      "settings": {
+        "secretKey": "你的私钥",
+        "address": [
+          "172.16.0.2/32",
+          "2606:4700:110:8819:2bcb:26ac:4708:f072/128"
+        ],
+        "peers": [
+          {
+            "publicKey": "你的公钥",
+            "endpoint": "engage.cloudflareclient.com:2408"
+          }
+        ]
+      },
+      "tag": "wireguard-1"
     }
   ]
 }
