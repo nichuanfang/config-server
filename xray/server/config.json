@@ -5,20 +5,13 @@
     "loglevel": "warning"
   },
   "routing": {
-    "domainStrategy": "IPIfNonMatch",
+    "domainStrategy": "AsIs",
     "domainMatcher": "hybrid",
     "rules": [
       {
         "type": "field",
         "domain": [
           "geosite:cn"
-        ],
-        "outboundTag": "block"
-      },
-      {
-        "type": "field",
-        "ip": [
-          "geoip:cn"
         ],
         "outboundTag": "block"
       }
