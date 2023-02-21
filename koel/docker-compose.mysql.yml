@@ -14,7 +14,7 @@ services:
       - DB_USERNAME=koel
       - DB_PASSWORD=koel
       - DB_DATABASE=koel
-      - TRANSCODE_FLAC=false
+      - TRANSCODE_FLAC=true
       - OUTPUT_BIT_RATE=320
     volumes:
       - /cloudnas/data/CloudDrive/ali-open/music:/music
