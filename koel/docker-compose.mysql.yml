@@ -14,6 +14,7 @@ services:
       - DB_USERNAME=koel
       - DB_PASSWORD=koel
       - DB_DATABASE=koel
+      - STREAMING_METHOD=x-sendfile
       - TRANSCODE_FLAC=true
       - OUTPUT_BIT_RATE=320
     volumes:
