@@ -1,5 +1,7 @@
 #!/bin/bash
 
+systemctl stop nginx
+
 /root/.acme.sh/acme.sh --issue \
 		-d "$0" \
 		--server letsencrypt \
@@ -15,5 +17,7 @@ chmod 600 /usr/local/etc/xray/*.pem
 
 echo "Read Permission Granted for Private Key"
 
+systemctl start nginx
 sudo systemctl restart xray
+
 echo "Xray Restarted"
