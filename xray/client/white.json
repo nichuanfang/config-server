@@ -1,15 +1,16 @@
 "routing": {
+  "domainStrategy": "AsIs",
   "rules": [
     {
       "type": "field",
-      "outboundTag": "Reject",
+      "outboundTag": "block",
       "domain": [
         "geosite:category-ads-all"
       ]
     },
     {
       "type": "field",
-      "outboundTag": "Direct",
+      "outboundTag": "direct",
       "domain": [
         "geosite:private",
         "geosite:apple-cn",
@@ -20,21 +21,21 @@
     },
     {
       "type": "field",
-      "outboundTag": "Proxy",
+      "outboundTag": "proxy",
       "domain": [
         "geosite:geolocation-!cn"
       ]
     },
     {
       "type": "field",
-      "outboundTag": "Direct",
+      "outboundTag": "direct",
       "domain": [
         "geosite:cn"
       ]
     },
     {
       "type": "field",
-      "outboundTag": "Proxy",
+      "outboundTag": "proxy",
       "network": "tcp,udp"
     }
   ]
