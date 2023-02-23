@@ -9,7 +9,7 @@
     {
       "type": "field",
       "outboundTag": "proxy",
-      "domain": ["full:hub.docker.com"]
+      "domain": ["docker.com"]
     },
     {
       "type": "field",
