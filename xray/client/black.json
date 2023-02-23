@@ -9,6 +9,16 @@
     {
       "type": "field",
       "outboundTag": "proxy",
+      "domain": ["full:hub.docker.com"]
+    },
+    {
+      "type": "field",
+      "outboundTag": "proxy",
+      "domain": ["full:v2rayssr.com"]
+    },
+    {
+      "type": "field",
+      "outboundTag": "proxy",
       "domain": ["geosite:gfw", "geosite:greatfire"]
     },
     {
