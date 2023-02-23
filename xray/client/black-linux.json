@@ -1,5 +1,5 @@
 "routing": {
-    "domainStrategy": "AsIs",
+    "domainStrategy": "AsIs", 
     "rules": [
       {
         "type": "field",
