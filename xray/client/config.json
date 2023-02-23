@@ -51,11 +51,11 @@
       "settings": {
         "vnext": [
           {
-            "address": "你的ip",
+            "address": "154.202.60.190",
             "port": 443,
             "users": [
               {
-                "id": "vless密码",
+                "id": "a9371b0a-84d3-4d25-90dd-d0a314c0c04a",
                 "alterId": 0,
                 "email": "t@t.tt",
                 "security": "auto",
@@ -71,7 +71,7 @@
         "security": "tls",
         "tlsSettings": {
           "allowInsecure": false,
-          "serverName": "你的域名",
+          "serverName": "www.cinima.asia",
           "fingerprint": "ios"
         }
       },
@@ -96,29 +96,32 @@
     }
   ],
   "routing": {
-    "domainStrategy": "AsIs",
-    "domainMatcher": "hybrid",
     "rules": [
       {
         "type": "field",
-        "outboundTag": "block",
-        "domain": ["geosite:category-ads-all"]
+        "outboundTag": "Reject",
+        "domain": [
+          "geosite:category-ads-all"
+        ]
       },
       {
         "type": "field",
-        "outboundTag": "proxy",
-        "domain": ["geosite:gfw", "geosite:greatfire"]
+        "outboundTag": "Proxy",
+        "domain": [
+          "geosite:gfw",
+          "geosite:greatfire"
+        ]
       },
       {
         "type": "field",
-        "outboundTag": "proxy",
+        "outboundTag": "Proxy",
         "ip": [
           "geoip:telegram"
         ]
       },
       {
         "type": "field",
-        "outboundTag": "direct",
+        "outboundTag": "Direct",
         "network": "tcp,udp"
       }
     ]
