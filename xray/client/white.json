@@ -1,0 +1,41 @@
+"routing": {
+  "rules": [
+    {
+      "type": "field",
+      "outboundTag": "Reject",
+      "domain": [
+        "geosite:category-ads-all"
+      ]
+    },
+    {
+      "type": "field",
+      "outboundTag": "Direct",
+      "domain": [
+        "geosite:private",
+        "geosite:apple-cn",
+        "geosite:google-cn",
+        "geosite:tld-cn",
+        "geosite:category-games@cn"
+      ]
+    },
+    {
+      "type": "field",
+      "outboundTag": "Proxy",
+      "domain": [
+        "geosite:geolocation-!cn"
+      ]
+    },
+    {
+      "type": "field",
+      "outboundTag": "Direct",
+      "domain": [
+        "geosite:cn"
+      ]
+    },
+    {
+      "type": "field",
+      "outboundTag": "Proxy",
+      "network": "tcp,udp"
+    }
+  ]
+}
