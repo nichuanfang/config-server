@@ -19,11 +19,6 @@
     {
       "type": "field",
       "outboundTag": "proxy",
-      "domain": ["tabbycloud.com"]
-    },
-    {
-      "type": "field",
-      "outboundTag": "proxy",
       "domain": ["geosite:gfw", "geosite:greatfire"]
     },
     {
