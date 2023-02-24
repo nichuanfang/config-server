@@ -19,6 +19,16 @@
     {
       "type": "field",
       "outboundTag": "proxy",
+      "domain": ["themoviedb.org"]
+    },
+    {
+      "type": "field",
+      "outboundTag": "proxy",
+      "domain": ["tmdb.org"]
+    },
+    {
+      "type": "field",
+      "outboundTag": "proxy",
       "domain": ["geosite:gfw", "geosite:greatfire"]
     },
     {
