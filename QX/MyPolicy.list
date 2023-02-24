@@ -1,8 +1,14 @@
 # MyPolicy rules 自定义分流规则
 
-#HOST-SUFFIX,0001.best,AdBlock
 
+#应用服务器
 HOST,www.vencenter.cn,DIRECT
-HOST,hub.docker.com,PROXY
+
+#软件开发
 HOST,v2rayssr.com,PROXY
 HOST,duangks.com,PROXY
+HOST-SUFFIX,docker.com,PROXY
+
+#tmdb刮削器
+HOST-SUFFIX,themoviedb.org,PROXY
+HOST-SUFFIX,tmdb.org,PROXY
