@@ -1,45 +1,74 @@
-"routing": { 
-  "domainStrategy": "AsIs",
-  "rules": [
-    {
-      "type": "field",
-      "outboundTag": "block",
-      "domain": ["geosite:category-ads-all"]
-    },
-    {
-      "type": "field",
-      "outboundTag": "proxy",
-      "domain": ["docker.com"]
-    },
-    {
-      "type": "field",
-      "outboundTag": "proxy",
-      "domain": ["full:v2rayssr.com"]
-    },
-    {
-      "type": "field",
-      "outboundTag": "proxy",
-      "domain": ["themoviedb.org"]
-    },
-    {
-      "type": "field",
-      "outboundTag": "proxy",
-      "domain": ["tmdb.org"]
-    },
-    {
-      "type": "field",
-      "outboundTag": "proxy",
-      "domain": ["geosite:gfw", "geosite:greatfire"]
-    },
-    {
-      "type": "field",
-      "outboundTag": "proxy",
-      "ip": ["geoip:telegram"]
-    },
-    {
-      "type": "field",
-      "outboundTag": "direct",
-      "network": "tcp,udp"
-    }
-  ]
- }
+"routing": {
+    "domainStrategy": "AsIs",
+    "rules": [
+      {
+        "type": "field",
+        "outboundTag": "block",
+        "domain": [
+          "geosite:category-ads-all"
+        ]
+      },
+      {
+        "type": "field",
+        "outboundTag": "proxy",
+        "domain": [
+          "docker.com"
+        ]
+      },
+      {
+        "type": "field",
+        "outboundTag": "proxy",
+        "domain": [
+          "full:v2rayssr.com"
+        ]
+      },
+      {
+        "type": "field",
+        "outboundTag": "proxy",
+        "domain": [
+          "themoviedb.org"
+        ]
+      },
+      {
+        "type": "field",
+        "outboundTag": "proxy",
+        "domain": [
+          "tmdb.org"
+        ]
+      },
+      {
+        "type": "field",
+        "outboundTag": "proxy",
+        "domain": [
+          "fanart.tv"
+        ]
+      },
+      {
+        "type": "field",
+        "outboundTag": "proxy",
+        "domain": [
+          "thetvdb.com"
+        ]
+      },
+      {
+        "type": "field",
+        "outboundTag": "proxy",
+        "domain": [
+          "geosite:gfw",
+          "geosite:greatfire"
+        ]
+      },
+      {
+        "type": "field",
+        "outboundTag": "proxy",
+        "ip": [
+          "geoip:telegram"
+        ]
+      },
+      {
+        "type": "field",
+        "outboundTag": "direct",
+        "network": "tcp,udp"
+      }
+    ]
+  }
