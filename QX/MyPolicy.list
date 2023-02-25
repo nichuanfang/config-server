@@ -12,3 +12,6 @@ HOST-SUFFIX,docker.com,PROXY
 #tmdb刮削器
 HOST-SUFFIX,themoviedb.org,PROXY
 HOST-SUFFIX,tmdb.org,PROXY
+
+#合租平台
+HOST,www.ihezu.cn,PROXY
