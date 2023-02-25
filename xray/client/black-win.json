@@ -12,6 +12,14 @@
         "type": "field",
         "outboundTag": "proxy",
         "domain": [
+          "geosite:gfw",
+          "geosite:greatfire"
+        ]
+      },
+      {
+        "type": "field",
+        "outboundTag": "proxy",
+        "domain": [
           "docker.com"
         ]
       },
@@ -62,14 +70,6 @@
         "outboundTag": "proxy",
         "domain": [
           "opensubtitles.org"
-        ]
-      },
-      {
-        "type": "field",
-        "outboundTag": "proxy",
-        "domain": [
-          "geosite:gfw",
-          "geosite:greatfire"
         ]
       },
       {
