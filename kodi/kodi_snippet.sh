@@ -1,6 +1,6 @@
 #!/bin/bash
 
-wget "https://ghproxy.com/https://raw.githubusercontent.com/nichuanfang/config-server/master/kodi/cache_setting.sh" -O ~
+wget "https://ghproxy.com/https://raw.githubusercontent.com/nichuanfang/config-server/master/kodi/cache_setting.sh" -O ~/cache_setting.sh
 
 cd ~
 
