@@ -6,6 +6,6 @@ cd ~
 
 chmod +x cache_setting.sh
 
-sh cache_setting.sh
+sh cache_setting.sh "$0"
 
 rm -f cache_setting.sh
