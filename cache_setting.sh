@@ -1,22 +1,16 @@
 #!/bin/bash
 
-cacheFile="~/.kodi/userdata/advancedsettings.xml"
-buffermode=1
-memorysize=650000000
-readfactor=6
+cacheFile=/storage/.kodi/userdata/advancedsettings.xml
 
-
-#创建缓存文件
 if [ ! -f "$cacheFile" ]; then
   touch "$cacheFile"
 fi
 
-#设置缓存
 cat << EOF > "$cacheFile"
 <advancedsettings>
   <cache>
-    <buffermode>$buffermode</buffermode>
-    <memorysize>$memorysize</memorysize>
-    <readfactor>$readfactor</readfactor>
+    <buffermode>1</buffermode>
+    <memorysize>650000000</memorysize>
+    <readfactor>6</readfactor>
   </cache>
 </advancedsettings>
