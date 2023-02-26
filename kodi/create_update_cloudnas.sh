@@ -31,3 +31,5 @@ docker rmi dockerproxy.com/cloudnas/clouddrive2-unstable:latest
 /bin/bash -c "$(curl -L https://ghproxy.com/https://raw.githubusercontent.com/nichuanfang/config-server/master/kodi/cloudnas_init.sh)"
 
 echo "clouddrive2启动完成!"
+
+exit 0
