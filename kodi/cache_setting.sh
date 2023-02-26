@@ -14,3 +14,4 @@ cat << EOF > "$cacheFile"
     <readfactor>6</readfactor>
   </cache>
 </advancedsettings>
+EOF
