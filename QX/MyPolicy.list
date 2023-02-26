@@ -15,3 +15,6 @@ HOST-SUFFIX,tmdb.org,PROXY
 
 #合租平台
 HOST,www.ihezu.cn,PROXY
+
+#tg相关
+HOST-SUFFIX,telghub.com,PROXY
