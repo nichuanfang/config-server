@@ -20,4 +20,4 @@ HOST,www.ihezu.cn,PROXY
 HOST-SUFFIX,telghub.com,PROXY
 
 #pikpak
-HOST-SUFFIX,mypikpak.com,PROXY
+#HOST-SUFFIX,mypikpak.com,PROXY
