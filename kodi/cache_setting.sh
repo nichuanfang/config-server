@@ -10,8 +10,8 @@ cat << EOF > "$cacheFile"
 <advancedsettings>
   <cache>
     <buffermode>1</buffermode>
-    <memorysize>1000000000</memorysize>
-    <readfactor>6</readfactor>
+    <memorysize>650000000</memorysize>
+    <readfactor>20</readfactor>
   </cache>
 </advancedsettings>
 EOF
