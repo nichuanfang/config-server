@@ -19,5 +19,14 @@ HOST,www.ihezu.cn,PROXY
 #tg相关
 HOST-SUFFIX,telghub.com,PROXY
 
-#pikpak
-#HOST-SUFFIX,mypikpak.com,PROXY
+#pikpak 下载链接走直连
+HOST,dl-a10b-0393.mypikpak.com,DIRECT
+HOST,dl-a10b-0394.mypikpak.com,DIRECT
+HOST,dl-a10b-0395.mypikpak.com,DIRECT
+HOST,dl-a10b-0480.mypikpak.com,DIRECT
+HOST,dl-a10b-0481.mypikpak.com,DIRECT
+HOST,dl-a10b-0482.mypikpak.com,DIRECT
+HOST,dl-a10b-0483.mypikpak.com,DIRECT
+HOST,dl-a10b-0484.mypikpak.com,DIRECT
+HOST,dl-a10b-0469.mypikpak.com,DIRECT
+HOST,dl-a10b-0470.mypikpak.com,DIRECT
