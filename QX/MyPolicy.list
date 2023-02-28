@@ -2,7 +2,7 @@
 
 
 #应用服务器
-HOST,www.vencenter.cn,DIRECT
+
 
 #软件开发
 HOST,v2rayssr.com,PROXY
