@@ -9,7 +9,7 @@ fi
 cat << EOF > "$cacheFile"
 <advancedsettings>
   <cache>
-    <buffermode>3</buffermode>
+    <buffermode>1</buffermode>
     <memorysize>650000000</memorysize>
     <readfactor>20</readfactor>
   </cache>
