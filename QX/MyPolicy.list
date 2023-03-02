@@ -4,6 +4,7 @@
 HOST,v2rayssr.com,PROXY
 HOST,duangks.com,PROXY
 HOST-SUFFIX,docker.com,PROXY
+HOST,segmentfault.com,PROXY
 
 #tmdb刮削器
 HOST-SUFFIX,themoviedb.org,PROXY
