@@ -30,3 +30,4 @@ HOST,dl-a10b-0470.mypikpak.com,Pikpak
 
 #其他
 HOST,cst.org.uk,PROXY
+HOST-SUFFIX,last.fm,PROXY
