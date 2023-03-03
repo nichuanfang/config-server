@@ -32,3 +32,4 @@ HOST,dl-a10b-0470.mypikpak.com,Pikpak
 HOST,cst.org.uk,PROXY
 HOST-SUFFIX,last.fm,PROXY
 HOST,www.googletagmanager.com,PROXY
+HOST,www.googleadservices.com,PROXY
