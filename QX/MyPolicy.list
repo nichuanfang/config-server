@@ -36,6 +36,7 @@ HOST,cst.org.uk,PROXY
 HOST-SUFFIX,last.fm,PROXY
 HOST,www.googletagmanager.com,PROXY
 HOST,www.googleadservices.com,PROXY
+HOST,www.last.fm,PROXY
 
 # porn
 HOST,spankbang.com,PROXY
