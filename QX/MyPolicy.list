@@ -37,7 +37,7 @@ HOST-SUFFIX,last.fm,PROXY
 HOST,www.googletagmanager.com,PROXY
 HOST,www.googleadservices.com,PROXY
 HOST,www.last.fm,PROXY
-HOST,brightdata.grsm.io,
+HOST,brightdata.grsm.io,PROXY
 
 # porn
 HOST,spankbang.com,PROXY
