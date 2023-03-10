@@ -1,0 +1,27 @@
+version: '3.1'
+
+services:
+  jpress:
+    image: fuhai/jpress:v5.0.8
+    # ports:
+    #  - "8090:8080"
+    restart: always
+    container_name: jpress
+    networks:
+      - mynet
+    environment:
+      TZ: Asia/Shanghai
+      JPRESS_DB_HOST: mysql
+      JPRESS_DB_PORT: 3306
+      JPRESS_DB_NAME: jpress
+      JPRESS_DB_USER: root
+      JPRESS_DB_PASSWORD: 0820nCf9270
+    volumes:
+      - "./docker_volumes/webapp/attachment:/opt/jpress/webapp/attachment"
+      - "./docker_volumes/webapp/addons:/opt/jpress/webapp/addons"
+      - "./docker_volumes/webapp/WEB-INF/addons:/opt/jpress/webapp/WEB-INF/addons"
+      - "./docker_volumes/webapp/wp-content:/opt/jpress/webapp/wp-content"
+      - "./docker_volumes/webapp/templates/dockers:/opt/jpress/webapp/templates/dockers"
+networks:
+  mynet:
+    external: true
