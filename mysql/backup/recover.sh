@@ -1,5 +1,5 @@
 #!/bin/bash
-cp /cloudnas/data/CloudDrive/ali-open/backup/mysql/www.vencenter.cn.tar.gz /root/mysql_backup/
+cp /cloudnas/CloudDrive/ali-open/backup/mysql/www.vencenter.cn.tar.gz /root/mysql_backup/
 cd /root/mysql_backup/
 tar -zxvf www.vencenter.cn.tar.gz
 docker exec -i mysql sh -c 'exec mysql -uroot -p'${1}  < /root/mysql_backup/music_info.sql
