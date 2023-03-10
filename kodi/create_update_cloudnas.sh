@@ -6,14 +6,14 @@ echo "开始创建clouddrive2..."
 mount --make-shared /storage
 
 #创建相应目录赋予权限
-if [ ! -d "/storage/cloudnas/data"]; then
-mkdir -p /storage/cloudnas/data
-chmod 777 /storage/cloudnas/data
+if [ ! -d "/storage/cloudnas"]; then
+mkdir -p /storage/cloudnas
+chmod 777 /storage/cloudnas
 fi
 
-if [ ! -d "/storage/cloudnas/config"]; then
-mkdir -p /storage/cloudnas/config
-chmod 777 /storage/cloudnas/config
+if [ ! -d "/storage/clouddrive2/config"]; then
+mkdir -p /storage/clouddrive2/config
+chmod 777 /storage/clouddrive2/config
 fi
 
 #更新clouddrive2
