@@ -8,6 +8,7 @@ docker exec mysql sh -c 'exec mysqldump --databases koel -u root -p'${1} >/root/
 #个人博客数据
 docker exec mysql sh -c 'exec mysqldump --databases jpress -u root -p'${1} >/root/mysql_backup/jpress.sql
 # 保存到阿里云
-#cp -r /root/mysql_backup/music_info.sql /cloudnas/data/CloudDrive/ali-open/backup/mysql/
-#cp -r /root/mysql_backup/koel.sql /cloudnas/data/CloudDrive/ali-open/backup/mysql/
-#cp -r /root/mysql_backup/jpress.sql /cloudnas/data/CloudDrive/ali-open/backup/mysql/
+cd /root/mysql_backup
+find . -name "*.sql" | xargs tar czvf www.vencenter.cn.tar.gz
+cp /root/mysql_backup/www.vencenter.cn.tar.gz /cloudnas/data/CloudDrive/ali-open/backup/mysql/
+rm -f /root/mysql_backup/www.vencenter.cn.tar.gz
