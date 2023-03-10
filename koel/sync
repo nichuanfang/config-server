@@ -1,2 +1,2 @@
-cp -r /cloudnas/data/CloudDrive/ali-open/music/images/artists/* /root/koel/images/artists/
-cp -r /cloudnas/data/CloudDrive/ali-open/music/images/covers/* /root/koel/images/covers/
+cp -r /cloudnas/CloudDrive/ali-open/music/images/artists/* /root/koel/images/artists/
+cp -r /cloudnas/CloudDrive/ali-open/music/images/covers/* /root/koel/images/covers/
