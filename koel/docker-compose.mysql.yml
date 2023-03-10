@@ -4,44 +4,26 @@ services:
   koel:
     image: phanan/koel
     container_name: koel
-    depends_on:
-      - database
     ports:
-      - 80:80
+      - 81:80
     environment:
+      - TZ=Asia/Shanghai
       - DB_CONNECTION=mysql
-      - DB_HOST=database
-      - DB_USERNAME=koel
-      - DB_PASSWORD=koel
+      - DB_HOST=mysql
+      - DB_USERNAME=root
+      - DB_PASSWORD=0820nCf9270
       - DB_DATABASE=koel
       - STREAMING_METHOD=x-sendfile
-      - TRANSCODE_FLAC=true
+      - TRANSCODE_FLAC=false
       - OUTPUT_BIT_RATE=320
     volumes:
-      - /cloudnas/data/CloudDrive/ali-open/music:/music
-      - /root/koel/covers:/var/www/html/public/img/covers
-      - /root/koel/covers:/var/www/html/public/img/artists
+      - /root/koel/music:/music
+      - /root/assets/img/covers:/var/www/html/public/img/covers
+      - /root/assets/img/artists:/var/www/html/public/img/artists
       - /root/koel/index:/var/www/html/storage/search-indexes
-
-  database:
-    image: mysql/mysql-server:5.7
-    container_name: mysql
-    volumes:
-      - /root/koel/data:/var/lib/mysql
-    ports:
-      - 3306:3306
-    environment:
-      - MYSQL_ROOT_PASSWORD=123456
-      - MYSQL_DATABASE=koel
-      - MYSQL_USER=koel
-      - MYSQL_PASSWORD=koel
-
-volumes:
-  db:
-    driver: local
-  music:
-    driver: local
-  covers:
-    driver: local
-  search_index:
-    driver: local
+    restart: always
+    networks:
+      - mynet
+networks:
+  mynet:
+    external: true
