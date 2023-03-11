@@ -15,3 +15,5 @@ cat << EOF > "$cacheFile"
   </cache>
 </advancedsettings>
 EOF
+
+reboot
