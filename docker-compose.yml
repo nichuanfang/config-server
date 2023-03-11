@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  database:
+    image: mysql/mysql-server:5.7
+    container_name: mysql
+    volumes:
+      - /root/mysql/data:/var/lib/mysql
+      - /root/mysql/my.cnf:/etc/my.cnf
+      - /root/mysql/log:/var/log/mysql
+    ports:
+      - 3308:3306
+    environment:
+      - TZ=Asia/Shanghai
+      - MYSQL_ROOT_PASSWORD=数据库密码
+      - MYSQL_DATABASE=koel
+    restart: always
+    networks:
+      - mynet
+
+networks:
+  mynet:
+    external: true
