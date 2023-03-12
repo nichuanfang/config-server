@@ -11,5 +11,7 @@ docker exec mysql sh -c 'exec mysqldump --databases jpress -u root -p'${1} >/roo
 cd /root/mysql_backup
 find . -name "*.sql" | xargs tar czvf www.vencenter.cn.tar.gz
 rm -f /cloudnas/CloudDrive/ali-open/backup/mysql/www.vencenter.cn.tar.gz
-cp /root/mysql_backup/www.vencenter.cn.tar.gz /cloudnas/CloudDrive/ali-open/backup/mysql/
+cd /cloudnas/CloudDrive/ali-open/backup/mysql/
+cp /root/mysql_backup/www.vencenter.cn.tar.gz .
 rm -f /root/mysql_backup/www.vencenter.cn.tar.gz
+rm -f /root/mysql_backup/*.sql
