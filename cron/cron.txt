@@ -1,6 +1,6 @@
-# 每月1号更新证书
-* * 1 * * /bin/bash /opt/docker/nginx/cert/renew.sh
-# 每月1号数据库备份
-* * 1 * * /bin/bash /root/mysql_backup/backup.sh 你的mysql密码
-# 每月1号clouddrive2更新
-* * 1 * * /bin/bash -c "$(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/nas/clouddrive2_install.sh"
+# 每月最后一天凌晨4点更新证书
+4 0 L * * /bin/bash /opt/docker/nginx/cert/renew.sh
+# 每月最后一天凌晨4点数据库备份
+4 0 L * * /bin/bash /root/mysql_backup/backup.sh 你的mysql密码
+# 每月最后一天凌晨4点clouddrive2更新
+4 0 L * * /bin/bash -c "$(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/nas/clouddrive2_install.sh"
