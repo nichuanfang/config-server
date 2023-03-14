@@ -54,4 +54,6 @@ docker run -d \
 
 echo "clouddrive2启动完成!"
 
+docker restart tinymediamanager
+
 exit 0
