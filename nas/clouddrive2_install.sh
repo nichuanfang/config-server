@@ -1,4 +1,5 @@
 #!/bin/bash
+# Clouddrive2 install script for common linux server
 
 echo "开始更新clouddrive2...."
 
