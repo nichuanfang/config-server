@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # Clouddrive2 install script for common linux server
 
 echo "开始更新clouddrive2...."
@@ -27,7 +28,7 @@ docker rmi -f cloudnas/clouddrive2-unstable:latest
 
 # 删除原挂载目录
 if [ -d  "/cloudnas/CloudDrive" ]; then
-rm -rf /cloudnas/*
+rm -rf /cloudnas/CloudDrive
 fi
 
 #拉取代理镜像并重命名
