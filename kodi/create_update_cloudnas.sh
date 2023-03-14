@@ -6,7 +6,7 @@ echo "开始更新clouddrive2...."
 #enable shared mount option for mapped volume in host
 mount --make-shared /storage
 
-#创建相应目录赋予权限     [   ]  内  前后都要有空格
+#创建相应目录赋予权限     [   ]  内  前后都要有空格  if与[ ]之间也要有空格
 if [ ! -d "/storage/cloudnas" ]; then
 mkdir -p /storage/cloudnas
 chmod 777 /storage/cloudnas

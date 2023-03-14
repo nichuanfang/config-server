@@ -7,7 +7,7 @@ echo "开始更新clouddrive2...."
 #enable shared mount option for mapped volume in host
 mount --make-shared /
 
-#创建相应目录赋予权限     [   ]  内  前后都要有空格
+#创建相应目录赋予权限     [   ]  内  前后都要有空格 if与[ ]之间也要有空格
 if [ ! -d "/cloudnas" ]; then
 mkdir -p /cloudnas
 chmod 777 /cloudnas
@@ -54,7 +54,7 @@ docker run -d \
      cloudnas/clouddrive2-unstable
 
 echo "clouddrive2启动完成!"
-
+# 防止tmm刮削器不识别挂载目录
 docker restart tinymediamanager
 
 exit 0
