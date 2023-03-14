@@ -1,6 +1,6 @@
 docker run -d \
-      --name clouddrive \
-      --restart unless-stopped \
+      --name clouddrive2 \
+      --restart always \
       --env CLOUDDRIVE_HOME=/Config \
       --env UID=0 \
       --env GID=0 \
