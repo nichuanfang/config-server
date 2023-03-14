@@ -18,7 +18,7 @@ fi
 
 #更新clouddrive2
 
-docker rm -f clouddrive
+docker rm -f clouddrive2
 
 docker rmi -f cloudnas/clouddrive2-unstable:latest
 
@@ -31,7 +31,7 @@ echo "Clouddrive2更新完毕!"
 #启动容器
 echo "开始启动clouddrive2...."
 docker run -d \
-      --name clouddrive \
+      --name clouddrive2 \
       --restart always \
       --env CLOUDDRIVE_HOME=/Config \
       --env UID=0 \
