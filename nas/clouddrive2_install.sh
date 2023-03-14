@@ -47,6 +47,6 @@ docker run -d \
 
 echo "clouddrive2启动完成!"
 # 为了防止刮削器不识别目录 需要重启tmm
-docker restart tinymediamanager
+# docker restart tinymediamanager
 
 exit 0
