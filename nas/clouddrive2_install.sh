@@ -53,7 +53,5 @@ docker run -d \
      cloudnas/clouddrive2-unstable
 
 echo "clouddrive2启动完成!"
-# 为了防止刮削器不识别目录 需要重启tmm
-# docker restart tinymediamanager
 
 exit 0
