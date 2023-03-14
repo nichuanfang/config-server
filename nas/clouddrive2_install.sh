@@ -6,13 +6,13 @@ echo "开始更新clouddrive2...."
 #enable shared mount option for mapped volume in host
 mount --make-shared /
 
-#创建相应目录赋予权限
-if [ ! -d "/cloudnas"]; then
+#创建相应目录赋予权限     [   ]  内  前后都要有空格
+if [ ! -d "/cloudnas" ]; then
 mkdir -p /cloudnas
 chmod 777 /cloudnas
 fi
 
-if [ ! -d "/root/clouddrive2/config"]; then
+if [ ! -d "/root/clouddrive2/config" ]; then
 mkdir -p /root/clouddrive2/config
 chmod 777 /root/clouddrive2/config
 fi
@@ -26,7 +26,7 @@ docker rm -f clouddrive2
 docker rmi -f cloudnas/clouddrive2-unstable:latest
 
 # 删除原挂载目录
-if [ ! -d  "/cloudnas/CloudDrive"]; then
+if [ ! -d  "/cloudnas/CloudDrive" ]; then
 rm -rf /cloudnas/CloudDrive
 fi
 
