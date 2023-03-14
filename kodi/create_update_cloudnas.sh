@@ -1,6 +1,7 @@
 #!/bin/bash
+# clouddrive2 install script for CoreELEC
 
-echo "开始创建clouddrive2..."
+echo "开始更新clouddrive2...."
 
 #enable shared mount option for mapped volume in host
 mount --make-shared /storage
@@ -17,7 +18,6 @@ chmod 777 /storage/clouddrive2/config
 fi
 
 #更新clouddrive2
-
 docker rm -f clouddrive2
 
 docker rmi -f cloudnas/clouddrive2-unstable:latest
@@ -27,9 +27,26 @@ docker pull dockerproxy.com/cloudnas/clouddrive2-unstable:latest
 docker tag dockerproxy.com/cloudnas/clouddrive2-unstable:latest cloudnas/clouddrive2-unstable:latest
 docker rmi dockerproxy.com/cloudnas/clouddrive2-unstable:latest
 
+echo "Clouddrive2更新完毕!"
 #启动容器
-/bin/bash -c "$(curl -L https://ghproxy.com/https://raw.githubusercontent.com/nichuanfang/config-server/master/kodi/cloudnas_init.sh)"
+echo "开始启动clouddrive2...."
+docker run -d \
+      --name clouddrive2 \
+      --restart always \
+      --env CLOUDDRIVE_HOME=/Config \
+      --env UID=0 \
+      --env GID=0 \
+      -v /storage/cloudnas:/CloudNAS:shared \
+      -v /storage/clouddrive2/config:/Config \
+      --network host \
+      --pid host \
+     --privileged \
+     --device /dev/fuse:/dev/fuse \
+     cloudnas/clouddrive2-unstable
 
 echo "clouddrive2启动完成!"
 
 exit 0
+
+
+
