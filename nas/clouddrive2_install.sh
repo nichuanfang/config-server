@@ -26,7 +26,7 @@ docker rm -f clouddrive2
 docker rmi -f cloudnas/clouddrive2-unstable:latest
 
 # 删除原挂载目录
-if [ ! -d  "/cloudnas/CloudDrive" ]; then
+if [ -d  "/cloudnas/CloudDrive" ]; then
 rm -rf /cloudnas/*
 fi
 
