@@ -18,7 +18,7 @@ fi
 
 #更新clouddrive2
 
-docker rm -f clouddrive
+docker rm -f clouddrive2
 
 docker rmi -f cloudnas/clouddrive2-unstable:latest
 
