@@ -13,4 +13,5 @@ docker run \
   -v /root/assets/img/:/usr/share/img/ \
   -v /root/assets/js/:/usr/share/js/ \
   -v /root/assets/css/:/usr/share/css/ \
+  -v /root/assets/m3u/:/usr/share/m3u/ \
   -m 300m nginx
