@@ -1,5 +1,5 @@
 # !/bin/bash
-# 10以内的随机数
+# 8以内的随机数
 img_prefix = $RANDOM % 8 + 1
 img_path = '/root/assets/img/bg'
 
