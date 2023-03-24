@@ -1,3 +1,4 @@
+# min hour day-month month day-week
 # 每月1号更新证书
 0 4 1 * * /bin/bash /opt/docker/nginx/cert/renew.sh
 # 每月1号数据库备份
