@@ -17,7 +17,7 @@
     ]
   },
   "inbounds": [
-    # ios QX专用
+    //ios QX专用
     {
       "port": 16789,
       "protocol": "vless",
@@ -60,7 +60,7 @@
         ]
       }
     },
-    # windows专用
+    // windows专用
     {
       "listen": "0.0.0.0",
       "port": 443,
@@ -109,7 +109,7 @@
         ]
       }
     },
-    # 回落到trojan
+    //回落到trojan
     {
       "port": 1310,
       "listen": "127.0.0.1",
@@ -137,7 +137,7 @@
       "tag": "direct",
       "protocol": "freedom"
     },
-    #黑洞 阻断所有流量
+    //黑洞 阻断所有流量
     {
       "tag": "block",
       "protocol": "blackhole",
@@ -147,7 +147,7 @@
         }
       }
     },
-    #回国流量导入Cloudflare
+    //回国流量导入Cloudflare
     {
       "protocol": "wireguard",
       "settings": {
