@@ -1,4 +1,6 @@
 #!/bin/bash
+docker restart clouddrive2 
+sleep 3s
 docker start tinymediamanager
 sleep 3s
 # 刮削电影
