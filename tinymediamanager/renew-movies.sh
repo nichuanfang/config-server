@@ -1,4 +1,6 @@
 #!/bin/bash
+
+docker start tinymediamanager
 cd /cloudnas/CloudDrive/ali-open/tmm/tmm-movies
 # 刮削电影
 curl \
