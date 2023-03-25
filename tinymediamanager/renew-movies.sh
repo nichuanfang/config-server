@@ -1,7 +1,6 @@
 #!/bin/bash
-docker restart clouddrive2
 docker start tinymediamanager
-sleep 10s
+sleep 3s
 # 刮削电影
 curl \
     -d '[{"action":"update", "scope":{"name":"all"}},{"action":"scrape", "scope":{"name":"new"}}]' \
