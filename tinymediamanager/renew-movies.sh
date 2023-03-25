@@ -6,3 +6,7 @@ curl \
     -H "Content-Type: application/json" \
     -H "api-key: $0" \
     -X POST http://localhost:7878/api/movies
+sleep 1h
+cd /cloudnas/CloudDrive/ali-open/tmm/tmm-movies
+mv /cloudnas/CloudDrive/ali-open/tmm/tmm-movies/* /cloudnas/CloudDrive/ali-open/movies/
+docker stop tinymediamanager
