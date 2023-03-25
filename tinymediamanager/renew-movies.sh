@@ -1,7 +1,7 @@
 #!/bin/bash
-
+docker restart clouddrive2
 docker start tinymediamanager
-sleep 3s
+sleep 10s
 cd /cloudnas/CloudDrive/ali-open/tmm/tmm-movies
 # 刮削电影
 curl \
