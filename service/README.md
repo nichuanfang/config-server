@@ -25,7 +25,8 @@ WantedBy=multi-user.target
 4. 启动服务  `systemctl start xxx.service`
 5. 停止服务  `systemctl stop xxx.service`
 6. 重启服务  `systemctl restart xxx.service`
-7. 查看所有已启动的服务  `systemctl list-units --type=service`
+7. 重载配置文件  `systemctl daemon-reload`
+8. 查看所有已启动的服务  `systemctl list-units --type=service`
 
 ## 常用服务
 
