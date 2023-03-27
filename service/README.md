@@ -1,24 +1,33 @@
 # linux服务
 
-* 服务定义格式
+## 服务定义格式
 
 ```
-[Unit]
-Description=Process Monitoring and Control Daemon 
-After=rc-local.service nss-user-lookup.target
+[Unit]:服务的说明
+Description:描述服务
+After:描述服务类别
 
-[Service]
-Type=forking
-ExecStart=/root/webhook/start
-Restart=on-failure
-RestartSec=42s
-KillMode=process 
+[Service]服务运行参数的设置
+Type=forking            是后台运行的形式
+ExecStart               为服务的具体运行命令
+ExecReload              为服务的重启命令
+ExecStop                为服务的停止命令
+PrivateTmp=True         表示给服务分配独立的临时空间
+注意：启动、重启、停止命令全部要求使用绝对路径
 
-[Install]
-WantedBy=multi-user.target
+[Install]               服务安装的相关设置，可设置为多用户
+WantedBy=multi-user.target 
 ```
+## 常用指令
+1. 设置开机自启动   `systemctl enable xxx.service`
+2. 停止开机自启动   `systemctl disable xxx.service`
+3. 验证一下是否为开机启动  `systemctl is-enabled xxx.service`
+4. 启动服务  `systemctl start xxx.service`
+5. 停止服务  `systemctl stop xxx.service`
+6. 重启服务  `systemctl restart xxx.service`
+7. 查看所有已启动的服务  `systemctl list-units --type=service`
 
-* 常用服务
+## 常用服务
 
 1. webhook服务
 ```
