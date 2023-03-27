@@ -17,6 +17,7 @@
   }
 ]
 ```
+* 赋予执行权限 `chmod +x /root/webhook/webhook`
 * 赋予执行权限 `chmod +x /root/webhook/start`
 * 执行`/root/webhook/start`
 * 赋予执行权限 `chmod +x /root/webhook/stop`
