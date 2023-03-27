@@ -9,6 +9,13 @@
     "rules": [
       {
         "type": "field",
+        "domain": [
+          "segmentfault.com"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
         "ip": [
           "geoip:cn"
         ],
