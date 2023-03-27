@@ -1,0 +1,6 @@
+[
+  {
+    "id": "MyScripts",
+    "execute-command": "/root/scripts/MyScripts.sh"
+  }
+]
