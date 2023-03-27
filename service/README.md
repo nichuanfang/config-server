@@ -30,23 +30,7 @@ WantedBy=multi-user.target
 
 ## 常用服务
 
-1. webhook服务
-```
-[Unit]
-Description=Webhook Service
-After=rc-local.service nss-user-lookup.target
-
-[Service]
-Type=forking
-ExecStart=/root/webhook/start
-Restart=on-failure
-RestartSec=42s
-KillMode=process 
-
-[Install]
-WantedBy=multi-user.target
-```
-2. xray服务
+1. xray服务
 ```
 [Unit]
 Description=Xray Service
