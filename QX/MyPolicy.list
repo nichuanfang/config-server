@@ -6,7 +6,6 @@ HOST,duangks.com,PROXY
 HOST-SUFFIX,docker.com,PROXY
 HOST,segmentfault.com,PROXY
 HOST-SUFFIX,visualstudio.com,PROXY
-HOST,bbs.tampermonkey.net.cn,PROXY
 HOST,go.dev,PROXY
 
 #tmdb刮削器
