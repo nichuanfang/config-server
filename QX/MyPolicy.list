@@ -4,7 +4,6 @@
 HOST,v2rayssr.com,PROXY
 HOST,duangks.com,PROXY
 HOST-SUFFIX,docker.com,PROXY
-HOST,segmentfault.com,PROXY
 HOST-SUFFIX,visualstudio.com,PROXY
 HOST,go.dev,PROXY
 
