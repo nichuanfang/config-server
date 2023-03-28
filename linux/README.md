@@ -27,7 +27,7 @@
     
     grep -v grep: 过滤掉grep本身的进程,如果command1非进程输出,可不选
 
-    awk '{print $<num>}': 按列进行筛选
+    awk '{print $<num>}': 按列进行筛选,空格分割
 
     xargs <command2>: 通过之前的stdout作为stdin参数代入到新指令中
 ```
