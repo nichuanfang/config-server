@@ -1,4 +1,3 @@
-docker rm -f nginx
 docker run \
   -itd \
   --name=nginx \
@@ -14,4 +13,5 @@ docker run \
   -v /root/assets/js/:/usr/share/js/ \
   -v /root/assets/css/:/usr/share/css/ \
   -v /root/assets/m3u/:/usr/share/m3u/ \
+  -v /root/assets/hosts:/usr/share/hosts \
   -m 300m nginx
