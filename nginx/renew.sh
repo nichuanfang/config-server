@@ -47,14 +47,6 @@ docker stop nginx
   --key-file /opt/docker/nginx/cert/webhook-vencenter-cn-key.pem \
   --standalone \
   --force
-/root/.acme.sh/acme.sh --issue \
-  -d "hosts.vencenter.cn" \
-  --server letsencrypt \
-  --keylength ec-256 \
-  --fullchain-file /opt/docker/nginx/cert/hosts-vencenter-cn.pem \
-  --key-file /opt/docker/nginx/cert/hosts-vencenter-cn-key.pem \
-  --standalone \
-  --force
 
 echo "Certificates Renewed"
 chmod 600 /opt/docker/nginx/cert/*.pem
