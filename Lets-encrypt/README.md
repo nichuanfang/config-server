@@ -84,9 +84,24 @@ certbot renew --cert-name simplehttps.com  --manual-auth-hook "/root/code/certbo
 
 ## 加入 crontab
 
+编写证书更新脚本
+
+```bash
+#!/bin/bash
+docker stop nginx
+certbot renew --cert-name vencenter.cn --manual-auth-hook "/root/code/certbot/au.sh python aly add" --manual-cleanup-hook "/root/code/certbot/au.sh python aly clean"
+cp /etc/letsencrypt/live/vencenter.cn/fullchain.pem /opt/docker/nginx/cert
+cp /etc/letsencrypt/live/vencenter.cn/privkey.pem /opt/docker/nginx/cert
+echo "Certificates Renewed"
+chmod 777 /opt/docker/nginx/cert/*.pem
+echo "Read Permission Granted for Private Key"
+docker start nginx
+```
+添加执行权限  `chmod +x /opt/docker/nginx/cert/renew.sh`
+
 定时任务 `crontab -e`:
 
 ```bash
-#证书有效期<30天才会renew，所以crontab可以配置为1天或1周
-1 */1 * * root certbot renew --manual --preferred-challenges dns  --manual-auth-hook "/root/code/certbot/au.sh python aly add" --manual-cleanup-hook "/root/code/certbot/au.sh python aly clean"
+#证书有效期<30天才会renew
+0 4 1 * * /bin/bash /opt/docker/nginx/cert/renew.sh
 ```
