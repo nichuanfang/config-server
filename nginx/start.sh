@@ -1,3 +1,4 @@
+docker rm -f nginx
 docker run \
   -itd \
   --name=nginx \
@@ -9,8 +10,5 @@ docker run \
   -v /opt/docker/nginx/conf.d/mime.types:/etc/nginx/mime.types \
   -v /opt/docker/nginx/cert:/etc/nginx \
   -v /opt/docker/nginx/html/:/usr/share/nginx/html/ \
-  -v /root/assets/img/:/usr/share/img/ \
-  -v /root/assets/js/:/usr/share/js/ \
-  -v /root/assets/css/:/usr/share/css/ \
-  -v /root/assets/m3u/:/usr/share/m3u/ \
+  -v /root/assets/:/usr/share/ \
   -m 300m nginx
