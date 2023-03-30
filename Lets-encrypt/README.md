@@ -2,7 +2,7 @@
 
 > 全网 HTTPS 时代就要到来，[Let’s Encrypt](https://letsencrypt.org/) 三个月有效期的免费 HTTPS 证书现在支持泛域名了，我们可以通过 [Certbot](https://certbot.eff.org/) 非常方便的申请和更新证书。网上很多关于 Certbot 的文章，但是关于泛域名证书的自动更新很少提及，或者很多误区，这里简单的讲解一下。
 
-## Certbot 安装
+## 一丶 Certbot 安装
 
 安装非常简单，只要进入 Certbot 官网选择对应的系统和 Web 服务软件就会提示如何安装，按照提示操作就可以了。
 
@@ -15,7 +15,7 @@ apt-get update
 apt-get install python3-certbot-nginx
 ```
 
-## 申请泛域名证书
+## 二丶 申请泛域名证书
 
 这里用到了一个开源工具：[certbot-letencrypt-wildcardcertificates-alydns-au](https://github.com/ywdblog/certbot-letencrypt-wildcardcertificates-alydns-au)工具就不介绍了，点开链接作者写的很详细了，看看怎么用吧
 
@@ -82,7 +82,7 @@ certbot certificates
 certbot renew --cert-name simplehttps.com  --manual-auth-hook "/root/code/certbot/au.sh python aly add" --manual-cleanup-hook "/root/code/certbot/au.sh python aly clean"
 ```
 
-## 加入 crontab
+## 三丶 加入 crontab
 
 编写证书更新脚本
 
