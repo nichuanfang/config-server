@@ -6,7 +6,7 @@
     "response-headers": [
       {
         "name": "Access-Control-Allow-Origin",
-        "value": "*"
+        "value": "***"
       }
     ],
     "trigger-rule": {
@@ -14,7 +14,7 @@
         {
           "match": {
             "type": "payload-hmac-sha1",
-            "secret": "*****",
+            "secret": "0820nCf9270",
             "parameter": {
               "source": "header",
               "name": "X-Hub-Signature"
@@ -44,25 +44,21 @@
         "value": "*"
       }
     ],
+    "pass-arguments-to-command": [
+      {
+        "source": "payload",
+        "name": "ref"
+      }
+    ],
     "trigger-rule": {
       "and": [
         {
           "match": {
             "type": "payload-hmac-sha1",
-            "secret": "****",
+            "secret": "***",
             "parameter": {
               "source": "header",
               "name": "X-Hub-Signature"
-            }
-          }
-        },
-        {
-          "match": {
-            "type": "value",
-            "value": "refs/heads/master",
-            "parameter": {
-              "source": "payload",
-              "name": "ref"
             }
           }
         }
