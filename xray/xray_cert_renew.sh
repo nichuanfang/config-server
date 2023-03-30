@@ -13,7 +13,7 @@ systemctl stop nginx
     
 echo "Xray Certificates Renewed"
 
-chmod 600 /usr/local/etc/xray/*.pem
+chmod 777 /usr/local/etc/xray/*.pem
 
 echo "Read Permission Granted for Private Key"
 
