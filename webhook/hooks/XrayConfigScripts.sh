@@ -7,4 +7,5 @@ elif [ $1 == refs/heads/server ]; then
     git checkout server
     echo 'server分支已检出'
 fi
+git pull
 bash build.sh
