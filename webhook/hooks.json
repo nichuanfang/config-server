@@ -14,7 +14,7 @@
         {
           "match": {
             "type": "payload-hmac-sha1",
-            "secret": "0820nCf9270",
+            "secret": "*****",
             "parameter": {
               "source": "header",
               "name": "X-Hub-Signature"
@@ -49,42 +49,7 @@
         {
           "match": {
             "type": "payload-hmac-sha1",
-            "secret": "0820nCf9270",
-            "parameter": {
-              "source": "header",
-              "name": "X-Hub-Signature"
-            }
-          }
-        },
-        {
-          "match": {
-            "type": "value",
-            "value": "refs/heads/master",
-            "parameter": {
-              "source": "payload",
-              "name": "ref"
-            }
-          }
-        }
-      ]
-    }
-  },
-  {
-    "id": "ConfigServerScripts",
-    "execute-command": "/root/scripts/ConfigServerScripts.sh",
-    "response-message": "I got the payload!",
-    "response-headers": [
-      {
-        "name": "Access-Control-Allow-Origin",
-        "value": "*"
-      }
-    ],
-    "trigger-rule": {
-      "and": [
-        {
-          "match": {
-            "type": "payload-hmac-sha1",
-            "secret": "0820nCf9270",
+            "secret": "****",
             "parameter": {
               "source": "header",
               "name": "X-Hub-Signature"
