@@ -1,4 +1,4 @@
-#!/bin/bash
+# !/bin/bash
 
 # 启动webhook进程
 nohup /root/webhook/webhook -hooks /root/webhook/hooks.json -verbose &
