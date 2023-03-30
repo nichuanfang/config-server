@@ -38,11 +38,18 @@ chmod 777 au.sh
 #### (2) DNS API 密钥
 
 ALY_KEY 和 ALY_TOKEN：阿里云 [API key 和 Secrec 官方申请文档](https://help.aliyun.com/knowledge_detail/38738.html)
+<img width="914" alt="屏幕截图 2023-03-30 235738" src="https://user-images.githubusercontent.com/37105637/228915797-20625aa4-5263-4817-9e11-90f7a9484999.png">
 
-#### (3) 选择运行环境
+#### (3) 修改au.sh的python版本
+![image](https://user-images.githubusercontent.com/37105637/228916010-d1fcf8c3-404b-4d2a-8712-98cbc979b59e.png)
+
+#### (4) 选择运行环境
 
 Python(支持2.7和3.7，无需任何第三方库) Python操作阿里云DNS，增加/清空DNS。
  `au.sh python aly add/clean`
+ 
+#### (5) 注释掉报错代码
+![image](https://user-images.githubusercontent.com/37105637/228916235-4e1b4a31-a4c6-4545-8163-17452ceb5d90.png)
 
 ### 3. 申请证书
 
