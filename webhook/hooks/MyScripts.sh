@@ -1,4 +1,4 @@
-#!/bin/bash
+# !/bin/bash
 
 # 通过webhook执行此脚本 提供js的https服务
 
