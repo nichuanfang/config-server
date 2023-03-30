@@ -6,7 +6,7 @@
     "response-headers": [
       {
         "name": "Access-Control-Allow-Origin",
-        "value": "***"
+        "value": "*"
       }
     ],
     "trigger-rule": {
@@ -14,7 +14,7 @@
         {
           "match": {
             "type": "payload-hmac-sha1",
-            "secret": "0820nCf9270",
+            "secret": "***",
             "parameter": {
               "source": "header",
               "name": "X-Hub-Signature"
@@ -48,6 +48,31 @@
       {
         "source": "payload",
         "name": "ref"
+      }
+    ],
+    "trigger-rule": {
+      "and": [
+        {
+          "match": {
+            "type": "payload-hmac-sha1",
+            "secret": "***",
+            "parameter": {
+              "source": "header",
+              "name": "X-Hub-Signature"
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "NginxScripts",
+    "execute-command": "/root/scripts/NginxScripts.sh",
+    "response-message": "I got the payload!",
+    "response-headers": [
+      {
+        "name": "Access-Control-Allow-Origin",
+        "value": "*"
       }
     ],
     "trigger-rule": {
