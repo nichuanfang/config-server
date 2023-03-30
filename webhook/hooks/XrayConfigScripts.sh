@@ -1,4 +1,4 @@
-#!/bin/bash
+# !/bin/bash
 cd /root/code/xray-parser
 if [ $1 == refs/heads/client ]; then
     git checkout client
