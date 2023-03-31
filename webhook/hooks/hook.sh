@@ -9,13 +9,13 @@
 
 if [ ! -d "/root/code/$1" ]; then
     cd /root/code
-    git clone $2
+    git clone $2 
     cd $1
 else
     cd /root/code/$1
+    # 检出指定分支
+    git checkout ${3:11}
     git pull
 fi
-# 检出指定分支
-git checkout ${3:11}
 # 执行指定脚本
 bash build.sh
