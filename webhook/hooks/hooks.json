@@ -1,42 +1,7 @@
 [
   {
-    "id": "MyScripts",
-    "execute-command": "/root/scripts/MyScripts.sh",
-    "response-message": "I got the payload!",
-    "response-headers": [
-      {
-        "name": "Access-Control-Allow-Origin",
-        "value": "*"
-      }
-    ],
-    "trigger-rule": {
-      "and": [
-        {
-          "match": {
-            "type": "payload-hmac-sha1",
-            "secret": "***",
-            "parameter": {
-              "source": "header",
-              "name": "X-Hub-Signature"
-            }
-          }
-        },
-        {
-          "match": {
-            "type": "value",
-            "value": "refs/heads/main",
-            "parameter": {
-              "source": "payload",
-              "name": "ref"
-            }
-          }
-        }
-      ]
-    }
-  },
-  {
-    "id": "XrayConfigScripts",
-    "execute-command": "/root/scripts/XrayConfigScripts.sh",
+    "id": "hook",
+    "execute-command": "/root/webhook/hook.sh",
     "response-message": "I got the payload!",
     "response-headers": [
       {
@@ -47,6 +12,14 @@
     "pass-arguments-to-command": [
       {
         "source": "payload",
+        "name": "repository.name"
+      },
+      {
+        "source": "payload",
+        "name": "repository.clone_url"
+      },
+      {
+        "source": "payload",
         "name": "ref"
       }
     ],
@@ -55,32 +28,7 @@
         {
           "match": {
             "type": "payload-hmac-sha1",
-            "secret": "***",
-            "parameter": {
-              "source": "header",
-              "name": "X-Hub-Signature"
-            }
-          }
-        }
-      ]
-    }
-  },
-  {
-    "id": "NginxScripts",
-    "execute-command": "/root/scripts/NginxScripts.sh",
-    "response-message": "I got the payload!",
-    "response-headers": [
-      {
-        "name": "Access-Control-Allow-Origin",
-        "value": "*"
-      }
-    ],
-    "trigger-rule": {
-      "and": [
-        {
-          "match": {
-            "type": "payload-hmac-sha1",
-            "secret": "***",
+            "secret": "0820nCf9270",
             "parameter": {
               "source": "header",
               "name": "X-Hub-Signature"
