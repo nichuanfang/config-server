@@ -12,8 +12,43 @@
 ```
 [
   {
-    "id": "MyScripts",
-    "execute-command": "/root/scripts/MyScripts.sh"
+    "id": "hook",
+    "execute-command": "/root/webhook/hook.sh",
+    "response-message": "I got the payload!",
+    "response-headers": [
+      {
+        "name": "Access-Control-Allow-Origin",
+        "value": "*"
+      }
+    ],
+    "pass-arguments-to-command": [
+      {
+        "source": "payload",
+        "name": "repository.name"
+      },
+      {
+        "source": "payload",
+        "name": "repository.clone_url"
+      },
+      {
+        "source": "payload",
+        "name": "ref"
+      }
+    ],
+    "trigger-rule": {
+      "and": [
+        {
+          "match": {
+            "type": "payload-hmac-sha1",
+            "secret": "密码",
+            "parameter": {
+              "source": "header",
+              "name": "X-Hub-Signature"
+            }
+          }
+        }
+      ]
+    }
   }
 ]
 ```
