@@ -28,7 +28,7 @@
         {
           "match": {
             "type": "payload-hmac-sha1",
-            "secret": "0820nCf9270",
+            "secret": "密码",
             "parameter": {
               "source": "header",
               "name": "X-Hub-Signature"
