@@ -9,3 +9,5 @@
 0 4 * * * /bin/bash ~/scripts/switch-vscode-bg.sh
 # 每天早上更新m3u源
 0 4 * * * /bin/bash -c "$(curl -L https://ghproxy.com/https://raw.githubusercontent.com/nichuanfang/config-server/master/m3u8/update.sh)"
+#每天定时清理缓存
+0 4 * * * sync && echo 3 > /proc/sys/vm/drop_caches
