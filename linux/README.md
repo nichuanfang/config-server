@@ -33,6 +33,9 @@
 ```
 
 ## 后台运行
+
+* 命令
+
 ```bash
 nohup <command> 1>/dev/null 2>$1 &
 ```
@@ -45,7 +48,10 @@ nohup <command> 1>/dev/null 2>$1 &
 
 ```text
     nohup: 不弹窗
+    
     1>/dev/null: 将标准输出重定向到linux中的黑洞中
+    
     2>$1: 将错误信息重定向到标准输出中
+    
     $: 后台运行
 ```
