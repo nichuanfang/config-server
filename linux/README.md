@@ -37,7 +37,7 @@ xargs <command2>: 通过之前的stdout作为stdin参数代入到新指令中
 * 命令
 
 ```bash
-nohup <command> 1>/dev/null 2>$1 &
+nohup <command> 1>/dev/null 2>&1 &
 ```
 * 参数说明
 
@@ -49,9 +49,9 @@ command: 需要后台运行的命令
 ```text
 nohup: 不弹窗
 
-1>/dev/null: 将标准输出重定向到linux中的黑洞中
+1>/dev/null: 将标准输出重定向到linux中的黑洞中 也可以简写为 >/dev/null
 
-2>$1: 将错误信息重定向到标准输出中
+2>&1: 将错误信息重定向到标准输出中
 
 $: 后台运行
 ```
