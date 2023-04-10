@@ -15,6 +15,7 @@ else
     cd /root/code/$1
     # 检出指定分支
     git checkout ${3:11}
+    git checkout .
     git pull
 fi
 # 执行指定脚本
