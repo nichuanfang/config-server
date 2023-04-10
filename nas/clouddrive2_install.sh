@@ -47,6 +47,7 @@ docker run -d \
       --env GID=0 \
       -v /cloudnas:/CloudNAS:shared \
       -v /root/clouddrive2/config:/Config \
+      -v /root/clouddrive2/Saladict:/Saladict \
       --network host \
       --pid host \
      --privileged \
