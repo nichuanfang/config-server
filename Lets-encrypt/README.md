@@ -56,7 +56,7 @@ Python(支持2.7和3.7，无需任何第三方库) Python操作阿里云DNS，�
 测试是否有错误：
 
 ```bash
-certbot certonly  -d *.example.com --manual --preferred-challenges dns --dry-run  --manual-auth-hook "/root/code/certbot/au.sh python aly add" --manual-cleanup-hook "/root/code/certbot/au.sh php aly clean"
+certbot certonly  -d *.example.com --manual --preferred-challenges dns --dry-run  --manual-auth-hook "/root/code/certbot/au.sh python aly add" --manual-cleanup-hook "/root/code/certbot/au.sh python aly clean"
 ```
 
 **实际申请:**
