@@ -4,7 +4,7 @@
 2. 修改SSH端口 
 3. 配置UFW 开放新的SSH端口
 4. 配置DOCKER环境
-5. 配置定时任务
+5. 配置定时任务 [解决ubuntu下定时任务不执行问题](https://blog.csdn.net/qfikh/article/details/78202449)
 6. 配置PYTHON环境
 7. 配置~/.bashrc和/etc/profile
 8. 配置webhook
