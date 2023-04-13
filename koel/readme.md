@@ -1,12 +1,8 @@
 1.
 ```
-docker exec --user www-data -it koel bash
+docker exec --user www-data -it koel php artisan koel:init --no-assets
 ```
 2. 
-```
-php artisan koel:init --no-assets
-``` 
-3. 
 ``` 
 default username: admin@koel.dev
 default password: KoelIsCool
