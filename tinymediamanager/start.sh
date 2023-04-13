@@ -1,3 +1,5 @@
+#!/bin/bash
+docker rm -f tinymediamanager
 docker run \
     --name=tinymediamanager \
     --restart=always \
@@ -9,6 +11,7 @@ docker run \
     -e USER_ID=0 \
     -e GROUP_ID=0   \
     -v /root/tmm/data:/data       \
+    -v /root/tmm/movie-collection:/media/movie-collection            \
     -v /cloudnas/CloudDrive/ali-open/tmm/tmm-movies:/media/ali-movies \
     -v /cloudnas/CloudDrive/ali-open/tmm/tmm-tvshows:/media/ali-tvshows \
     -v /cloudnas/CloudDrive/PikPak/media/tmm/tmm-movies:/media/pikpak-movies \
