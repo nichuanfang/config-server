@@ -18,6 +18,11 @@ mkdir -p /root/clouddrive2/config
 chmod 777 /root/clouddrive2/config
 fi
 
+if [ ! -d "/root/clouddrive2/Saladict" ]; then
+mkdir -p /root/clouddrive2/Saladict
+chmod 777 /root/clouddrive2/Saladict
+fi
+
 #更新clouddrive2
 
 # 删除原clouddrive2容器
