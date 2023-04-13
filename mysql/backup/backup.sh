@@ -12,6 +12,6 @@ cd /root/mysql/backup
 find . -name "*.sql" | xargs tar czvf www.vencenter.cn.tar.gz
 rm -f /cloudnas/CloudDrive/ali-open/backup/mysql/www.vencenter.cn.tar.gz
 cd /cloudnas/CloudDrive/ali-open/backup/mysql/
-cp /root/mysql_backup/www.vencenter.cn.tar.gz .
-rm -f /root/mysql_backup/www.vencenter.cn.tar.gz
-rm -f /root/mysql_backup/*.sql
+cp /root/mysql/backup/www.vencenter.cn.tar.gz .
+rm -f /root/mysql/backup/www.vencenter.cn.tar.gz
+rm -f /root/mysql/backup/*.sql
