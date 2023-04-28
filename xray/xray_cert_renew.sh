@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# 更新docker项目
-bash ~/hook.sh
-
-rm -rf /root/docker/dockerfile_work/xray/cert/*.pem
-
 /root/.acme.sh/acme.sh --issue \
 		-d "$0" \
 		--server letsencrypt \
@@ -25,7 +20,8 @@ git config --global user.name "$1"
 # 邮箱
 git config --global user.email "$2"
 
-# 提交git
+# 更新docker项目
+bash ~/hook.sh
 
 # 添加到本地库
 git add /root/docker/dockerfile_work/xray/cert/*.pem
