@@ -4,8 +4,8 @@
 		-d "$0" \
 		--server letsencrypt \
 		--keylength ec-256 \
-		--fullchain-file /root/docker/dockerfile_work/xray \
-		--key-file /root/docker/dockerfile_work/xray \
+		--fullchain-file /root/docker/dockerfile_work/xray/cert.pem \
+		--key-file /root/docker/dockerfile_work/xray/key.pem \
 		--standalone \
 		--force 
     
