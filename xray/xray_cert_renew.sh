@@ -32,7 +32,7 @@ git add /root/docker/dockerfile_work/xray/cert/*.pem
 # 提交信息
 git commit /root/docker/dockerfile_work/xray/cert/*.pem -m '🐳 chore: 证书已更新'
 # 推送
-git push
+#git push
 
 docker restart xray
 
