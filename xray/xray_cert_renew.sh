@@ -9,8 +9,8 @@ rm -rf /root/docker/dockerfile_work/xray/cert/*.pem
 		-d "$0" \
 		--server letsencrypt \
 		--keylength ec-256 \
-		--fullchain-file /root/docker/dockerfile_work/xray/cert/cert.pem \
-		--key-file /root/docker/dockerfile_work/xray/cert/key.pem \
+		--fullchain-file /root/docker/dockerfile_work/xray/cert \
+		--key-file /root/docker/dockerfile_work/xray/cert \
 		--standalone \
 		--force 
     
