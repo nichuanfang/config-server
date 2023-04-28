@@ -1,7 +1,5 @@
 #!/bin/bash
 
-systemctl stop nginx
-
 /root/.acme.sh/acme.sh --issue \
 		-d "$0" \
 		--server letsencrypt \
@@ -33,7 +31,6 @@ git commit /root/docker/dockerfile_work/xray/cert/*.pem -m '🐳 chore: 证书�
 # 推送
 git push
 
-systemctl start nginx
-sudo systemctl restart xray
+docker restart xray
 
 echo "Xray Restarted"
