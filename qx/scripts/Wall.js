@@ -8,7 +8,7 @@
 
 [rewrite_local]
 
-^https?:\/\/billing-ios\.wallpaperscraft\.com\/products\/remove_ads$ url script-response-body https://raw.githubusercontent.com/chxm1023/Rewrite/main/Wall.js
+^https?:\/\/billing-ios\.wallpaperscraft\.com\/products\/remove_ads$ url script-response-body https://github.com/nichuanfang/config-server/raw/master/qx/scripts/Wall.js
 
 [mitm] 
 
