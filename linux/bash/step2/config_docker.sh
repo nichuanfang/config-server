@@ -1,3 +1,3 @@
 #!/bin/bash
 
-# 配置ubuntu20的docker环境
+# 配置ubuntu18的docker环境

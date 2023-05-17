@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 配置ubuntu20的防火墙
+# 配置ubuntu18的防火墙
 
 SSHPORT=60022
 echo "[-] 系统防火墙启用以及规则设置 "

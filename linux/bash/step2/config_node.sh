@@ -1,3 +1,3 @@
 #!/bin/bash
 
-# 配置ubuntu20的node环境
+# 配置ubuntu18的node环境

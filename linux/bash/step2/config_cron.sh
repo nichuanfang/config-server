@@ -1,3 +1,3 @@
 #!/bin/bash
 
-# 配置ubuntu20的定时任务
+# 配置ubuntu18的定时任务

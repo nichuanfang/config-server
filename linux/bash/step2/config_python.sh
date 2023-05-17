@@ -1,3 +1,3 @@
 #!/bin/bash
 
-# 配置ubuntu20的python环境
+# 配置ubuntu18的python环境

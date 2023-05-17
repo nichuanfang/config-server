@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 配置ubuntu20的时区
+# 配置ubuntu18的时区
 
 # 更新软件源
 apt-get update -y
