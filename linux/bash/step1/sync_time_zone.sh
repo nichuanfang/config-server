@@ -11,14 +11,6 @@ echo "====================================================开始同步时间..."
 
 echo "同步前的时间: $(date -R)"
 
-sudo rm /var/lib/dpkg/lock-frontend
-
-sudo rm /var/lib/dpkg/lock
-
-sudo rm /var/cache/apt/archives/lock
-
-sudo rm -f /var/lib/dpkg/lock-frontend
-
 # (1) 时间同步服务端容器(可选也可以用外部ntp服务器)
 
 apt install -y chrony
