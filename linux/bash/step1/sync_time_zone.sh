@@ -6,6 +6,8 @@
 apt-get update -y
 # 通过expect模拟用户交互
 apt-get install curl -y
+apt-get install wget -y
+apt-get install unzip -y
 echo "====================================================开始同步时间..."
 
 echo "同步前的时间: $(date -R)"
