@@ -25,6 +25,6 @@ source ~/.bashrc
 source /etc/profile
 
 # python项目虚拟环境管理器
-pip install pyenv-virtualenv
+# pip install pyenv-virtualenv
 
 echo "==========================================python环境配置完成!"
