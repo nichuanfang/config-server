@@ -1,0 +1,35 @@
+name: 更改私服端口
+
+on:
+  # 手动触发
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+      tags:
+        description: '更改私服端口'
+
+jobs:
+  job1:
+    name: 更改私服端口
+    runs-on: ubuntu-20.04
+    steps:
+      # $GITHUB_WORKSPACE   =  /home/runner/work/crawler/crawler
+      # - name: 查看$GITHUB_WORKSPACE
+      #   run: echo $GITHUB_WORKSPACE
+
+      - name: cpu信息  4核心
+        run: cat /proc/cpuinfo
+
+      # - name: 内存信息  8g
+      #   run: cat /proc/meminfo
+
+      # - name: 检出项目nichuanfang
+      #   uses: actions/checkout@v3.5.2
+      #   with:
+      #     repository: nichuanfang/crawler
+      #     path: crawler
+      #     ref: master
+      #     token: ${{ secrets.GH_TOKEN }}
