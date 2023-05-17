@@ -36,6 +36,7 @@ jobs:
             /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/secure.sh) $PORT
             /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_network.sh) $HOST_NAME $HOST
             /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_env.sh) $GH_TOKEN
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_ufw.sh) $PORT
           # last_ssh: |
           #   reboot
 
@@ -57,7 +58,7 @@ jobs:
       - name: 初始化服务器-重启后
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          PORT: ${{ secrets.PORT }}
         with:
           host: ${{ secrets.HOST }}
           user: ${{ secrets.USER }}
