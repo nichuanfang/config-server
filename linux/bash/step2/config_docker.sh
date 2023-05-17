@@ -34,9 +34,7 @@ sudo systemctl status docker
 echo "开始安装docker-compose..."
 
 # 官方git地址下载
-sudo curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
-# daocloud下载安装（速度快些）
-curl -L https://get.daocloud.io/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) >/usr/local/bin/docker-compose
+curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 # 修改权限
 chmod +x /usr/local/bin/docker-compose
 
