@@ -32,10 +32,10 @@ jobs:
           port: 22
           connect_timeout: 10s
           first_ssh: |
-            /bin/bash -c "$(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/sync_time_zone.sh)"
-            /bin/bash -c "$(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/secure.sh)" $PORT
-            /bin/bash -c "$(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_network.sh)" $HOST_NAME $HOST
-            /bin/bash -c "$(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_env.sh)" $GH_TOKEN
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/sync_time_zone.sh)
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/secure.sh) $PORT
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_network.sh) $HOST_NAME $HOST
+            /bin/bash -c <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_env.sh) $GH_TOKEN
           # last_ssh: |
           #   reboot
 
