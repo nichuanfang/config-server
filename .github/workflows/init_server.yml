@@ -20,12 +20,33 @@ jobs:
 
       - name: 初始化服务器-重启前
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-        continue-on-error: false
         env:
           HOST: ${{ secrets.HOST }}
-          USER: ${{ secrets.USER }}
-          PASS: ${{ secrets.PASS }}
+          HOST_NAME: ${{ secrets.HOST_NAME }}
           PORT: ${{ secrets.PORT }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.USER }}
+          pass: ${{ secrets.PASS }}
+          port: 22
+          connect_timeout: 10s
+          first_ssh: |
+            /bin/bash -c "$(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/sync_time_zone.sh)"
+            /bin/bash -c "$(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/secure.sh)" $PORT
+            /bin/bash -c "$(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_network.sh)" $HOST_NAME $HOST
+            /bin/bash -c "$(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_env.sh)" $GH_TOKEN
+          last_ssh: |
+            reboot
+
+      - name: 等待服务器重启完成...
+        run: |
+          sleep 15s
+
+      - name: 初始化服务器-重启后
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           host: ${{ secrets.HOST }}
           user: ${{ secrets.USER }}
@@ -33,23 +54,9 @@ jobs:
           port: ${{ secrets.PORT }}
           connect_timeout: 10s
           first_ssh: |
-
-          # scp: |
-          #   './test/*' => /home/github/test/
-          #   ./test/test1* => /home/github/test/test1/
-          #   ./test/test*.csv => "/home/github/test/test2/"
+            touch ~/success.txt
           # last_ssh: |
-          # curl -L https://api.day.app/${{ secrets.BARK_TOKEN }}/crawler镜像已更新
-
-      - name: 同步时区
-        run: |
-          ./linux/bash/step1/sync_time_zone.sh
-
-      # 重启服务器
-
-      # - name: 等待服务器重启完成...
-      #   run: |
-      #     sleep 10s
+          #   reboot
 
       # # 更新端口 替换默认的22端口
       # - name: 更新端口
