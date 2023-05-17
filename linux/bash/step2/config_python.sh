@@ -4,6 +4,9 @@
 
 echo "==========================================开始配置python环境..."
 
+# gcc编译器
+apt-get install build-essential -y
+
 # 安装pyenv
 curl https://pyenv.run | bash
 
@@ -21,6 +24,7 @@ echo 'eval "$(pyenv init -)"' >>/etc/profile
 source ~/.bashrc
 source /etc/profile
 
-
+# python项目虚拟环境管理器
+pip install pyenv-virtualenv
 
 echo "==========================================python环境配置完成!"
