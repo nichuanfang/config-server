@@ -5,7 +5,7 @@
 echo "==========================================开始配置docker环境..."
 
 # 安装软件包依赖
-sudo apt install apt-transport-https ca-certificates curl software-properties-common
+sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
 
 # 在系统中添加Docker的官方密钥
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -20,7 +20,7 @@ sudo apt update
 sudo apt-cache policy docker-ce
 
 # 开始安装Docker（ce表示社区版）
-sudo apt install docker-ce
+sudo apt install docker-ce -y
 
 # 启动Docker服务
 sudo systemctl start docker
