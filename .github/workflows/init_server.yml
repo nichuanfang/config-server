@@ -1,91 +1,60 @@
-name: 初始化私服环境
+name: 初始化私服
 
 on:
   # 手动触发
   workflow_dispatch:
     inputs:
       logLevel:
-        description: 'Log level'
-        required: true
+        description: 'Init Trigger'
+        required: false
         default: 'warning'
       tags:
-        description: '初始化私服环境'
+        description: '初始化私服'
 
 jobs:
   job1:
-    name: 初始化私服环境
+    name: Init Self-Hosted Server
     runs-on: ubuntu-20.04
     steps:
-      # $GITHUB_WORKSPACE   =  /home/runner/work/crawler/crawler
-      # - name: 查看$GITHUB_WORKSPACE
-      #   run: echo $GITHUB_WORKSPACE
+      - uses: actions/checkout@v3.5.2
 
-      - name: cpu信息  4核心
-        run: cat /proc/cpuinfo
+      - name: 初始化服务器-重启前
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        continue-on-error: false
+        env:
+          HOST: ${{ secrets.HOST }}
+          USER: ${{ secrets.USER }}
+          PASS: ${{ secrets.PASS }}
+          PORT: ${{ secrets.PORT }}
+        with:
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.USER }}
+          pass: ${{ secrets.PASS }}
+          port: ${{ secrets.PORT }}
+          connect_timeout: 10s
+          first_ssh: |
 
-      # - name: 内存信息  8g
-      #   run: cat /proc/meminfo
+          # scp: |
+          #   './test/*' => /home/github/test/
+          #   ./test/test1* => /home/github/test/test1/
+          #   ./test/test*.csv => "/home/github/test/test2/"
+          # last_ssh: |
+          # curl -L https://api.day.app/${{ secrets.BARK_TOKEN }}/crawler镜像已更新
 
-      # - name: 检出项目nichuanfang
-      #   uses: actions/checkout@v3.5.2
-      #   with:
-      #     repository: nichuanfang/crawler
-      #     path: crawler
-      #     ref: master
-      #     token: ${{ secrets.GH_TOKEN }}
+      - name: 同步时区
+        run: |
+          ./linux/bash/step1/sync_time_zone.sh
 
-      # - name: 检出nichuanfang/docker
-      #   uses: actions/checkout@v3.5.2
-      #   with:
-      #     repository: nichuanfang/docker
-      #     path: docker
-      #     ref: master
-      #     token: ${{ secrets.GH_TOKEN }}
+      # 重启服务器
 
-      # # - name: 移动crawler到docker文件夹
-      # #   run: mv $GITHUB_WORKSPACE/crawler $GITHUB_WORKSPACE/docker/dockerfile_work/crawler
-
-      # - name: 构建镜像
+      # - name: 等待服务器重启完成...
       #   run: |
-      #     # 构建镜像
-      #     docker build -t registry.cn-hangzhou.aliyuncs.com/jayzhou/crawler:latest \
-      #       --build-arg CRAWLER_ENV=${{ vars.CRAWLER_ENV }} \
-      #       --build-arg CRAWLER_HOST=${{ vars.CRAWLER_HOST }} \
-      #       --build-arg TMM_API_KEY=${{ secrets.TMM_API_KEY }} \
-      #       --build-arg TMM_HOST=${{ vars.TMM_HOST }}  \
-      #       --build-arg BARK_TOKEN=${{ secrets.BARK_TOKEN }} \
-      #       $GITHUB_WORKSPACE/docker/dockerfile_work/crawler
+      #     sleep 10s
 
-      # - name: 推送镜像
-      #   run: |
-      #     # 登录阿里云镜像仓库
-      #     docker login --username=${{ secrets.ALI_DOCKER_USERNAME }} --password=${{ secrets.ALI_DOCKER_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
-      #     # 推送镜像
-      #     docker push registry.cn-hangzhou.aliyuncs.com/jayzhou/crawler:latest
-      #     # 移除本地镜像
-      #     docker rmi -f registry.cn-hangzhou.aliyuncs.com/jayzhou/crawler:latest
-      #     # 发送Bark推送
-      #     curl -L https://api.day.app/${{ secrets.BARK_TOKEN }}/crawler镜像已更新
-
-      # - name: 更新服务器镜像
-      #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-      #   continue-on-error: false
-      #   env:
-      #     WELCOME: 'ssh scp ssh pipelines'
-      #     LASTSSH: 'Doing something after copying'
+      # # 更新端口 替换默认的22端口
+      # - name: 更新端口
+      #   uses: jon-grey/github-actions-secrets-creator@v1
       #   with:
-      #     host: ${{ secrets.DC_HOST }}
-      #     user: ${{ secrets.DC_USER }}
-      #     pass: ${{ secrets.DC_PASS }}
-      #     port: ${{ secrets.DC_PORT }}
-      #     connect_timeout: 10s
-      #     first_ssh: |
-      #       docker rm -f crawler
-      #       docker rmi -f registry.cn-hangzhou.aliyuncs.com/jayzhou/crawler:latest
-      #       docker pull registry.cn-hangzhou.aliyuncs.com/jayzhou/crawler:latest
-      #     # scp: |
-      #     #   './test/*' => /home/github/test/
-      #     #   ./test/test1* => /home/github/test/test1/
-      #     #   ./test/test*.csv => "/home/github/test/test2/"
-      #     last_ssh: |
-      #       curl -L https://api.day.app/${{ secrets.BARK_TOKEN }}/crawler镜像已更新
+      #     name: PORT
+      #     value: ${{ secrets.PORT }}
+      #     pa_token: ${{ secrets.GH_TOKEN }}
