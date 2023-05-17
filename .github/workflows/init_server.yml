@@ -18,27 +18,27 @@ jobs:
     steps:
       - uses: actions/checkout@v3.5.2
 
-      - name: 初始化服务器-重启前
-        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-        env:
-          HOST: ${{ secrets.HOST }}
-          HOST_NAME: ${{ secrets.HOST_NAME }}
-          PORT: ${{ secrets.PORT }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        with:
-          host: ${{ secrets.HOST }}
-          user: ${{ secrets.USER }}
-          pass: ${{ secrets.PASS }}
-          port: 22
-          connect_timeout: 10s
-          first_ssh: |
-            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/sync_time_zone.sh)
-            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/secure.sh) $PORT
-            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_network.sh) $HOST_NAME $HOST
-            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_env.sh) $GH_TOKEN
-            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_ufw.sh) $PORT
-          # last_ssh: |
-          #   reboot
+      # - name: 初始化服务器-重启前
+      #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+      #   env:
+      #     HOST: ${{ secrets.HOST }}
+      #     HOST_NAME: ${{ secrets.HOST_NAME }}
+      #     PORT: ${{ secrets.PORT }}
+      #     GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      #   with:
+      #     host: ${{ secrets.HOST }}
+      #     user: ${{ secrets.USER }}
+      #     pass: ${{ secrets.PASS }}
+      #     port: 22
+      #     connect_timeout: 10s
+      #     first_ssh: |
+      #       /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/sync_time_zone.sh)
+      #       /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/secure.sh) $PORT
+      #       /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_network.sh) $HOST_NAME $HOST
+      #       /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_env.sh) $GH_TOKEN
+      #       /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_ufw.sh) $PORT
+      # last_ssh: |
+      #   reboot
 
       - name: 重启服务器
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
