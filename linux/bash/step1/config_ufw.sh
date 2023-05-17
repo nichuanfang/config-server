@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 配置ubuntu18的防火墙
-echo "[-] 系统防火墙启用以及规则设置 "
+echo "==========================================================开始系统防火墙启用以及规则设置..."
 systemctl enable ufw.service && systemctl start ufw.service && ufw --force enable
 # sudo ufw allow proto tcp to any port 60022
 sudo ufw allow 21
@@ -29,3 +29,5 @@ sudo ufw allow $1
 
 # 重启修改配置相关服务
 systemctl restart sshd
+
+echo "==========================================================系统防火墙启用以及规则设置完成! "
