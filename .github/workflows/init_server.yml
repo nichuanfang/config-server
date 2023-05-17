@@ -42,6 +42,7 @@ jobs:
 
       - name: 重启服务器
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        continue-on-error: true
         with:
           host: ${{ secrets.HOST }}
           user: ${{ secrets.USER }}
