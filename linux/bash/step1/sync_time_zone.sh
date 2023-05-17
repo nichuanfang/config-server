@@ -5,8 +5,7 @@
 # 更新软件源
 apt-get update -y
 # 通过expect模拟用户交互
-apt install expect -y
-
+apt-get install curl -y
 echo "====================================================开始同步时间..."
 
 echo "同步前的时间: $(date -R)"
