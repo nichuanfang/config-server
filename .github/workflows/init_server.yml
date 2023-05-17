@@ -67,7 +67,6 @@ jobs:
           port: ${{ secrets.PORT }}
           connect_timeout: 10s
           first_ssh: |
-            touch ~/success.txt
             /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_node.sh)
             /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_docker.sh)
           # last_ssh: |
