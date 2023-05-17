@@ -1,8 +1,5 @@
 #!/bin/bash
 
-SSHPORT=$1
-# SSHPORT=60022
-
 echo "==================================================开始安全配置..."
 echo "[-] 设置或恢复重要目录和文件的权限"
 chmod 755 /etc
@@ -23,8 +20,8 @@ find / -maxdepth 3 -name .rhosts | xargs rm -rf
 
 # 严格模式
 sudo egrep -q "^\s*StrictModes\s+.+$" /etc/ssh/sshd_config && sed -ri "s/^(#)?\s*StrictModes\s+.+$/StrictModes yes/" /etc/ssh/sshd_config || echo "StrictModes yes" >>/etc/ssh/sshd_config
-if [ -e ${SSHPORT} ]; then export SSHPORT=${SSHPORT}; fi
-sudo egrep -q "^\s*Port\s+.+$" /etc/ssh/sshd_config && sed -ri "s/^(#)?\s*Port\s+.+$/Port ${SSHPORT}/" /etc/ssh/sshd_config || echo "Port ${SSHPORT}" >>/etc/ssh/sshd_config
+if [ -e $1 ]; then export SSHPORT=$1; fi
+sudo egrep -q "^\s*Port\s+.+$" /etc/ssh/sshd_config && sed -ri "s/^(#)?\s*Port\s+.+$/Port $1/" /etc/ssh/sshd_config || echo "Port "$1 >>/etc/ssh/sshd_config
 # 禁用X11转发以及端口转发
 sudo egrep -q "^\s*X11Forwarding\s+.+$" /etc/ssh/sshd_config && sed -ri "s/^(#)?\s*X11Forwarding\s+.+$/X11Forwarding no/" /etc/ssh/sshd_config || echo "X11Forwarding no" >>/etc/ssh/sshd_config
 sudo egrep -q "^\s*X11UseLocalhost\s+.+$" /etc/ssh/sshd_config && sed -ri "s/^(#)?\s*X11UseLocalhost\s+.+$/X11UseLocalhost yes/" /etc/ssh/sshd_config || echo "X11UseLocalhost yes" >>/etc/ssh/sshd_config

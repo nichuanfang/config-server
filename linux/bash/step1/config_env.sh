@@ -1,5 +1,5 @@
 #!/bin/bash
-GH_TOKEN=$1
+echo "==================================================开始配置环境变量..."
 cat /dev/null >~/.bashrc
 # 配置ubuntu20的环境变量
 sudo cat <<'EOF' >~/.bashrc
@@ -135,5 +135,6 @@ cd() {
 source /etc/profile
 export PS1="$PS1\[\e]1337;CurrentDir="'$(pwd)\a\]'
 EOF
-echo 'export GH_TOKEN='${GH_TOKEN} >>~/.bashrc
+echo 'export GH_TOKEN='$1 >>~/.bashrc
 source ~/.bashrc
+echo "==================================================环境变量配置完成"

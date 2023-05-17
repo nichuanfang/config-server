@@ -36,7 +36,18 @@ jobs:
             /bin/bash -c "$(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/secure.sh)" $PORT
             /bin/bash -c "$(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_network.sh)" $HOST_NAME $HOST
             /bin/bash -c "$(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_env.sh)" $GH_TOKEN
-          last_ssh: |
+          # last_ssh: |
+          #   reboot
+
+      - name: 重启服务器
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        with:
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.USER }}
+          pass: ${{ secrets.PASS }}
+          port: 22
+          connect_timeout: 10s
+          first_ssh: |
             reboot
 
       - name: 等待服务器重启完成...

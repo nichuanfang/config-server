@@ -1,15 +1,9 @@
 #!/bin/bash
 
-# 配置ubuntu20的网络
-HOSTNAME=$1
-# HOSTNAME=www.vencenter.cn
-IPADDR=$2
-# IPADDR=38.55.97.97
-
 echo "==================================================操作系统网络配置相关脚本,开始执行....."
 # (1) 本地主机名解析设置
-sed -i "s/127.0.1.1\s.\w.*$/127.0.1.1 ${HOSTNAME}/g" /etc/hosts
-grep -q "^\$(hostname -I)\s.\w.*$" /etc/hosts && sed -i "s/\$(hostname -I)\s.\w.*$/${IPADDR} ${HOSTNAME}" /etc/hosts || echo "${IPADDR} ${HOSTNAME}" >>/etc/hosts
+sed -i "s/127.0.1.1\s.\w.*$/127.0.1.1 $1/g" /etc/hosts
+grep -q "^\$(hostname -I)\s.\w.*$" /etc/hosts && sed -i "s/\$(hostname -I)\s.\w.*$/$2 $1" /etc/hosts || echo "$2 $1" >>/etc/hosts
 
 # (2) 系统DNS域名解析服务设置
 # cp -a /etc/resolv.conf{,.bak}
