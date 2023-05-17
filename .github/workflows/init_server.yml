@@ -18,13 +18,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3.5.2
 
-      - name: 初始化服务器-重启前
+      - name: 初始化服务器-重启前-更新时区
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-        env:
-          HOST: ${{ secrets.HOST }}
-          HOST_NAME: ${{ secrets.HOST_NAME }}
-          PORT: ${{ secrets.PORT }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           host: ${{ secrets.HOST }}
           user: ${{ secrets.USER }}
@@ -33,16 +28,59 @@ jobs:
           connect_timeout: 10s
           first_ssh: |
             /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/sync_time_zone.sh)
-            sleep 2s
+
+      - name: 初始化服务器-重启前-安全防护
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        env:
+          PORT: ${{ secrets.PORT }}
+        with:
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.USER }}
+          pass: ${{ secrets.PASS }}
+          port: 22
+          connect_timeout: 10s
+          first_ssh: |
             /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/secure.sh) $PORT
-            sleep 5s
+
+      - name: 初始化服务器-重启前-网络配置
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        env:
+          HOST: ${{ secrets.HOST }}
+          HOST_NAME: ${{ secrets.HOST_NAME }}
+        with:
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.USER }}
+          pass: ${{ secrets.PASS }}
+          port: 22
+          connect_timeout: 10s
+          first_ssh: |
             /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_network.sh) $HOST_NAME $HOST
-            sleep 2s
+
+      - name: 初始化服务器-重启前-环境变量配置
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.USER }}
+          pass: ${{ secrets.PASS }}
+          port: 22
+          connect_timeout: 10s
+          first_ssh: |
             /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_env.sh) $GH_TOKEN
-            sleep 2s
+
+      - name: 初始化服务器-重启前-防火墙配置
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        env:
+          PORT: ${{ secrets.PORT }}
+        with:
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.USER }}
+          pass: ${{ secrets.PASS }}
+          port: 22
+          connect_timeout: 10s
+          first_ssh: |
             /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_ufw.sh) $PORT
-      # last_ssh: |
-      #   reboot
 
       - name: 重启服务器
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
@@ -60,10 +98,8 @@ jobs:
         run: |
           sleep 15s
 
-      - name: 初始化服务器-重启后
+      - name: 初始化服务器-重启后-配置node
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-        env:
-          PORT: ${{ secrets.PORT }}
         with:
           host: ${{ secrets.HOST }}
           user: ${{ secrets.USER }}
@@ -72,17 +108,25 @@ jobs:
           connect_timeout: 10s
           first_ssh: |
             /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_node.sh)
-            sleep 30s
-            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_docker.sh)
-            sleep 30s
-            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_python.sh)
-          # last_ssh: |
-          #   reboot
 
-      # # 更新端口 替换默认的22端口
-      # - name: 更新端口
-      #   uses: jon-grey/github-actions-secrets-creator@v1
-      #   with:
-      #     name: PORT
-      #     value: ${{ secrets.PORT }}
-      #     pa_token: ${{ secrets.GH_TOKEN }}
+      - name: 初始化服务器-重启后-配置docker
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        with:
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.USER }}
+          pass: ${{ secrets.PASS }}
+          port: ${{ secrets.PORT }}
+          connect_timeout: 10s
+          first_ssh: |
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_docker.sh)
+
+      - name: 初始化服务器-重启后-配置python
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        with:
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.USER }}
+          pass: ${{ secrets.PASS }}
+          port: ${{ secrets.PORT }}
+          connect_timeout: 10s
+          first_ssh: |
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_python.sh)
