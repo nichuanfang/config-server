@@ -185,16 +185,15 @@ jobs:
       #     first_ssh: |
       #       /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/deploy_app.sh)
 
-      # - name: 初始化服务器-重启后-配置定时任务
-      #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-      #   env:
-      #     EMAIL_PREFIX: ${{ secrets.EMAIL_PREFIX }}
-      #     GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      #   with:
-      #     host: ${{ secrets.HOST }}
-      #     user: ${{ secrets.USER }}
-      #     pass: ${{ secrets.PASS }}
-      #     port: ${{ secrets.PORT }}
-      #     connect_timeout: 10s
-      #     first_ssh: |
-      #       /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_cron.sh)
+      - name: 初始化服务器-重启后-配置定时任务
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        env:
+          HOST_NAME: ${{ secrets.HOST_NAME }}
+        with:
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.USER }}
+          pass: ${{ secrets.PASS }}
+          port: ${{ secrets.PORT }}
+          connect_timeout: 10s
+          first_ssh: |
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_cron.sh) $HOST_NAME
