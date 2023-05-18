@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3.5.2
 
-      - name: 初始化服务器-重启前-更新时区
+      - name: 初始化服务器-安装curl工具
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
         with:
           host: ${{ secrets.HOST }}
@@ -28,7 +28,16 @@ jobs:
           connect_timeout: 10s
           first_ssh: |
             sudo apt-get install curl -y
-            sleep 8s
+
+      - name: 初始化服务器-重启前-更新时区
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        with:
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.USER }}
+          pass: ${{ secrets.PASS }}
+          port: 22
+          connect_timeout: 10s
+          first_ssh: |
             /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/sync_time_zone.sh)
 
       - name: 初始化服务器-重启前-安全防护
