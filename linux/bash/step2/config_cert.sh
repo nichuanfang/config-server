@@ -15,7 +15,7 @@ sudo apt-get update
 sudo apt-get install python3-certbot-nginx -y
 
 cd /root/code/certbot && gp
-certbot certonly -m $1@gmail.com -n --manual-public-ip-logging-ok -d *.$2 --manual --preferred-challenges dns --manual-auth-hook "/root/code/certbot/au.sh python aly add" --manual-cleanup-hook "/root/code/certbot/au.sh python aly clean"
+certbot certonly -m $1@gmail.com -n --agree-tos --manual-public-ip-logging-ok -d *.$2 --manual --preferred-challenges dns --manual-auth-hook "/root/code/certbot/au.sh python aly add" --manual-cleanup-hook "/root/code/certbot/au.sh python aly clean"
 # 验证证书
 cat /etc/letsencrypt/live/$2/cert.pem
 echo "==========================================证书配置完成!"
