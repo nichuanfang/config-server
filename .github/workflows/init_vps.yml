@@ -1,4 +1,4 @@
-name: 初始化vps
+name: 初始化xray服务器
 
 on:
   # 手动触发
@@ -9,14 +9,28 @@ on:
         required: false
         default: 'warning'
       tags:
-        description: '初始化VPS'
+        description: '初始化xray服务器'
 
 jobs:
   job1:
-    name: Init vps
+    name: Init Xray Server
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3.5.2
+      - name: 初始化服务器-安装curl工具
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        continue-on-error: true
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          user: ${{ secrets.VPS_USER }}
+          pass: ${{ secrets.VPS_PASS }}
+          port: 22
+          connect_timeout: 10s
+          first_ssh: |
+            sudo rm -f /var/lib/dpkg/lock-frontend
+            sudo rm -f /var/lib/dpkg/lock
+            sudo rm -f /var/cache/apt/archives/lock
+            sudo rm -f /var/lib/dpkg/lock-frontend
+            sudo apt-get install curl -y
 
       - name: 初始化服务器-重启前-更新时区
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
@@ -27,7 +41,6 @@ jobs:
           port: 22
           connect_timeout: 10s
           first_ssh: |
-            apt-get install curl -y
             /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/sync_time_zone.sh)
 
       - name: 初始化服务器-重启前-安全防护
@@ -47,7 +60,7 @@ jobs:
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
         env:
           HOST: ${{ secrets.VPS_HOST }}
-          HOST_NAME: ${{ secrets.VPS_HOST_NAME }}
+          HOST_NAME: ${{ secrets.HOST_NAME }}
         with:
           host: ${{ secrets.VPS_HOST }}
           user: ${{ secrets.VPS_USER }}
@@ -134,6 +147,9 @@ jobs:
 
       - name: 初始化服务器-重启后-配置git
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        env:
+          EMAIL_PREFIX: ${{ secrets.EMAIL_PREFIX }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           host: ${{ secrets.VPS_HOST }}
           user: ${{ secrets.VPS_USER }}
@@ -141,9 +157,9 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           connect_timeout: 10s
           first_ssh: |
-            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_git.sh)
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_git.sh) $EMAIL_PREFIX $GH_TOKEN
 
-      - name: 初始化服务器-重启后-部署xray
+      - name: 初始化服务器-重启后-部署应用
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
         with:
           host: ${{ secrets.VPS_HOST }}

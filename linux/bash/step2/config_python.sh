@@ -52,6 +52,11 @@ pyenv install 3.11.0 -v
 # 2. 创建python3.11.0
 # 3. python3 pip3使用系统自带版本(3.6.9)   python: /usr/bin/python3  pip3: /usr/bin/pip3
 #    python pip版本为虚拟环境设置的版本(3.11.0)  python: /root/.pyenv/shims/python   pip: /root/.pyenv/shims/pip
-pyenv virtualenv 3.8.0 ve-3.8.0 && pyenv virtualenv 3.11.0 ve-3.11.0 && pyenv activate ve-3.11.0
+pyenv virtualenv 3.8.0 ve-3.8.0 && pyenv virtualenv 3.11.0 ve-3.11.0
+
+# ----------------------------caution--------------------------------------------------
+# pyenv activate ve-3.11.0脚本中无法正常执行
+# 正确用法:   服务器运行python脚本/项目时 需要主动激活虚拟环境 脚本/项目运行完成后关闭虚拟环境
+# ----------------------------caution--------------------------------------------------
 
 echo "==========================================python环境配置完成!"
