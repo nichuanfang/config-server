@@ -165,6 +165,10 @@ jobs:
 
       - name: 初始化服务器-重启后-部署xray
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        env:
+          VPS_HOST_NAME: ${{ secrets.VPS_HOST_NAME }}
+          VPS_CONFIG_USER: ${{ secrets.VPS_CONFIG_USER }}
+          VPS_CONFIG_PASS: ${{ secrets.VPS_CONFIG_PASS  }}
         with:
           host: ${{ secrets.VPS_HOST }}
           user: ${{ secrets.VPS_USER }}
@@ -172,7 +176,7 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           connect_timeout: 10s
           first_ssh: |
-            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/deploy_xray.sh)
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/deploy_xray.sh) $VPS_HOST_NAME $VPS_CONFIG_USER $VPS_CONFIG_PASS
 
       - name: 初始化服务器-重启后-配置定时任务
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
