@@ -4,7 +4,7 @@
 
 echo "==========================================开始配置定时任务..."
 
-sudo cat <<'EOF' >/etc/crontab
+sudo cat <<EOF >/etc/crontab
 # min hour day-month month day-week
 
 #每天定时清理缓存
