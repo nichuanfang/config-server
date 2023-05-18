@@ -6,8 +6,6 @@ sudo rm -f /var/lib/dpkg/lock-frontend
 sudo rm -f /var/lib/dpkg/lock
 sudo rm -f /var/cache/apt/archives/lock
 sudo rm -f /var/lib/dpkg/lock-frontend
-mkdir -p /root/code && cd /root/code
-cd /root/code/docker/docker-compose
 # 创建网络mynet
 docker network create mynet
 
@@ -15,6 +13,7 @@ docker network create mynet
 cd /root/code/docker && git checkout . && git pull --allow-unrelated-histories
 /bin/bash /root/code/docker/dockerfile_work/nginx/init.sh
 
+cd /root/code/docker/docker-compose
 # 启动服务
 docker-compose up -d
 echo "==========================================应用部署完成!"
