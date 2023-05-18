@@ -1,0 +1,32 @@
+name: test_cert
+
+on:
+  # 手动触发
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Init Trigger'
+        required: false
+        default: 'warning'
+      tags:
+        description: 'test_cert'
+
+jobs:
+  job1:
+    name: test_cert
+    runs-on: ubuntu-20.04
+    steps:
+      - name: 初始化服务器-重启后-配置https证书
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        env:
+          EMAIL_PREFIX: ${{ secrets.EMAIL_PREFIX }}
+          HOST_NAME: ${{ secrets.HOST_NAME }}
+        continue-on-error: true
+        with:
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.USER }}
+          pass: ${{ secrets.PASS }}
+          port: ${{ secrets.PORT }}
+          connect_timeout: 10s
+          first_ssh: |
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_cert.sh) $EMAIL_PREFIX $HOST_NAME

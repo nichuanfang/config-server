@@ -112,17 +112,6 @@ jobs:
         run: |
           sleep 15s
 
-      - name: 初始化服务器-重启后-配置node
-        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          user: ${{ secrets.VPS_USER }}
-          pass: ${{ secrets.VPS_PASS }}
-          port: ${{ secrets.VPS_PORT }}
-          connect_timeout: 10s
-          first_ssh: |
-            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_node.sh)
-
       - name: 初始化服务器-重启后-配置docker
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
         with:
@@ -159,7 +148,22 @@ jobs:
           first_ssh: |
             /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_git.sh) $EMAIL_PREFIX $GH_TOKEN
 
-      - name: 初始化服务器-重启后-部署应用
+      - name: 初始化服务器-重启后-配置https证书
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        env:
+          EMAIL_PREFIX: ${{ secrets.EMAIL_PREFIX }}
+          VPS_HOST_NAME: ${{ secrets.VPS_HOST_NAME }}
+        continue-on-error: true
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          user: ${{ secrets.VPS_USER }}
+          pass: ${{ secrets.VPS_PASS }}
+          port: ${{ secrets.VPS_PORT }}
+          connect_timeout: 10s
+          first_ssh: |
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_cert.sh) $EMAIL_PREFIX $VPS_HOST_NAME
+
+      - name: 初始化服务器-重启后-部署xray
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
         with:
           host: ${{ secrets.VPS_HOST }}
@@ -168,4 +172,15 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           connect_timeout: 10s
           first_ssh: |
-            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/deploy_app.sh)
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/deploy_xray.sh)
+
+      - name: 初始化服务器-重启后-配置定时任务
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          user: ${{ secrets.VPS_USER }}
+          pass: ${{ secrets.VPS_PASS }}
+          port: ${{ secrets.VPS_PORT }}
+          connect_timeout: 10s
+          first_ssh: |
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/config_cron.sh)

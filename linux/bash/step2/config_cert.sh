@@ -3,7 +3,10 @@
 # 配置ubuntu18的证书
 
 echo "==========================================开始配置证书..."
-
+sudo rm -f /var/lib/dpkg/lock-frontend
+sudo rm -f /var/lib/dpkg/lock
+sudo rm -f /var/cache/apt/archives/lock
+sudo rm -f /var/lib/dpkg/lock-frontend
 # 安装python3-certbot-nginx
 sudo apt-get install software-properties-common -y
 sudo add-apt-repository universe
