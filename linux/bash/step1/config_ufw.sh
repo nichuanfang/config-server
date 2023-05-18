@@ -23,6 +23,7 @@ sudo ufw allow 3308
 sudo ufw allow 8090
 sudo ufw allow 7878
 sudo ufw allow 5000
+sudo ufw allow 16789
 sudo ufw allow 19798
 # ssh端口
 sudo ufw allow $1
