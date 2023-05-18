@@ -10,6 +10,11 @@ mkdir -p /root/code && cd /root/code
 cd /root/code/docker/docker-compose
 # 创建网络mynet
 docker network create mynet
+
+# 执行nginx初始化 $1: 域名
+cd /root/code/docker && git checkout . && git pull --allow-unrelated-histories
+/bin/bash /root/code/docker/dockerfile_work/nginx/init.sh
+
 # 启动服务
 docker-compose up -d
 echo "==========================================应用部署完成!"
