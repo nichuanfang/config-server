@@ -1,0 +1,31 @@
+name: 测试虚拟环境
+
+on:
+  # 手动触发
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Init Trigger'
+        required: false
+        default: 'warning'
+      tags:
+        description: '测试虚拟环境'
+
+jobs:
+  job1:
+    name: Init Self-Hosted Server
+    runs-on: ubuntu-20.04
+    steps:
+      - name: 测试虚拟环境
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        continue-on-error: true
+        with:
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.USER }}
+          pass: ${{ secrets.PASS }}
+          port: 22
+          connect_timeout: 10s
+          first_ssh: |
+            pyenv activate ve-3.11.0
+            python -V
+            pip -V

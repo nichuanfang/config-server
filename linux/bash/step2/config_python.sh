@@ -15,11 +15,12 @@ curl https://pyenv.run | bash
 echo 'export PYENV_ROOT="$HOME/.pyenv"' >>~/.bashrc
 echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >>~/.bashrc
 echo 'eval "$(pyenv init -)"' >>~/.bashrc
+echo 'eval "$(pyenv virtualenv-init -)"' >>~/.bashrc
 
 echo 'export PYENV_ROOT="$HOME/.pyenv"' >>/etc/profile
 echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >>/etc/profile
-
 echo 'eval "$(pyenv init -)"' >>/etc/profile
+echo 'eval "$(pyenv virtualenv-init -)"' >>/etc/profile
 
 # 刷新配置
 source ~/.bashrc
@@ -54,9 +55,13 @@ pyenv install 3.11.0 -v
 #    python pip版本为虚拟环境设置的版本(3.11.0)  python: /root/.pyenv/shims/python   pip: /root/.pyenv/shims/pip
 pyenv virtualenv 3.8.0 ve-3.8.0 && pyenv virtualenv 3.11.0 ve-3.11.0
 
+# 设置默认的python和pip版本为3.11.0
+echo 'pyenv activate ve-3.11.0' >>~/.bashrc
+echo 'pyenv activate ve-3.11.0' >>/etc/profile
+source ~/.bashrc
+source /etc/profile
 # ----------------------------caution--------------------------------------------------
-# pyenv activate ve-3.11.0脚本中无法正常执行
-# 正确用法:   服务器运行python脚本/项目时 需要主动激活虚拟环境 脚本/项目运行完成后关闭虚拟环境
+# 推荐用法:   服务器运行python脚本/项目时 需要主动激活虚拟环境 脚本/项目运行完成后关闭虚拟环境
 # ----------------------------caution--------------------------------------------------
 
 echo "==========================================python环境配置完成!"

@@ -7,6 +7,7 @@ sed -i "s/127.0.1.1\s.\w.*$/127.0.1.1 $1/g" /etc/hosts
 grep -q "^\$(hostname -I)\s.\w.*$" /etc/hosts && sed -i "s/\$(hostname -I)\s.\w.*$/$2 $1" /etc/hosts || echo "$2 $1" >>/etc/hosts
 cat /etc/hosts
 
+# 注: dns修改不生效 遂放弃
 # echo '系统DNS域名解析服务设置...'
 
 # cat /dev/null >/etc/resolv.conf
