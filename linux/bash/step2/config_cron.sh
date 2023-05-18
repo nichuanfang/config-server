@@ -23,7 +23,7 @@ EOF
 # 载入crontab
 crontab /root/cron
 # 删除临时文件
-# rm -f /root/cron
+rm -f /root/cron
 
 # 查看定时任务
 # crontab -l
