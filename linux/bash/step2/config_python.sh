@@ -32,19 +32,19 @@ pyenv install 3.8.0 -v
 # 安装3.11.0版本的python
 pyenv install 3.11.0 -v
 
-# 设置python和pip的超链接
+# 设置python和pip的软链接
 
 # 3.8.0
-ln -fs /root/.pyenv/shims/python3.8 /usr/bin/python3.8
-ln -fs /root/.pyenv/shims/python3.8 /usr/local/bin/python3.8
-ln -fs /root/.pyenv/shims/pip3.8 /usr/bin/pip3.8
-ln -fs /root/.pyenv/shims/pip3.8 /usr/local/bin/pip3.8
+ln -fs /root/.pyenv/versions/3.8.0/bin/python3.8 /usr/bin/python3.8
+ln -fs /root/.pyenv/versions/3.8.0/bin/python3.8 /usr/local/bin/python3.8
+ln -fs /root/.pyenv/versions/3.8.0/bin/pip3.8 /usr/bin/pip3.8
+ln -fs /root/.pyenv/versions/3.8.0/bin/pip3.8 /usr/local/bin/pip3.8
 
 # 3.11.0
-ln -fs /root/.pyenv/shims/python3.11 /usr/bin/python3.11
-ln -fs /root/.pyenv/shims/python3.11 /usr/local/bin/python3.11
-ln -fs /root/.pyenv/shims/pip3.11 /usr/bin/pip3.11
-ln -fs /root/.pyenv/shims/pip3.11 /usr/local/bin/pip3.11
+ln -fs /root/.pyenv/versions/3.11.0/bin/python3.11 /usr/bin/python3.11
+ln -fs /root/.pyenv/versions/3.11.0/bin/python3.11 /usr/local/bin/python3.11
+ln -fs /root/.pyenv/versions/3.11.0/bin/pip3.11 /usr/bin/pip3.11
+ln -fs /root/.pyenv/versions/3.11.0/bin/pip3.11 /usr/local/bin/pip3.11
 
 # 设置当前目录的python版本
 # pyenv local <python-version>
