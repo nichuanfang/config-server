@@ -21,4 +21,14 @@ sudo cat <<EOF >~/.git-credentials
 https://$1%40gmail.com:$2@github.com
 EOF
 
+# 拉取项目
+git clone https://github.com/nichuanfang/config-server.git
+git clone https://github.com/nichuanfang/xray-parser.git
+git clone https://github.com/nichuanfang/hexo-blog.git
+git clone https://github.com/nichuanfang/docker.git
+git clone https://github.com/nichuanfang/crawler.git
+git clone https://github.com/nichuanfang/nginx-config.git
+git clone https://github.com/nichuanfang/MyScripts.git
+git clone https://github.com/nichuanfang/certbot.git
+
 echo "==========================================git配置完成!"
