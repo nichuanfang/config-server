@@ -27,6 +27,11 @@ jobs:
           port: 22
           connect_timeout: 10s
           first_ssh: |
+            sudo rm /var/lib/dpkg/lock-frontend
+            sudo rm /var/lib/dpkg/lock
+            sudo rm /var/cache/apt/archives/lock
+            sudo rm -f /var/lib/dpkg/lock-frontend
+            killall apt apt-get
             sudo apt-get install curl -y
 
       - name: 初始化服务器-重启前-更新时区
