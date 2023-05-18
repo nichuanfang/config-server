@@ -14,6 +14,8 @@ cd /root/code/docker && git checkout . && git pull --allow-unrelated-histories
 /bin/bash /root/code/docker/dockerfile_work/nginx/init.sh
 
 cd /root/code/docker/docker-compose
+# 登录阿里云镜像仓库
+docker login --username=$1 --password=$2 registry.cn-hangzhou.aliyuncs.com
 # 启动服务
 docker-compose up -d
 echo "==========================================应用部署完成!"
