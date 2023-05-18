@@ -8,7 +8,7 @@ mkdir -p /root/code && cd /root/code
 sudo apt-get install git -y
 
 # 写入git全局配置
-sudo cat <<'EOF' >~/.gitconfig
+sudo cat <<EOF >~/.gitconfig
 [credential]
 	helper = store
 [user]
@@ -17,7 +17,7 @@ sudo cat <<'EOF' >~/.gitconfig
 EOF
 
 # 写入git凭据  @用%40代替
-sudo cat <<'EOF' >~/.git-credentials
+sudo cat <<EOF >~/.git-credentials
 https://$1%40gmail.com:$2@github.com
 EOF
 
