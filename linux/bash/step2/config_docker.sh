@@ -3,7 +3,10 @@
 # 配置ubuntu18的docker环境
 
 echo "==========================================开始配置docker环境..."
-
+sudo rm -f /var/lib/dpkg/lock-frontend
+sudo rm -f /var/lib/dpkg/lock
+sudo rm -f /var/cache/apt/archives/lock
+sudo rm -f /var/lib/dpkg/lock-frontend
 sudo apt-get install docker.io -y
 
 echo "开始安装docker-compose..."
