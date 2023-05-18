@@ -114,7 +114,7 @@ alias n='netstat -anp'
 alias ng='netstat -anp|grep '
 alias f='fgrep --color -rn '
 alias llt='ls -rlt'
-alias gp='git pull --allow-unrelated-histories'
+alias gp='git checkout .&& git pull --allow-unrelated-histories'
 # 杀进程 $1: 进程可执行文件绝对路径
 alias kp='/bin/bash ~/scripts/kill_process.sh'
 
