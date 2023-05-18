@@ -56,7 +56,7 @@ docker-compose up -d
 # ---------------------------你的脚本---------------------------------
 exit 0
 EOF
-
+sudo chmod +x /etc/rc.local
 systemctl daemon-reload
 systemctl enable rc-local.service
 echo "==========================================启动脚本设置成功!"
