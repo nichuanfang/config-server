@@ -159,16 +159,20 @@ jobs:
           first_ssh: |
             /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_git.sh) $EMAIL_PREFIX $GH_TOKEN
 
-      # - name: 初始化服务器-重启后-配置https证书
-      #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-      #   with:
-      #     host: ${{ secrets.HOST }}
-      #     user: ${{ secrets.USER }}
-      #     pass: ${{ secrets.PASS }}
-      #     port: ${{ secrets.PORT }}
-      #     connect_timeout: 10s
-      #     first_ssh: |
-      #       /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_cert.sh)
+      - name: 初始化服务器-重启后-配置https证书
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        env:
+          EMAIL_PREFIX: ${{ secrets.EMAIL_PREFIX }}
+          HOST_NAME: ${{ secrets.HOST_NAME }}
+        continue-on-error: true
+        with:
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.USER }}
+          pass: ${{ secrets.PASS }}
+          port: ${{ secrets.PORT }}
+          connect_timeout: 10s
+          first_ssh: |
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_cert.sh) $EMAIL_PREFIX $HOST_NAME
 
       # - name: 初始化服务器-重启后-部署应用
       #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
