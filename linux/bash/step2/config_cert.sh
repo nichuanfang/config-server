@@ -12,8 +12,6 @@ sudo apt-get update
 sudo apt-get install python3-certbot-nginx
 
 cd /root/code/certbot && gp
-# 更改权限
-chmod 777 au.sh
 
 
 echo "==========================================证书配置完成!"
