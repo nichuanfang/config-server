@@ -9,7 +9,7 @@ cat <<EOF >/root/cron
 # 每月1号更新证书
 30 13 1 * * /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/renew_cert.sh) $1
 #每天定时清理缓存
-30 13 * * * sync && echo 3 >/proc/sys/vm/drop_caches
+30 13 1 * * sync && echo 3 >/proc/sys/vm/drop_caches
 # 每月1号数据库备份
 # 0 4 1 * * /bin/bash /root/mysql_backup/backup.sh 0820nCf9270
 # 每月1号clouddrive2更新
