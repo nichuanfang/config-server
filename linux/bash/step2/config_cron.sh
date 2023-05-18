@@ -6,8 +6,6 @@ echo "==========================================开始配置定时任务..."
 
 touch /root/cron
 cat <<EOF >/root/cron
-# 服务器通用定时任务
-# min hour day-month month day-week
 # 每月1号更新证书
 30 13 1 * * /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/renew_cert.sh) $1
 #每天定时清理缓存
@@ -25,7 +23,7 @@ EOF
 # 载入crontab
 crontab /root/cron
 # 删除临时文件
-rm -f /root/cron
+# rm -f /root/cron
 
 # 查看定时任务
 # crontab -l
