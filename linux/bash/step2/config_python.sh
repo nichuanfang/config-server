@@ -32,7 +32,9 @@ pyenv install 3.8.0 -v
 pyenv install 3.11.0 -v
 
 # 设置当前目录的python版本
-# pyenv local 3.11.0
+# pyenv local <python-version>
+# 取消设置当前目录的python版本
+# pyenv local --unset
 
 # python项目虚拟环境管理器
 # pyenv-virtualenv的安装及使用:    https://www.jianshu.com/p/c47c225e4bb5
@@ -46,16 +48,10 @@ pyenv install 3.11.0 -v
 # pyenv deactivate                      关闭虚拟环境
 # --------------------------------------------------------
 
-# 创建python3.8.0的虚拟环境
-pyenv virtualenv 3.8.0 ve-3.8.0
-# 创建python3.11.0
-pyenv virtualenv 3.11.0 ve-3.11.0
-
-# 取消设置当前目录的python版本
-# pyenv local --unset
-
-# python3 pip3使用系统自带版本(3.6.9)   python: /usr/bin/python3  pip3: /usr/bin/pip3
-# python pip版本为虚拟环境设置的版本(3.11.0)  python: /root/.pyenv/shims/python   pip: /root/.pyenv/shims/pip
-pyenv activate ve-3.11.0
+# 1. 创建python3.8.0的虚拟环境
+# 2. 创建python3.11.0
+# 3. python3 pip3使用系统自带版本(3.6.9)   python: /usr/bin/python3  pip3: /usr/bin/pip3
+#    python pip版本为虚拟环境设置的版本(3.11.0)  python: /root/.pyenv/shims/python   pip: /root/.pyenv/shims/pip
+pyenv virtualenv 3.8.0 ve-3.8.0 && pyenv virtualenv 3.11.0 ve-3.11.0 && pyenv activate ve-3.11.0
 
 echo "==========================================python环境配置完成!"

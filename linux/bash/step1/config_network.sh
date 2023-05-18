@@ -8,9 +8,35 @@ grep -q "^\$(hostname -I)\s.\w.*$" /etc/hosts && sed -i "s/\$(hostname -I)\s.\w.
 cat /etc/hosts
 
 echo '系统DNS域名解析服务设置...'
-# cp -a /etc/resolv.conf{,.bak}
-echo "nameserver 8.8.4.4" >>/etc/resolv.conf
-echo "nameserver 223.5.5.5" >>/etc/resolv.conf
-echo "nameserver 223.6.6.6" >>/etc/resolv.conf
-cat /etc/resolv.conf
+
+cat /dev/null >/etc/resolv.conf
+
+cat <<EOF >/etc/resolv.conf
+nameserver 127.0.0.1
+options edns0
+search localdomain
+nameserver 8.8.4.4
+nameserver 223.5.5.5
+nameserver 223.6.6.6
+EOF
+
+cat /dev/null >/etc/NetworkManager/NetworkManager.conf
+cat <<EOF >/etc/NetworkManager/NetworkManager.conf
+
+[main]
+plugins=ifupdown,keyfile
+dns=none
+
+[ifupdown]
+managed=false
+
+[device]
+wifi.scan-rand-mac-address=no
+
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl stop systemd-resolved
+sudo systemctl start systemd-resolved
+systemd-resolve --status
 echo "==================================================操作系统网络配置完成!"
