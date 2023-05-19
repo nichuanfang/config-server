@@ -93,7 +93,7 @@ http {
 
     server {
         listen 80;
-        server_name  $1 *$1;
+        server_name  $1 *.$1;
 		root /root/code/docker/dockerfile_work/xray/config;
 
 		autoindex on;
