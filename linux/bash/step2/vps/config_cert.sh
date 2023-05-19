@@ -22,8 +22,8 @@ certbot certonly -m $1@gmail.com -n --agree-tos --manual-public-ip-logging-ok -d
 # 证书的保存目录
 mkdir -p /root/code/docker/dockerfile_work/xray/cert
 cd /root/code/docker/dockerfile_work/xray/cert
-cp /etc/letsencrypt/live/$2/fullchain.pem /root/code/docker/dockerfile_work/xray/cert/cert.pem
-cp /etc/letsencrypt/live/$2/privkey.pem /root/code/docker/dockerfile_work/xray/cert/key.pem
+cp -f /etc/letsencrypt/live/$2/fullchain.pem /root/code/docker/dockerfile_work/xray/cert/cert.pem
+cp -f /etc/letsencrypt/live/$2/privkey.pem /root/code/docker/dockerfile_work/xray/cert/key.pem
 chmod 777 /root/code/docker/dockerfile_work/xray/cert/*.pem
 git add .
 git commit -m "证书已更新!"
