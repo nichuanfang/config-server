@@ -1,0 +1,20 @@
+name: test
+
+on:
+  # 手动触发
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Init Trigger'
+        required: false
+        default: 'warning'
+      tags:
+        description: 'test'
+
+jobs:
+  job1:
+    name: Init Xray Server
+    runs-on: ubuntu-20.04
+    steps:
+      - name: test
+        run: ls
