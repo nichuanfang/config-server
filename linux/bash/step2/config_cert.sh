@@ -24,4 +24,10 @@ mkdir -p /opt/docker/nginx/cert
 cp -f /etc/letsencrypt/live/$2/fullchain.pem /opt/docker/nginx/cert/cert.pem
 cp -f /etc/letsencrypt/live/$2/privkey.pem /opt/docker/nginx/cert/key.pem
 chmod 777 /opt/docker/nginx/cert/*.pem
+mkdir -p /root/code/docker/dockerfile_work/nginx/cert/
+cp -r /opt/docker/nginx/cert/*.pem /root/code/docker/dockerfile_work/nginx/cert/
+cd /root/code/docker/dockerfile_work/nginx/cert/
+git add .
+git commit "更新站点:${2}nginx证书"
+git push
 echo "==========================================证书配置完成!"

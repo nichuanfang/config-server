@@ -179,8 +179,8 @@ jobs:
         continue-on-error: true
         env:
           ALI_DOCKER_USERNAME: ${{ secrets.ALI_DOCKER_USERNAME }}
-          ALI_DOCKER_PASSWORD: ${{ secrets.ALI_DOCKER_PASSWORD }}.0
-          
+          ALI_DOCKER_PASSWORD: ${{ secrets.ALI_DOCKER_PASSWORD }}
+
         with:
           host: ${{ secrets.HOST }}
           user: ${{ secrets.USER }}
