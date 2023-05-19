@@ -21,7 +21,7 @@ certbot certonly -m $1@gmail.com -n --agree-tos --manual-public-ip-logging-ok -d
 # cat /etc/letsencrypt/live/$2/cert.pem
 # 证书的保存目录
 mkdir -p /opt/docker/nginx/cert
-cp /etc/letsencrypt/live/$2/fullchain.pem /opt/docker/nginx/cert
-cp /etc/letsencrypt/live/$2/privkey.pem /opt/docker/nginx/cert
+cp /etc/letsencrypt/live/$2/cert.pem /opt/docker/nginx/cert
+cp /etc/letsencrypt/live/$2/key.pem /opt/docker/nginx/cert
 chmod 777 /opt/docker/nginx/cert/*.pem
 echo "==========================================证书配置完成!"
