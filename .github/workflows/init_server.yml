@@ -176,9 +176,11 @@ jobs:
 
       - name: 初始化服务器-重启后-部署应用
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        continue-on-error: true
         env:
           ALI_DOCKER_USERNAME: ${{ secrets.ALI_DOCKER_USERNAME }}
-          ALI_DOCKER_PASSWORD: ${{ secrets.ALI_DOCKER_PASSWORD }}
+          ALI_DOCKER_PASSWORD: ${{ secrets.ALI_DOCKER_PASSWORD }}.0
+          
         with:
           host: ${{ secrets.HOST }}
           user: ${{ secrets.USER }}

@@ -15,13 +15,10 @@ systemctl start nginx
 cd /root/code/docker/dockerfile_work/xray
 docker-compose up -d
 
-sudo cat <<EOF >/etc/nginx/passwdfile
-$2:$3/
-EOF
+printf "$2:$(openssl passwd -crypt $3)\n" >>/etc/nginx/passwdfile
 chmod 777 /etc/nginx/passwdfile
 
 # 通过nginx发布xray客户端http服务
-
 sudo cat <<EOF >/etc/nginx/nginx.conf
 user root;
 worker_processes auto;
@@ -55,9 +52,17 @@ http {
 	##
 	# SSL Settings
 	##
+	# 注意文件位置，是从/etc/nginx/下开始算起的
+	# ssl_certificate cert/cert.pem;
+    # ssl_certificate_key cert/key.pem;
+    # ssl_session_timeout 5m;
+    # ssl_protocols TLSv1 TLSv1.1 TLSv1.2;   
+    # ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
+    # ssl_prefer_server_ciphers on;
+    # client_max_body_size 1024m; 
 
-	ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
-	ssl_prefer_server_ciphers on;
+	# ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
+	# ssl_prefer_server_ciphers on;
 
 	##
 	# Logging Settings
@@ -87,51 +92,40 @@ http {
 	include /etc/nginx/sites-enabled/*;
 
     server {
-        listen 9999 ssl;
-        server_name  $1;  # 配置文件
-         # 注意文件位置，是从/etc/nginx/下开始算起的
-        ssl_certificate /root/code/docker/dockerfile_work/xray/cert/fullchain.pem;
-        ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/privkey.pem;
-        ssl_session_timeout 5m;
-        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;   
-        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
-        ssl_prefer_server_ciphers on;
-        client_max_body_size 1024m; 
+        listen 80;
+        server_name  $1 *$1;
+		root /root/code/docker/dockerfile_work/xray/config;
+
+		autoindex on;
+        autoindex_exact_size off;
+        autoindex_localtime on;
+        auth_basic "authentication";
+        auth_basic_user_file /etc/nginx/passwdfile;
+        charset utf-8;
         
-        location / {
-            root /root/code/docker/dockerfile_work/xray/config;
-            auth_basic "authentication";
-            auth_basic_user_file /etc/nginx/passwdfile;
-            autoindex on;
-            charset utf-8; 
-        }
+        # 这里配置拒绝访问的目录或文件
+        # location ~ (repos) 
+        # {
+        #     deny all;
+        # }
+
+        # 静态文件的过期时间，可以不需要此配置
+        location ~ .*\.(gif|jpg|jpeg|png|bmp|swf)$
+		{
+			expires      30d;
+		}
+                
+        # 静态文件的过期时间，可以不需要此配置
+        location ~ .*\.(js|css)?$
+		{
+			expires      12h;
+		}
+    	# 这里很重要! 将日志转发到 /dev/stdout ，可以通过 docker logs -f  来查看容器日志
+        # access_log  /dev/stdout;
         
     }
 }
-
-
-#mail {
-#	# See sample authentication script at:
-#	# http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript
-# 
-#	# auth_http localhost/auth.php;
-#	# pop3_capabilities "TOP" "USER";
-#	# imap_capabilities "IMAP4rev1" "UIDPLUS";
-# 
-#	server {
-#		listen     localhost:110;
-#		protocol   pop3;
-#		proxy      on;
-#	}
-# 
-#	server {
-#		listen     localhost:143;
-#		protocol   imap;
-#		proxy      on;
-#	}
-#}
 EOF
-
 systemctl daemon-reload
 systemctl restart nginx
 echo "=========================================xray部署完成!"

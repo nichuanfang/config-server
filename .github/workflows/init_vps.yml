@@ -165,10 +165,11 @@ jobs:
 
       - name: 初始化服务器-重启后-部署xray
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        continue-on-error: true
         env:
           VPS_HOST_NAME: ${{ secrets.VPS_HOST_NAME }}
           VPS_CONFIG_USER: ${{ secrets.VPS_CONFIG_USER }}
-          VPS_CONFIG_PASS: ${{ secrets.VPS_CONFIG_PASS  }}
+          VPS_CONFIG_PASS: ${{ secrets.VPS_CONFIG_PASS }}
         with:
           host: ${{ secrets.VPS_HOST }}
           user: ${{ secrets.VPS_USER }}
