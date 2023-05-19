@@ -128,4 +128,13 @@ http {
 EOF
 systemctl daemon-reload
 systemctl restart nginx
+
+# 开启bbr加速 (ubuntu18.04)
+echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
+echo net.ipv4.tcp_congestion_control=bbr >> /etc/sysctl.conf
+sysctl -p
+sysctl net.ipv4.tcp_available_congestion_control
+
+# 检测BBR是否开启
+lsmod | grep bbr
 echo "=========================================xray部署完成!"
