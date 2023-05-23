@@ -12,8 +12,9 @@ cp -f /etc/letsencrypt/live/$1/privkey.pem /opt/docker/nginx/cert/key.pem
 echo "Certificates Renewed"
 chmod 777 /opt/docker/nginx/cert/*.pem
 cp -r /opt/docker/nginx/cert/*.pem /root/code/docker/dockerfile_work/nginx/cert/
+cd /root/code/docker/dockerfile_work/nginx/cert/
 git add .
-git commit "更新站点:${1}nginx证书"
+git commit "nginx证书已更新"
 git push
 echo "Read Permission Granted for Private Key"
 docker start nginx
