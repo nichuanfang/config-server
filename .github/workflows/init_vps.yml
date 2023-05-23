@@ -183,6 +183,7 @@ jobs:
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
         env:
           VPS_HOST_NAME: ${{ secrets.VPS_HOST_NAME }}
+          DOGYUN_API_KEY: ${{ secrets.DOGYUN_API_KEY }}
         with:
           host: ${{ secrets.VPS_HOST }}
           user: ${{ secrets.VPS_USER }}
@@ -190,4 +191,4 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           connect_timeout: 10s
           first_ssh: |
-            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/config_cron.sh) $VPS_HOST_NAME
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/config_cron.sh) $VPS_HOST_NAME $DOGYUN_API_KEY
