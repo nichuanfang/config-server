@@ -18,4 +18,16 @@ chmod +x /usr/local/bin/docker-compose
 
 echo "docker-compose安装完成!"
 
+# 创建docker配置文件
+cat /dev/null >/etc/docker/daemon.json
+# 控制docker容器大小
+cat <<EOF >/etc/docker/daemon.json
+{
+  "log-driver":"json-file",
+  "log-opts": {"max-size":"80m", "max-file":"1"}
+}
+EOF
+# 重载配置 重启容器
+systemctl daemon-reload && systemctl restart docker
+
 echo "==========================================docker环境配置完成!"
