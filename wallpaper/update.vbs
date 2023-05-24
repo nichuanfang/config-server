@@ -1,3 +1,3 @@
 Set ws = CreateObject("Wscript.Shell")
 
-ws.run "cmd /c update.bat",vbhide
+ws.run "cmd /c D:\wallpaper\update.bat",vbhide
