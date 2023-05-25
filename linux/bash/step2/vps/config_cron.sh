@@ -63,8 +63,8 @@ sudo service cron restart
 
 touch /root/cron
 cat <<EOF >/root/cron
-# 每月1号更新证书
-30 13 1 * * /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/renew_cert.sh) $1
+# 每月1号更新证书 
+30 13 1 * * curl -s https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/renew_cert.sh | bash -s $1
 #每天定时清理缓存
 30 13 1 * * sync && echo 3 >/proc/sys/vm/drop_caches
 # 定期删除cron日志
@@ -74,7 +74,7 @@ cat <<EOF >/root/cron
 #每天1点暂停应用服务器
 0 1 * * * curl --location -g --header "API-KEY: $2" --request PUT 'https://api.dogyun.com/cvm/server/43541/suspend'
 # 每天定时更新github壁纸
-0 0 * * * /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/nichuanfang/main/cron/update_wallpaper.sh) nichuanfang nichuanfang $3
+0 0 * * * curl -s https://raw.githubusercontent.com/nichuanfang/nichuanfang/main/cron/update_wallpaper.sh | bash -s nichuanfang nichuanfang $3
 EOF
 
 # 载入crontab
