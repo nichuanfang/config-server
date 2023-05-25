@@ -213,3 +213,111 @@ jobs:
           connect_timeout: 10s
           first_ssh: |
             /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_cron.sh) $HOST_NAME
+
+      # 更新docker hexo-blog crawler的密钥信息
+      # 部署hexo-blog
+
+      - name: 更新nichuanfang/docker的APP_HOST
+        uses: jon-grey/github-actions-secrets-creator@v1
+        with:
+          location: nichuanfang/docker
+          name: APP_HOST
+          value: ${{ secrets.HOST }}
+          pa_token: ${{ secrets.GH_TOKEN }}
+
+      - name: 更新nichuanfang/docker的APP_PASS
+        uses: jon-grey/github-actions-secrets-creator@v1
+        with:
+          location: nichuanfang/docker
+          name: APP_PASS
+          value: ${{ secrets.PASS }}
+          pa_token: ${{ secrets.GH_TOKEN }}
+
+      - name: 更新nichuanfang/docker的APP_PORT
+        uses: jon-grey/github-actions-secrets-creator@v1
+        with:
+          location: nichuanfang/docker
+          name: APP_PORT
+          value: ${{ secrets.PORT }}
+          pa_token: ${{ secrets.GH_TOKEN }}
+
+      - name: 更新nichuanfang/docker的APP_USER
+        uses: jon-grey/github-actions-secrets-creator@v1
+        with:
+          location: nichuanfang/docker
+          name: APP_USER
+          value: ${{ secrets.USER }}
+          pa_token: ${{ secrets.GH_TOKEN }}
+
+      - name: 更新nichuanfang/crawler的DC_HOST
+        uses: jon-grey/github-actions-secrets-creator@v1
+        with:
+          location: nichuanfang/crawler
+          name: DC_HOST
+          value: ${{ secrets.HOST }}
+          pa_token: ${{ secrets.GH_TOKEN }}
+
+      - name: 更新nichuanfang/crawler的DC_PASS
+        uses: jon-grey/github-actions-secrets-creator@v1
+        with:
+          location: nichuanfang/crawler
+          name: DC_PASS
+          value: ${{ secrets.PASS }}
+          pa_token: ${{ secrets.GH_TOKEN }}
+
+      - name: 更新nichuanfang/crawler的DC_PORT
+        uses: jon-grey/github-actions-secrets-creator@v1
+        with:
+          location: nichuanfang/crawler
+          name: DC_PORT
+          value: ${{ secrets.PORT }}
+          pa_token: ${{ secrets.GH_TOKEN }}
+
+      - name: 更新nichuanfang/crawler的DC_USER
+        uses: jon-grey/github-actions-secrets-creator@v1
+        with:
+          location: nichuanfang/crawler
+          name: DC_USER
+          value: ${{ secrets.USER }}
+          pa_token: ${{ secrets.GH_TOKEN }}
+
+      - name: 更新nichuanfang/hexo-blog的HOST
+        uses: jon-grey/github-actions-secrets-creator@v1
+        with:
+          location: nichuanfang/hexo-blog
+          name: HOST
+          value: ${{ secrets.HOST }}
+          pa_token: ${{ secrets.GH_TOKEN }}
+
+      - name: 更新nichuanfang/hexo-blog的PASS
+        uses: jon-grey/github-actions-secrets-creator@v1
+        with:
+          location: nichuanfang/hexo-blog
+          name: PASS
+          value: ${{ secrets.PASS }}
+          pa_token: ${{ secrets.GH_TOKEN }}
+
+      - name: 更新nichuanfang/hexo-blog的PORT
+        uses: jon-grey/github-actions-secrets-creator@v1
+        with:
+          location: nichuanfang/hexo-blog
+          name: PORT
+          value: ${{ secrets.PORT }}
+          pa_token: ${{ secrets.GH_TOKEN }}
+
+      - name: 更新nichuanfang/hexo-blog的USER
+        uses: jon-grey/github-actions-secrets-creator@v1
+        with:
+          location: nichuanfang/hexo-blog
+          name: USER
+          value: ${{ secrets.USER }}
+          pa_token: ${{ secrets.GH_TOKEN }}
+
+      #workflowId可以通过https://api.github.com/repos/用户名/仓库名称/actions/workflows 查看
+      - name: 部署博客
+        uses: rshop/trigger-workflow-action@v1
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          repository: 'nichuanfang/hexo-blog'
+          workflowId: 56880669
+          branch: main
