@@ -18,6 +18,7 @@ cat <<EOF >/root/cron
 # 0 4 * * * /bin/bash ~/scripts/switch-vscode-bg.sh
 # 每天早上更新m3u源
 # 0 4 * * * /bin/bash <(curl -L https://ghproxy.com/https://raw.githubusercontent.com/nichuanfang/config-server/master/m3u8/update.sh)
+
 EOF
 
 # 载入crontab
