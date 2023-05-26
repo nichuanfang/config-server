@@ -73,8 +73,6 @@ cat <<EOF >/root/cron
 0 9 * * * curl --location -g --header "API-KEY: $2" --request PUT 'https://api.dogyun.com/cvm/server/43541/resume'
 #每天1点暂停应用服务器
 0 1 * * * curl --location -g --header "API-KEY: $2" --request PUT 'https://api.dogyun.com/cvm/server/43541/suspend'
-# 每天定时更新github壁纸
-0 0 * * * curl -s https://raw.githubusercontent.com/nichuanfang/nichuanfang/main/cron/update_wallpaper.sh | bash -s nichuanfang nichuanfang $3
 EOF
 
 # 载入crontab
