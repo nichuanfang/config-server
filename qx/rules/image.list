@@ -1,2 +1,8 @@
 # spotify图片
 DOMAIN-SUFFIX,scdn.co
+
+# youtube图片
+DOMAIN,i.ytimg.com
+DOMAIN,yt3.ggpht.com
+DOMAIN,app-measurement.com
+
