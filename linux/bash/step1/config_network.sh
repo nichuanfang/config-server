@@ -1,6 +1,12 @@
 #!/bin/bash
 
 echo "==================================================操作系统网络配置相关脚本,开始执行....."
+sudo rm -f /var/lib/dpkg/lock-frontend
+sudo rm -f /var/lib/dpkg/lock
+sudo rm -f /var/cache/apt/archives/lock
+sudo rm -f /var/lib/dpkg/lock-frontend
+
+sudo apt-get install iftop -y
 
 echo '本地主机名解析设置...'
 sed -i "s/127.0.1.1\s.\w.*$/127.0.1.1 $1/g" /etc/hosts
