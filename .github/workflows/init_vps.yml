@@ -132,7 +132,7 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           connect_timeout: 10s
           first_ssh: |
-            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_python.sh)
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/config_python.sh)
 
       - name: 初始化服务器-重启后-配置git
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
