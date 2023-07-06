@@ -50,21 +50,6 @@ http {
 	default_type application/octet-stream;
 
 	##
-	# SSL Settings
-	##
-	# 注意文件位置，是从/etc/nginx/下开始算起的
-	# ssl_certificate cert/cert.pem;
-    # ssl_certificate_key cert/key.pem;
-    # ssl_session_timeout 5m;
-    # ssl_protocols TLSv1 TLSv1.1 TLSv1.2;   
-    # ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
-    # ssl_prefer_server_ciphers on;
-    # client_max_body_size 1024m; 
-
-	# ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
-	# ssl_prefer_server_ciphers on;
-
-	##
 	# Logging Settings
 	##
 
@@ -92,11 +77,21 @@ http {
 	include /etc/nginx/sites-enabled/*;
 
     server {
-        listen 80;
-        server_name  $1 *.$1;
-		root /root/code/docker/dockerfile_work/xray/config;
-
-		autoindex on;
+        listen 443;
+	server_name  $1 *.$1;
+	root /root/code/docker/dockerfile_work/xray/config;
+	
+	##
+	# SSL Settings
+	##
+	ssl on;
+	# 注意文件位置，是从/etc/nginx/下开始算起的
+	#ssl证书的pem文件路径
+	ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+	#ssl证书的key文件路径
+	ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
+	
+	autoindex on;
         autoindex_exact_size off;
         autoindex_localtime on;
         auth_basic "authentication";
@@ -124,6 +119,13 @@ http {
         # access_log  /dev/stdout;
         
     }
+	
+	server {
+		listen 80;
+		server_name $1 *.$1;
+		#将请求转成https
+		rewrite ^(.*)$ https://$host$1 permanent;
+	}
 }
 EOF
 systemctl daemon-reload
