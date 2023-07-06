@@ -77,7 +77,7 @@ http {
 	include /etc/nginx/sites-enabled/*;
 
     server {
-        listen 443;
+        listen 443 ssl http2 default_server;
 	server_name  $1 *.$1;
 	root /root/code/docker/dockerfile_work/xray/config;
 	
@@ -90,6 +90,17 @@ http {
 	ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
 	#ssl证书的key文件路径
 	ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
+	
+	add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
+	ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
+	ssl_protocols TLSv1.2 TLSv1.3;
+	ssl_stapling on;
+	ssl_stapling_verify on;
+	ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+	ssl_prefer_server_ciphers on;
+	ssl_session_cache shared:SSL:1m;
+	ssl_verify_depth 10;
+	ssl_session_timeout 30m;
 	
 	autoindex on;
         autoindex_exact_size off;
