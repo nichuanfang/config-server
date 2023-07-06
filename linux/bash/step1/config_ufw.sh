@@ -16,6 +16,7 @@ sudo ufw allow 1521
 sudo ufw allow 3306
 sudo ufw allow 4000
 sudo ufw allow 8000
+sudo ufw allow 8443
 sudo ufw allow 9000
 sudo ufw allow 9999
 sudo ufw allow 6379
