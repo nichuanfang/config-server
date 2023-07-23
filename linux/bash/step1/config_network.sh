@@ -42,6 +42,24 @@ cat /etc/hosts
 
 # EOF
 
+# 优化linux内核
+cat > /etc/sysctl.conf << EOF
+net.core.somaxconn = 65535
+net.ipv4.tcp_max_syn_backlog = 65535
+net.ipv4.tcp_syncookies = 1
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_fin_timeout = 30
+net.ipv4.tcp_keepalive_time = 1200
+net.ipv4.tcp_keepalive_probes = 5
+net.ipv4.tcp_keepalive_intvl = 15
+net.ipv4.tcp_slow_start_after_idle = 0
+net.ipv4.tcp_mtu_probing = 1
+net.ipv4.tcp_max_tw_buckets = 50000
+net.core.default_qdisc = fq
+net.ipv4.tcp_congestion_control = bbr
+EOF
+
+sysctl -p
 # sudo systemctl daemon-reload
 # sudo systemctl stop systemd-resolved
 # sudo systemctl start systemd-resolved
