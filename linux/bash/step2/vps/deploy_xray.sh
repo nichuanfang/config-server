@@ -115,17 +115,23 @@ http {
         #     deny all;
         # }
 
+        # 静态站点
+	location / {
+		autoindex on;
+		autoindex_exact_size off;
+		autoindex_localtime on;
+		auth_basic "authentication";
+		auth_basic_user_file /etc/nginx/passwdfile;
+		charset utf-8;
+		root /root/code/docker/dockerfile_work/xray/config;
+        }
+
         # 静态文件的过期时间，可以不需要此配置
-        location ~ .*\.(gif|jpg|jpeg|png|bmp|swf)$
-		{
-			expires      30d;
-		}
-                
-        # 静态文件的过期时间，可以不需要此配置
-        location ~ .*\.(js|css)?$
-		{
-			expires      12h;
-		}
+        location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|js|css)$ {
+		expires      30d;
+		error_log off;
+		access_log /dev/null;
+	}
     	# 这里很重要! 将日志转发到 /dev/stdout ，可以通过 docker logs -f  来查看容器日志
         # access_log  /dev/stdout;
         
