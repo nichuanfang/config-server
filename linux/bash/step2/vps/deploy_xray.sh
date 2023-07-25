@@ -18,6 +18,10 @@ docker-compose up -d
 printf "$2:$(openssl passwd -crypt $3)\n" >>/etc/nginx/passwdfile
 chmod 777 /etc/nginx/passwdfile
 
+# 准备博客目录 启动博客项目
+mkdir -p /root/blog
+chmod 777 /root/blog
+
 # 通过nginx发布xray客户端http服务
 sudo cat <<EOF >/etc/nginx/nginx.conf
 user root;
