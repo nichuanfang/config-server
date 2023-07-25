@@ -76,85 +76,136 @@ http {
 	include /etc/nginx/conf.d/*.conf;
 	include /etc/nginx/sites-enabled/*;
 
-    server {
-        listen 443 ssl http2 default_server;
-	server_name  $1 *.$1;
-	root /root/code/docker/dockerfile_work/xray/config;
-	
-	##
-	# SSL Settings
-	##
-	ssl on;
-	# 注意文件位置，是从/etc/nginx/下开始算起的
-	#ssl证书的pem文件路径
-	ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
-	#ssl证书的key文件路径
-	ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
-	
-	add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
-	ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
-	ssl_protocols TLSv1.2 TLSv1.3;
-	ssl_stapling on;
-	ssl_stapling_verify on;
-	ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
-	ssl_prefer_server_ciphers on;
-	ssl_session_cache shared:SSL:1m;
-	ssl_verify_depth 10;
-	ssl_session_timeout 30m;
-	
-	autoindex on;
-        autoindex_exact_size off;
-        autoindex_localtime on;
-        auth_basic "authentication";
-        auth_basic_user_file /etc/nginx/passwdfile;
-        charset utf-8;
-        
-        # 这里配置拒绝访问的目录或文件
-        # location ~ (repos) 
-        # {
-        #     deny all;
-        # }
-
- 	# bark服务
-	location /bark/ {
-		proxy_connect_timeout 10;
-		proxy_read_timeout 1d;
-		proxy_send_timeout 1d;
-		proxy_set_header Connection "";
-		proxy_request_buffering off;
-		proxy_pass_request_body off;
-		proxy_redirect off;
-		proxy_buffering off;
-		proxy_http_version 1.1;
-		proxy_set_header Upgrade $http_upgrade;
-		proxy_set_header Connection "upgrade";
-		proxy_set_header Host $http_host;
-		proxy_set_header X-Real-IP $remote_addr;
-		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-		proxy_pass http://127.0.0.1:8080/;
+    	# xray配置服务器
+	server {
+		listen 443 ssl http2 default_server;
+		server_name  $1 www.$1;
+		
+		##
+		# SSL Settings
+		##
+		ssl on;
+		# 注意文件位置，是从/etc/nginx/下开始算起的
+		#ssl证书的pem文件路径
+		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+		#ssl证书的key文件路径
+		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
+		
+		add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
+		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
+		ssl_protocols TLSv1.2 TLSv1.3;
+		ssl_stapling on;
+		ssl_stapling_verify on;
+		ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+		ssl_prefer_server_ciphers on;
+		ssl_session_cache shared:SSL:1m;
+		ssl_verify_depth 10;
+		ssl_session_timeout 30m;
+			
+			
+	      # 静态站点
+	      location / {
+			autoindex on;
+			autoindex_exact_size off;
+			autoindex_localtime on;
+			auth_basic "authentication";
+			auth_basic_user_file /etc/nginx/passwdfile;
+			charset utf-8;
+			root /root/code/docker/dockerfile_work/xray/config;
+	        }
+			
+	        # 静态文件的过期时间，可以不需要此配置
+	        location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|js|css)$ {
+			expires      30d;
+			error_log off;
+			access_log /dev/null;
+		}
+			
+	    	# 这里很重要! 将日志转发到 /dev/stdout ，可以通过 docker logs -f  来查看容器日志
+	        # access_log  /dev/stdout;
+			
 	}
-
-        # 静态站点
-	location / {
-		autoindex on;
-		autoindex_exact_size off;
-		autoindex_localtime on;
-		auth_basic "authentication";
-		auth_basic_user_file /etc/nginx/passwdfile;
-		charset utf-8;
-		root /root/code/docker/dockerfile_work/xray/config;
-        }
-
-        # 静态文件的过期时间，可以不需要此配置
-        location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|js|css)$ {
-		expires      30d;
-		error_log off;
-		access_log /dev/null;
-	}
-    	# 这里很重要! 将日志转发到 /dev/stdout ，可以通过 docker logs -f  来查看容器日志
-        # access_log  /dev/stdout;
-        
-    }
+	
+	# 个人博客
+	server {
+        	listen 443 ssl http2;
+		server_name blog.$1;
+		
+		##
+		# SSL Settings
+		##
+		ssl on;
+		# 注意文件位置，是从/etc/nginx/下开始算起的
+		#ssl证书的pem文件路径
+		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+		#ssl证书的key文件路径
+		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
+		
+		add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
+		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
+		ssl_protocols TLSv1.2 TLSv1.3;
+		ssl_stapling on;
+		ssl_stapling_verify on;
+		ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+		ssl_prefer_server_ciphers on;
+		ssl_session_cache shared:SSL:1m;
+		ssl_verify_depth 10;
+		ssl_session_timeout 30m;
+		
+		# 博客站点
+		location / {
+			charset utf-8;
+			# 博客存放根目录
+			root /root/blog;
+			index  index.html index.htm; 
+		}
+    	}
+	
+	# bark server
+	server {
+        	listen 443 ssl http2;
+		server_name bark.$1;
+		
+		##
+		# SSL Settings
+		##
+		ssl on;
+		# 注意文件位置，是从/etc/nginx/下开始算起的
+		#ssl证书的pem文件路径
+		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+		#ssl证书的key文件路径
+		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
+		
+		add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
+		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
+		ssl_protocols TLSv1.2 TLSv1.3;
+		ssl_stapling on;
+		ssl_stapling_verify on;
+		ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+		ssl_prefer_server_ciphers on;
+		ssl_session_cache shared:SSL:1m;
+		ssl_verify_depth 10;
+		ssl_session_timeout 30m;
+		
+		# bark服务
+		location / {
+			proxy_connect_timeout 10;
+			proxy_read_timeout 1d;
+			proxy_send_timeout 1d;
+			proxy_set_header Connection "";
+			proxy_request_buffering off;
+			proxy_pass_request_body off;
+			proxy_redirect off;
+			proxy_buffering off;
+			proxy_http_version 1.1;
+			proxy_set_header Upgrade $http_upgrade;
+			proxy_set_header Connection "upgrade";
+			proxy_set_header Host $http_host;
+			proxy_set_header X-Real-IP $remote_addr;
+			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+			proxy_pass http://127.0.0.1:8080/;
+		}
+    	}
 	
 	server {
 		listen 80;
