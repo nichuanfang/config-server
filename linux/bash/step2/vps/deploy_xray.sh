@@ -155,14 +155,6 @@ http {
 		ssl_session_cache shared:SSL:1m;
 		ssl_verify_depth 10;
 		ssl_session_timeout 30m;
-		
-		# 博客站点
-		location / {
-			charset utf-8;
-			# 博客存放根目录
-			root /root/blog;
-			index  index.html index.htm; 
-		}
 
   		# 博客站点
 		location / {
