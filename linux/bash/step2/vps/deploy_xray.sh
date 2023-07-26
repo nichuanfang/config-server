@@ -22,6 +22,10 @@ chmod 777 /etc/nginx/passwdfile
 mkdir -p /root/blog
 chmod 777 /root/blog
 
+# 准备个人文档目录 启动个人文档项目
+mkdir -p /root/docs
+chmod 777 /root/docs
+
 # 通过nginx发布xray客户端http服务
 sudo cat <<EOF >/etc/nginx/nginx.conf
 user root;
