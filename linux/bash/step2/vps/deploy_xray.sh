@@ -185,6 +185,60 @@ http {
 		        rewrite ^/api/articles/(.*)(.html.json)$ /api/articles/$1.json break;
 		}
     	}
+
+     	# 个人文档平台
+	server {
+        	listen 443 ssl http2;
+		server_name doc.cinima.asia;
+		
+		##
+		# SSL Settings
+		##
+		ssl on;
+		# 注意文件位置，是从/etc/nginx/下开始算起的
+		#ssl证书的pem文件路径
+		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+		#ssl证书的key文件路径
+		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
+		
+		add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
+		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
+		ssl_protocols TLSv1.2 TLSv1.3;
+		ssl_stapling on;
+		ssl_stapling_verify on;
+		ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+		ssl_prefer_server_ciphers on;
+		ssl_session_cache shared:SSL:1m;
+		ssl_verify_depth 10;
+		ssl_session_timeout 30m;
+		
+        
+	        # 这里配置拒绝访问的目录或文件
+	        # location ~ (repos) 
+	        # {
+	        #     deny all;
+	        # }
+			
+		# 博客站点
+		location / {
+			charset utf-8;
+			# 博客存放根目录
+			root /root/docs;
+			index  index.html index.htm; 
+			# 将缓存策略用if语句写在location里面，生效了
+		            if ($request_filename ~* .*\.(?:htm|html)$) {
+		                add_header Cache-Control "private, no-store, no-cache, must-revalidate, proxy-revalidate";
+		            }
+		            if ($request_filename ~* .*\.(?:js|css)$) {
+		                expires      30d;
+		            }
+		    
+		            if ($request_filename ~* .*\.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|woff|woff2|webp)$) {
+		                expires      30d;
+		            }
+
+		}
+    	}
 	
 	# bark server
 	server {
