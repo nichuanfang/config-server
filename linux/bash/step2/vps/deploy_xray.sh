@@ -163,6 +163,35 @@ http {
 			root /root/blog;
 			index  index.html index.htm; 
 		}
+
+  		# 博客站点
+		location / {
+			charset utf-8;
+			# 博客存放根目录
+			root /root/blog;
+			index  index.html index.htm; 
+			# 将缓存策略用if语句写在location里面，生效了
+		        if ($request_filename ~* .*\.(?:htm|html)$) {
+		                add_header Cache-Control "private, no-store, no-cache, must-revalidate, proxy-revalidate";
+		        }
+		        if ($request_filename ~* .*\.(?:js|css)$) {
+		                expires      30d;
+		        }
+		    
+		        if ($request_filename ~* .*\.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|woff|woff2|webp)$) {
+		                expires      30d;
+		        }
+		
+		        # 修复null报错
+		        rewrite ^/about/null$ / break;
+		
+		        rewrite ^/null$ / break;
+		
+		        # 修复博客页面404 break隐藏式跳转 更推荐 
+		        rewrite ^/post/(.*)?(?<!html)$ /post/$1.html break;
+		
+		        rewrite ^/api/articles/(.*)(.html.json)$ /api/articles/$1.json break;
+		}
     	}
 	
 	# bark server
