@@ -84,7 +84,7 @@ http {
 	include /etc/nginx/conf.d/*.conf;
 	include /etc/nginx/sites-enabled/*;
 
-    	# xray配置服务器
+    # xray配置服务器
 	server {
 		listen 443 ssl http2 default_server;
 		server_name  $1 www.$1;
@@ -136,7 +136,7 @@ http {
 	
 	# 个人博客
 	server {
-        	listen 443 ssl http2;
+        listen 443 ssl http2;
 		server_name blog.$1;
 		
 		##
@@ -188,12 +188,12 @@ http {
 		
 		        rewrite ^/api/articles/(.*)(.html.json)$ /api/articles/$1.json break;
 		}
-    	}
+    }
 
-     	# 个人文档平台
+    # 个人文档平台
 	server {
         	listen 443 ssl http2;
-		server_name doc.cinima.asia;
+		server_name doc.$1;
 		
 		##
 		# SSL Settings
@@ -242,11 +242,65 @@ http {
 		            }
 
 		}
-    	}
+    }
+	
+	
+	# 自建密码平台Bitwarden
+	server {
+        listen 443 ssl http2;
+		server_name password.$1;
+		
+		##
+		# SSL Settings
+		##
+		ssl on;
+		# 注意文件位置，是从/etc/nginx/下开始算起的
+		#ssl证书的pem文件路径
+		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+		#ssl证书的key文件路径
+		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
+		
+		add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
+		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
+		ssl_protocols TLSv1.2 TLSv1.3;
+		ssl_stapling on;
+		ssl_stapling_verify on;
+		ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+		ssl_prefer_server_ciphers on;
+		ssl_session_cache shared:SSL:1m;
+		ssl_verify_depth 10;
+		ssl_session_timeout 30m;
+		
+        
+        # 这里配置拒绝访问的目录或文件
+        # location ~ (repos) 
+        # {
+        #     deny all;
+        # }
+		
+		#bitwarden
+		location / {
+			proxy_pass http://127.0.0.1:7006;
+			proxy_set_header Host $host;
+			proxy_set_header X-Real-IP $remote_addr;
+			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+			proxy_set_header X-Forwarded-Proto $scheme;
+		}
+		
+		location /notifications/hub {
+			proxy_pass http://127.0.0.1:7007;
+			proxy_set_header Upgrade $http_upgrade;
+			proxy_set_header Connection "upgrade";
+		}
+		
+		location /notifications/hub/negotiate {
+			proxy_pass http://127.0.0.1:7006;
+		}
+    }
 	
 	# bark server
 	server {
-        	listen 443 ssl http2;
+        listen 443 ssl http2;
 		server_name bark.$1;
 		
 		##
@@ -288,7 +342,7 @@ http {
 			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 			proxy_pass http://127.0.0.1:8080/;
 		}
-    	}
+    }
 	
 	server {
 		listen 80;

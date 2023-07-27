@@ -162,6 +162,18 @@ jobs:
           connect_timeout: 10s
           first_ssh: |
             /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/config_cert.sh) $EMAIL_PREFIX $VPS_HOST_NAME
+            
+      - name: 初始化服务器-重启后-部署bitwarden
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        continue-on-error: true
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          user: ${{ secrets.VPS_USER }}
+          pass: ${{ secrets.VPS_PASS }}
+          port: ${{ secrets.VPS_PORT }}
+          connect_timeout: 10s
+          first_ssh: |
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/deploy_bitwarden.sh)
 
       - name: 初始化服务器-重启后-部署xray
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
