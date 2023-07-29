@@ -35,5 +35,5 @@ git clone https://github.com/nichuanfang/nginx-config.git
 git clone https://github.com/nichuanfang/MyScripts.git
 git clone https://github.com/nichuanfang/certbot.git
 git clone https://github.com/nichuanfang/bitwarden-backup.git
-
+git clone https://github.com/nichuanfang/domestic-rules-generator.git
 echo "==========================================git配置完成!"
