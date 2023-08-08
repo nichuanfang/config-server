@@ -1,7 +1,7 @@
 # linux服务
 
 ## 服务目录
-`/usr/lib/systemd/system`
+`/lib/systemd/system`
 
 ## 服务定义格式
 
