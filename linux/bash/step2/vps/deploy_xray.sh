@@ -38,58 +38,6 @@ events {
 	# multi_accept on;
 }
 
-#监听443端口的流量里的sni域名
-stream {
-	# sni分流，如果sni匹配到以下域名则跳转对应端口
-	map $ssl_preread_server_name $backend_name {
-		www.$1 config;
-		blog.$1 blog;
-		doc.$1 doc;
-		bark.$1 bark;
-		password.$1 password;
-		xtls.$1 xtls;
-		default config;
-	}
-
-	# xray配置服务器
-	upstream config {
-		server 127.0.0.1:8000;
-	}
-
-	#博客
-	upstream blog {
-		server 127.0.0.1:8001;
-	}
-
-	# 文档平台
-	upstream doc {
-		server 127.0.0.1:8002;
-	}
-
-	# 密码平台
-	upstream password {
-		server 127.0.0.1:8003;
-	}
-
-	# bark server
-	upstream bark {
-		server 127.0.0.1:8004;
-	}
-
-	# 科学上网服务
-	upstream xtls {
-		server 127.0.0.1:8005;
-	}
-
-	# 监听 443 并开启 ssl_preread,监听对应域名并转发
-	server {
-		listen 443 reuseport;
-		# listen [::]:443 reuseport; # 监听v6
-		proxy_pass $backend_name;
-		ssl_preread on;
-	}
-}
-
 http {
 
 	##
@@ -136,47 +84,9 @@ http {
 	include /etc/nginx/conf.d/*.conf;
 	include /etc/nginx/sites-enabled/*;
 
-	#偷取自己证书，和上文的xtls对应，这里监听8012端口，对应sing-box那边监听reality2那边的8002，然后回落到nginx这边的8012端口偷取这里xtls.$1的证书
-	server {
-		listen 8015 ssl http2;
-
-		server_name xtls.$1;
-
-		#ssl证书的pem文件路径
-		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
-		#ssl证书的key文件路径
-		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
-		ssl_protocols TLSv1.2 TLSv1.3;
-		ssl_ciphers TLS13-AES-256-GCM-SHA384:TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-128-GCM-SHA256:TLS13-AES-128-CCM-8-SHA256:TLS13-AES-128-CCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-CHACHA20-POLY1305:AES256-GCM-SHA384:CHACHA20-POLY1305;
-		ssl_prefer_server_ciphers on;
-
-		location / {
-			#或者反代到你自己的网站，这里演示一个alist的端口
-			proxy_pass http://127.0.0.1:8001;
-			proxy_set_header Host $host;
-			proxy_set_header X-Real-IP $remote_addr;
-			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-
-
-			# proxy_pass https://blog.$1;
-			# proxy_ssl_server_name on;
-			# proxy_redirect off;
-			# sub_filter_once off;
-			# sub_filter "blog.$1" $server_name;
-			# proxy_set_header Host "blog.$1";
-			# proxy_set_header Referer $http_referer;
-			# proxy_set_header X-Real-IP $remote_addr;
-			# proxy_set_header User-Agent $http_user_agent;
-			# proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-			# proxy_set_header X-Forwarded-Proto https;
-			# proxy_set_header Accept-Encoding "";
-			# proxy_set_header Accept-Language "zh-CN";
-		}
-	}
-
 	# xray配置服务器
 	server {
-		listen 8000 ssl http2 default_server;
+		listen 443 ssl http2 default_server;
 		server_name $1 www.$1;
 
 		##
@@ -240,7 +150,7 @@ http {
 
 	# 个人博客
 	server {
-		listen 8001 ssl http2;
+		listen 443 ssl http2;
 		server_name blog.$1;
 
 		##
@@ -305,7 +215,7 @@ http {
 
 	# 个人文档平台
 	server {
-		listen 8002 ssl http2;
+		listen 443 ssl http2;
 		server_name doc.$1;
 
 		##
@@ -361,7 +271,7 @@ http {
 
 	# 自建密码平台Bitwarden
 	server {
-		listen 8003 ssl http2;
+		listen 443 ssl http2;
 		server_name password.$1;
 
 		##
@@ -415,7 +325,7 @@ http {
 
 	# bark server
 	server {
-		listen 8004 ssl http2;
+		listen 443 ssl http2;
 		server_name bark.$1;
 
 		##
