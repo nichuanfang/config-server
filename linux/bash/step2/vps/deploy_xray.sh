@@ -38,6 +38,58 @@ events {
 	# multi_accept on;
 }
 
+#监听443端口的流量里的sni域名
+stream {
+	# sni分流，如果sni匹配到以下域名则跳转对应端口
+	map $ssl_preread_server_name $backend_name {
+		www.$1 config;
+		blog.$1 blog;
+		doc.$1 doc;
+		bark.$1 bark;
+		password.$1 password;
+		xtls.$1 xtls;
+		default config;
+	}
+
+	# xray配置服务器
+	upstream config {
+		server 127.0.0.1:8000;
+	}
+
+	#博客
+	upstream blog {
+		server 127.0.0.1:8001;
+	}
+
+	# 文档平台
+	upstream doc {
+		server 127.0.0.1:8002;
+	}
+
+	# 密码平台
+	upstream password {
+		server 127.0.0.1:8003;
+	}
+
+	# bark server
+	upstream bark {
+		server 127.0.0.1:8004;
+	}
+
+	# 科学上网服务
+	upstream xtls {
+		server 127.0.0.1:8005;
+	}
+
+	# 监听 443 并开启 ssl_preread,监听对应域名并转发
+	server {
+		listen 443 reuseport;
+		# listen [::]:443 reuseport; # 监听v6
+		proxy_pass $backend_name;
+		ssl_preread on;
+	}
+}
+
 http {
 
 	##
@@ -84,11 +136,49 @@ http {
 	include /etc/nginx/conf.d/*.conf;
 	include /etc/nginx/sites-enabled/*;
 
-    # xray配置服务器
+	#偷取自己证书，和上文的xtls对应，这里监听8012端口，对应sing-box那边监听reality2那边的8002，然后回落到nginx这边的8012端口偷取这里xtls.$1的证书
 	server {
-		listen 443 ssl http2 default_server;
-		server_name  $1 www.$1;
-		
+		listen 8015 ssl http2;
+
+		server_name xtls.$1;
+
+		#ssl证书的pem文件路径
+		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+		#ssl证书的key文件路径
+		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
+		ssl_protocols TLSv1.2 TLSv1.3;
+		ssl_ciphers TLS13-AES-256-GCM-SHA384:TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-128-GCM-SHA256:TLS13-AES-128-CCM-8-SHA256:TLS13-AES-128-CCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-CHACHA20-POLY1305:AES256-GCM-SHA384:CHACHA20-POLY1305;
+		ssl_prefer_server_ciphers on;
+
+		location / {
+			#或者反代到你自己的网站，这里演示一个alist的端口
+			proxy_pass http://127.0.0.1:8001;
+			proxy_set_header Host $host;
+			proxy_set_header X-Real-IP $remote_addr;
+			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+
+			# proxy_pass https://blog.$1;
+			# proxy_ssl_server_name on;
+			# proxy_redirect off;
+			# sub_filter_once off;
+			# sub_filter "blog.$1" $server_name;
+			# proxy_set_header Host "blog.$1";
+			# proxy_set_header Referer $http_referer;
+			# proxy_set_header X-Real-IP $remote_addr;
+			# proxy_set_header User-Agent $http_user_agent;
+			# proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+			# proxy_set_header X-Forwarded-Proto https;
+			# proxy_set_header Accept-Encoding "";
+			# proxy_set_header Accept-Language "zh-CN";
+		}
+	}
+
+	# xray配置服务器
+	server {
+		listen 8000 ssl http2 default_server;
+		server_name $1 www.$1;
+
 		##
 		# SSL Settings
 		##
@@ -98,8 +188,9 @@ http {
 		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
 		#ssl证书的key文件路径
 		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
-		
-		add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
+
+		add_header Strict-Transport-Security
+			"max-age=63072000; includeSubDomains; preload";
 		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
 		ssl_protocols TLSv1.2 TLSv1.3;
 		ssl_stapling on;
@@ -109,10 +200,17 @@ http {
 		ssl_session_cache shared:SSL:1m;
 		ssl_verify_depth 10;
 		ssl_session_timeout 30m;
-			
-			
-	      # 静态站点
-	      location / {
+
+
+		# 这里配置拒绝访问的目录或文件
+		# location ~ (repos) 
+		# {
+		#     deny all;
+		# }
+
+
+		# 静态站点
+		location / {
 			autoindex on;
 			autoindex_exact_size off;
 			autoindex_localtime on;
@@ -120,25 +218,31 @@ http {
 			auth_basic_user_file /etc/nginx/passwdfile;
 			charset utf-8;
 			root /root/code/docker/dockerfile_work/xray/config;
-	        }
-			
-	        # 静态文件的过期时间，可以不需要此配置
-	        location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|js|css)$ {
-			expires      30d;
+		}
+
+		# 静态文件的过期时间，可以不需要此配置
+		location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|js|css)$
+ {
+			expires 30d;
 			error_log off;
 			access_log /dev/null;
 		}
-			
-	    	# 这里很重要! 将日志转发到 /dev/stdout ，可以通过 docker logs -f  来查看容器日志
-	        # access_log  /dev/stdout;
-			
+
+
+
+
+
+
+		# 这里很重要! 将日志转发到 /dev/stdout ，可以通过 docker logs -f  来查看容器日志
+		# access_log  /dev/stdout;
+
 	}
-	
+
 	# 个人博客
 	server {
-        listen 443 ssl http2;
+		listen 8001 ssl http2;
 		server_name blog.$1;
-		
+
 		##
 		# SSL Settings
 		##
@@ -148,8 +252,9 @@ http {
 		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
 		#ssl证书的key文件路径
 		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
-		
-		add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
+
+		add_header Strict-Transport-Security
+			"max-age=63072000; includeSubDomains; preload";
 		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
 		ssl_protocols TLSv1.2 TLSv1.3;
 		ssl_stapling on;
@@ -160,41 +265,49 @@ http {
 		ssl_verify_depth 10;
 		ssl_session_timeout 30m;
 
-  		# 博客站点
+
+		# 这里配置拒绝访问的目录或文件
+		# location ~ (repos) 
+		# {
+		#     deny all;
+		# }
+
+		# 博客站点
 		location / {
 			charset utf-8;
 			# 博客存放根目录
 			root /root/blog;
-			index  index.html index.htm; 
+			index index.html index.htm;
 			# 将缓存策略用if语句写在location里面，生效了
-		        if ($request_filename ~* .*\.(?:htm|html)$) {
-		                add_header Cache-Control "private, no-store, no-cache, must-revalidate, proxy-revalidate";
-		        }
-		        if ($request_filename ~* .*\.(?:js|css)$) {
-		                expires      30d;
-		        }
-		    
-		        if ($request_filename ~* .*\.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|woff|woff2|webp)$) {
-		                expires      30d;
-		        }
-		
-		        # 修复null报错
-		        rewrite ^/about/null$ / break;
-		
-		        rewrite ^/null$ / break;
-		
-		        # 修复博客页面404 break隐藏式跳转 更推荐 
-		        rewrite ^/post/(.*)?(?<!html)$ /post/$1.html break;
-		
-		        rewrite ^/api/articles/(.*)(.html.json)$ /api/articles/$1.json break;
-		}
-    }
+			if ($request_filename ~* .*\.(?:htm|html)$) {
+				add_header Cache-Control
+					"private, no-store, no-cache, must-revalidate, proxy-revalidate";
+			}
+			if ($request_filename ~* .*\.(?:js|css)$) {
+				expires 30d;
+			}
 
-    # 个人文档平台
+			if ($request_filename ~* .*\.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|woff|woff2|webp)$) {
+				expires 30d;
+			}
+
+			# 修复null报错
+			rewrite ^/about/null$ / break;
+
+			rewrite ^/null$ / break;
+
+			# 修复博客页面404 break隐藏式跳转 更推荐 
+			rewrite ^/post/(.*)?(?<!html)$ /post/$1.html break;
+
+			rewrite ^/api/articles/(.*)(.html.json)$ /api/articles/$1.json break;
+		}
+	}
+
+	# 个人文档平台
 	server {
-        	listen 443 ssl http2;
+		listen 8002 ssl http2;
 		server_name doc.$1;
-		
+
 		##
 		# SSL Settings
 		##
@@ -204,8 +317,9 @@ http {
 		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
 		#ssl证书的key文件路径
 		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
-		
-		add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
+
+		add_header Strict-Transport-Security
+			"max-age=63072000; includeSubDomains; preload";
 		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
 		ssl_protocols TLSv1.2 TLSv1.3;
 		ssl_stapling on;
@@ -215,41 +329,41 @@ http {
 		ssl_session_cache shared:SSL:1m;
 		ssl_verify_depth 10;
 		ssl_session_timeout 30m;
-		
-        
-	        # 这里配置拒绝访问的目录或文件
-	        # location ~ (repos) 
-	        # {
-	        #     deny all;
-	        # }
-			
+
+
+		# 这里配置拒绝访问的目录或文件
+		# location ~ (repos) 
+		# {
+		#     deny all;
+		# }
+
 		# 博客站点
 		location / {
 			charset utf-8;
 			# 博客存放根目录
 			root /root/docs;
-			index  index.html index.htm; 
+			index index.html index.htm;
 			# 将缓存策略用if语句写在location里面，生效了
-		            if ($request_filename ~* .*\.(?:htm|html)$) {
-		                add_header Cache-Control "private, no-store, no-cache, must-revalidate, proxy-revalidate";
-		            }
-		            if ($request_filename ~* .*\.(?:js|css)$) {
-		                expires      30d;
-		            }
-		    
-		            if ($request_filename ~* .*\.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|woff|woff2|webp)$) {
-		                expires      30d;
-		            }
+			if ($request_filename ~* .*\.(?:htm|html)$) {
+				add_header Cache-Control
+					"private, no-store, no-cache, must-revalidate, proxy-revalidate";
+			}
+			if ($request_filename ~* .*\.(?:js|css)$) {
+				expires 30d;
+			}
+
+			if ($request_filename ~* .*\.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|woff|woff2|webp)$) {
+				expires 30d;
+			}
 
 		}
-    }
-	
-	
+	}
+
 	# 自建密码平台Bitwarden
 	server {
-        listen 443 ssl http2;
+		listen 8003 ssl http2;
 		server_name password.$1;
-		
+
 		##
 		# SSL Settings
 		##
@@ -259,8 +373,9 @@ http {
 		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
 		#ssl证书的key文件路径
 		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
-		
-		add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
+
+		add_header Strict-Transport-Security
+			"max-age=63072000; includeSubDomains; preload";
 		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
 		ssl_protocols TLSv1.2 TLSv1.3;
 		ssl_stapling on;
@@ -270,14 +385,14 @@ http {
 		ssl_session_cache shared:SSL:1m;
 		ssl_verify_depth 10;
 		ssl_session_timeout 30m;
-		
-        
-        # 这里配置拒绝访问的目录或文件
-        # location ~ (repos) 
-        # {
-        #     deny all;
-        # }
-		
+
+
+		# 这里配置拒绝访问的目录或文件
+		# location ~ (repos) 
+		# {
+		#     deny all;
+		# }
+
 		#bitwarden
 		location / {
 			proxy_pass http://127.0.0.1:7006;
@@ -286,23 +401,23 @@ http {
 			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 			proxy_set_header X-Forwarded-Proto $scheme;
 		}
-		
+
 		location /notifications/hub {
 			proxy_pass http://127.0.0.1:7007;
 			proxy_set_header Upgrade $http_upgrade;
 			proxy_set_header Connection "upgrade";
 		}
-		
+
 		location /notifications/hub/negotiate {
 			proxy_pass http://127.0.0.1:7006;
 		}
-    }
-	
+	}
+
 	# bark server
 	server {
-        listen 443 ssl http2;
+		listen 8004 ssl http2;
 		server_name bark.$1;
-		
+
 		##
 		# SSL Settings
 		##
@@ -312,8 +427,9 @@ http {
 		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
 		#ssl证书的key文件路径
 		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
-		
-		add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
+
+		add_header Strict-Transport-Security
+			"max-age=63072000; includeSubDomains; preload";
 		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
 		ssl_protocols TLSv1.2 TLSv1.3;
 		ssl_stapling on;
@@ -323,7 +439,14 @@ http {
 		ssl_session_cache shared:SSL:1m;
 		ssl_verify_depth 10;
 		ssl_session_timeout 30m;
-		
+
+
+		# 这里配置拒绝访问的目录或文件
+		# location ~ (repos) 
+		# {
+		#     deny all;
+		# }
+
 		# bark服务
 		location / {
 			proxy_connect_timeout 10;
@@ -342,14 +465,15 @@ http {
 			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 			proxy_pass http://127.0.0.1:8080/;
 		}
-    }
-	
+	}
+
 	server {
 		listen 80;
 		server_name $1 *.$1;
 		#将请求转成https
 		rewrite ^(.*)$ https://$host$1 permanent;
 	}
+
 }
 EOF
 systemctl daemon-reload
