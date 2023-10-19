@@ -69,6 +69,8 @@ cat <<EOF >/root/cron
 30 13 1 * * sync && echo 3 >/proc/sys/vm/drop_caches
 # 定期删除cron日志
 30 13 1 * * cat /dev/null > /var/log/cron.log
+# 定期删除journalctl日志
+30 13 1 * * sudo journalctl --vacuum-time=30d
 # 每月1号数据库备份
 # 0 4 1 * * /bin/bash /root/mysql_backup/backup.sh 0820nCf9270
 # 每月1号clouddrive2更新
