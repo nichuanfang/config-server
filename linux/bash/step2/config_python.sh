@@ -28,7 +28,7 @@ source ~/.bashrc
 source /etc/profile
 
 # 安装3.8.0版本的python
-pyenv install 3.8.0 -v
+# pyenv install 3.8.0 -v
 
 # 安装3.11.0版本的python
 pyenv install 3.11.0 -v
@@ -36,10 +36,10 @@ pyenv install 3.11.0 -v
 # 设置python和pip的软链接
 
 # 3.8.0
-ln -fs /root/.pyenv/versions/3.8.0/bin/python3.8 /usr/bin/python3.8
-ln -fs /root/.pyenv/versions/3.8.0/bin/python3.8 /usr/local/bin/python3.8
-ln -fs /root/.pyenv/versions/3.8.0/bin/pip3.8 /usr/bin/pip3.8
-ln -fs /root/.pyenv/versions/3.8.0/bin/pip3.8 /usr/local/bin/pip3.8
+# ln -fs /root/.pyenv/versions/3.8.0/bin/python3.8 /usr/bin/python3.8
+# ln -fs /root/.pyenv/versions/3.8.0/bin/python3.8 /usr/local/bin/python3.8
+# ln -fs /root/.pyenv/versions/3.8.0/bin/pip3.8 /usr/bin/pip3.8
+# ln -fs /root/.pyenv/versions/3.8.0/bin/pip3.8 /usr/local/bin/pip3.8
 
 # 3.11.0
 ln -fs /root/.pyenv/versions/3.11.0/bin/python3.11 /usr/bin/python3.11
@@ -68,7 +68,7 @@ ln -fs /root/.pyenv/versions/3.11.0/bin/pip3.11 /usr/local/bin/pip3.11
 # 2. 创建python3.11.0
 # 3. python3 pip3使用系统自带版本(3.6.9)   python: /usr/bin/python3  pip3: /usr/bin/pip3
 #    python pip版本为虚拟环境设置的版本(3.11.0)  python: /root/.pyenv/shims/python   pip: /root/.pyenv/shims/pip
-pyenv virtualenv 3.8.0 ve-3.8.0 && pyenv virtualenv 3.11.0 ve-3.11.0
+# pyenv virtualenv 3.8.0 ve-3.8.0 && pyenv virtualenv 3.11.0 ve-3.11.0
 
 # 设置默认的python和pip版本为3.11.0
 pyenv global 3.11.0
