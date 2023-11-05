@@ -17,112 +17,126 @@ jobs:
     runs-on: ubuntu-20.04
     environment: new_vps
     steps:
-      # - name: 初始化服务器-安装curl工具
-      #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-      #   continue-on-error: true
-      #   with:
-      #     host: ${{ secrets.VPS_HOST }}
-      #     user: ${{ secrets.VPS_USER }}
-      #     pass: ${{ secrets.VPS_PASS }}
-      #     port: 22
-      #     connect_timeout: 10s
-      #     first_ssh: |
-      #       sudo rm -f /var/lib/dpkg/lock-frontend
-      #       sudo rm -f /var/lib/dpkg/lock
-      #       sudo rm -f /var/cache/apt/archives/lock
-      #       sudo rm -f /var/lib/dpkg/lock-frontend
-      #       sudo apt-get install curl -y
+      - name: 初始化服务器-安装curl工具
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        continue-on-error: true
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          user: ${{ secrets.VPS_USER }}
+          pass: ${{ secrets.VPS_PASS }}
+          port: 22
+          connect_timeout: 10s
+          first_ssh: |
+            sudo rm -f /var/lib/dpkg/lock-frontend
+            sudo rm -f /var/lib/dpkg/lock
+            sudo rm -f /var/cache/apt/archives/lock
+            sudo rm -f /var/lib/dpkg/lock-frontend
+            sudo apt-get install curl -y
 
-      # - name: 初始化服务器-重启前-更新时区
-      #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-      #   with:
-      #     host: ${{ secrets.VPS_HOST }}
-      #     user: ${{ secrets.VPS_USER }}
-      #     pass: ${{ secrets.VPS_PASS }}
-      #     port: 22
-      #     connect_timeout: 10s
-      #     first_ssh: |
-      #       /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/sync_time_zone.sh)
+      - name: 初始化服务器-重启前-更新时区
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          user: ${{ secrets.VPS_USER }}
+          pass: ${{ secrets.VPS_PASS }}
+          port: 22
+          connect_timeout: 10s
+          first_ssh: |
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/sync_time_zone.sh)
 
-      # - name: 初始化服务器-重启前-安全防护
-      #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-      #   env:
-      #     PORT: ${{ secrets.VPS_PORT }}
-      #   with:
-      #     host: ${{ secrets.VPS_HOST }}
-      #     user: ${{ secrets.VPS_USER }}
-      #     pass: ${{ secrets.VPS_PASS }}
-      #     port: 22
-      #     connect_timeout: 10s
-      #     first_ssh: |
-      #       /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/secure.sh) $PORT
+      - name: 初始化服务器-重启前-安全防护
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        env:
+          PORT: ${{ secrets.VPS_PORT }}
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          user: ${{ secrets.VPS_USER }}
+          pass: ${{ secrets.VPS_PASS }}
+          port: 22
+          connect_timeout: 10s
+          first_ssh: |
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/secure.sh) $PORT
 
-      # - name: 初始化服务器-重启前-网络配置
-      #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-      #   env:
-      #     VPS_HOST: ${{ secrets.VPS_HOST }}
-      #     VPS_DOMAIN: ${{ secrets.VPS_DOMAIN }}
-      #   with:
-      #     host: ${{ secrets.VPS_HOST }}
-      #     user: ${{ secrets.VPS_USER }}
-      #     pass: ${{ secrets.VPS_PASS }}
-      #     port: 22
-      #     connect_timeout: 10s
-      #     first_ssh: |
-      #       /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_network.sh) $VPS_DOMAIN $VPS_HOST
+      - name: 初始化服务器-重启前-网络配置
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_DOMAIN: ${{ secrets.VPS_DOMAIN }}
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          user: ${{ secrets.VPS_USER }}
+          pass: ${{ secrets.VPS_PASS }}
+          port: 22
+          connect_timeout: 10s
+          first_ssh: |
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_network.sh) $VPS_DOMAIN $VPS_HOST
 
-      # - name: 初始化服务器-重启前-环境变量配置
-      #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-      #   env:
-      #     GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      #   with:
-      #     host: ${{ secrets.VPS_HOST }}
-      #     user: ${{ secrets.VPS_USER }}
-      #     pass: ${{ secrets.VPS_PASS }}
-      #     port: 22
-      #     connect_timeout: 10s
-      #     first_ssh: |
-      #       /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_env.sh) $GH_TOKEN
+      - name: 初始化服务器-重启前-环境变量配置
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          user: ${{ secrets.VPS_USER }}
+          pass: ${{ secrets.VPS_PASS }}
+          port: 22
+          connect_timeout: 10s
+          first_ssh: |
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_env.sh) $GH_TOKEN
 
-      # - name: 初始化服务器-重启前-防火墙配置
-      #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-      #   env:
-      #     PORT: ${{ secrets.VPS_PORT }}
-      #   with:
-      #     host: ${{ secrets.VPS_HOST }}
-      #     user: ${{ secrets.VPS_USER }}
-      #     pass: ${{ secrets.VPS_PASS }}
-      #     port: 22
-      #     connect_timeout: 10s
-      #     first_ssh: |
-      #       /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_ufw.sh) $PORT
+      - name: 初始化服务器-重启前-防火墙配置
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        env:
+          PORT: ${{ secrets.VPS_PORT }}
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          user: ${{ secrets.VPS_USER }}
+          pass: ${{ secrets.VPS_PASS }}
+          port: 22
+          connect_timeout: 10s
+          first_ssh: |
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step1/config_ufw.sh) $PORT
 
-      # - name: 重启服务器
-      #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-      #   continue-on-error: true
-      #   with:
-      #     host: ${{ secrets.VPS_HOST }}
-      #     user: ${{ secrets.VPS_USER }}
-      #     pass: ${{ secrets.VPS_PASS }}
-      #     port: 22
-      #     connect_timeout: 10s
-      #     first_ssh: |
-      #       reboot
+      - name: 重启服务器
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        continue-on-error: true
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          user: ${{ secrets.VPS_USER }}
+          pass: ${{ secrets.VPS_PASS }}
+          port: 22
+          connect_timeout: 10s
+          first_ssh: |
+            reboot
 
-      # - name: 等待服务器重启完成...
-      #   run: |
-      #     sleep 15s
+      - name: 等待服务器重启完成...
+        run: |
+          sleep 15s
 
-      # - name: 初始化服务器-重启后-配置docker
-      #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-      #   with:
-      #     host: ${{ secrets.VPS_HOST }}
-      #     user: ${{ secrets.VPS_USER }}
-      #     pass: ${{ secrets.VPS_PASS }}
-      #     port: ${{ secrets.VPS_PORT }}
-      #     connect_timeout: 10s
-      #     first_ssh: |
-      #       /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_docker.sh)
+      - name: 初始化服务器-重启后-配置docker
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          user: ${{ secrets.VPS_USER }}
+          pass: ${{ secrets.VPS_PASS }}
+          port: ${{ secrets.VPS_PORT }}
+          connect_timeout: 10s
+          first_ssh: |
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_docker.sh)
+
+      - name: 初始化服务器-重启后-配置git
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        env:
+          EMAIL_PREFIX: ${{ secrets.EMAIL_PREFIX }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          user: ${{ secrets.VPS_USER }}
+          pass: ${{ secrets.VPS_PASS }}
+          port: ${{ secrets.VPS_PORT }}
+          connect_timeout: 10s
+          first_ssh: |
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_git.sh) $EMAIL_PREFIX $GH_TOKEN
 
       # - name: 初始化服务器-重启后-配置python
       #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
@@ -135,11 +149,12 @@ jobs:
       #     first_ssh: |
       #       /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/config_python.sh)
 
-      # - name: 初始化服务器-重启后-配置git
+      # - name: 初始化服务器-重启后-配置https证书
       #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
       #   env:
       #     EMAIL_PREFIX: ${{ secrets.EMAIL_PREFIX }}
-      #     GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      #     VPS_DOMAIN: ${{ secrets.VPS_DOMAIN }}
+      #   continue-on-error: true
       #   with:
       #     host: ${{ secrets.VPS_HOST }}
       #     user: ${{ secrets.VPS_USER }}
@@ -147,22 +162,7 @@ jobs:
       #     port: ${{ secrets.VPS_PORT }}
       #     connect_timeout: 10s
       #     first_ssh: |
-      #       /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/config_git.sh) $EMAIL_PREFIX $GH_TOKEN
-
-      - name: 初始化服务器-重启后-配置https证书
-        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-        env:
-          EMAIL_PREFIX: ${{ secrets.EMAIL_PREFIX }}
-          VPS_DOMAIN: ${{ secrets.VPS_DOMAIN }}
-        continue-on-error: true
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          user: ${{ secrets.VPS_USER }}
-          pass: ${{ secrets.VPS_PASS }}
-          port: ${{ secrets.VPS_PORT }}
-          connect_timeout: 10s
-          first_ssh: |
-            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/config_cert.sh) $EMAIL_PREFIX $VPS_DOMAIN
+      #       /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/config_cert.sh) $EMAIL_PREFIX $VPS_DOMAIN
 
       # - name: 初始化服务器-重启后-部署bitwarden
       #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
