@@ -7,39 +7,43 @@ sudo rm -f /var/lib/dpkg/lock-frontend
 sudo rm -f /var/lib/dpkg/lock
 sudo rm -f /var/cache/apt/archives/lock
 sudo rm -f /var/lib/dpkg/lock-frontend
-# gcc编译器
-sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev
-
+sudo apt-get upgrade -y
+sudo apt-get install git make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev -y
+sudo apt-get install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gcc make gdbm-devel db4-devel libpcap-devel xz-devel libffi-devel liblzma-dev -y
 # 安装pyenv
-curl https://pyenv.run | bash
+curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 
 # 添加到环境变量
 
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >>~/.bashrc
-echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >>~/.bashrc
+echo 'export PATH="~/.pyenv/bin:$PATH"' >>~/.bashrc
 echo 'eval "$(pyenv init -)"' >>~/.bashrc
-
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >>/etc/profile
-echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >>/etc/profile
-echo 'eval "$(pyenv init -)"' >>/etc/profile
+echo 'eval "$(pyenv virtualenv-init -)"' >>~/.bashrc
 
 # 刷新配置
 source ~/.bashrc
-source /etc/profile
+
+# 安装3.7.0版本的python
+pyenv install 3.7.0 -v
 
 # 安装3.8.0版本的python
-# pyenv install 3.8.0 -v
+pyenv install 3.8.0 -v
 
 # 安装3.11.0版本的python
 pyenv install 3.11.0 -v
 
 # 设置python和pip的软链接
 
+# 3.7.0
+ln -fs /root/.pyenv/versions/3.7.0/bin/python3.7 /usr/bin/python3.7
+ln -fs /root/.pyenv/versions/3.7.0/bin/python3.7 /usr/local/bin/python3.7
+ln -fs /root/.pyenv/versions/3.7.0/bin/pip3.7 /usr/bin/pip3.7
+ln -fs /root/.pyenv/versions/3.7.0/bin/pip3.7 /usr/local/bin/pip3.7
+
 # 3.8.0
-# ln -fs /root/.pyenv/versions/3.8.0/bin/python3.8 /usr/bin/python3.8
-# ln -fs /root/.pyenv/versions/3.8.0/bin/python3.8 /usr/local/bin/python3.8
-# ln -fs /root/.pyenv/versions/3.8.0/bin/pip3.8 /usr/bin/pip3.8
-# ln -fs /root/.pyenv/versions/3.8.0/bin/pip3.8 /usr/local/bin/pip3.8
+ln -fs /root/.pyenv/versions/3.8.0/bin/python3.8 /usr/bin/python3.8
+ln -fs /root/.pyenv/versions/3.8.0/bin/python3.8 /usr/local/bin/python3.8
+ln -fs /root/.pyenv/versions/3.8.0/bin/pip3.8 /usr/bin/pip3.8
+ln -fs /root/.pyenv/versions/3.8.0/bin/pip3.8 /usr/local/bin/pip3.8
 
 # 3.11.0
 ln -fs /root/.pyenv/versions/3.11.0/bin/python3.11 /usr/bin/python3.11
@@ -71,7 +75,7 @@ ln -fs /root/.pyenv/versions/3.11.0/bin/pip3.11 /usr/local/bin/pip3.11
 # pyenv virtualenv 3.8.0 ve-3.8.0 && pyenv virtualenv 3.11.0 ve-3.11.0
 
 # 设置默认的python和pip版本为3.11.0
-pyenv global 3.11.0
+# pyenv global 3.11.0
 # ----------------------------caution--------------------------------------------------
 # 推荐用法:   服务器运行python脚本/项目时 需要主动激活虚拟环境 脚本/项目运行完成后关闭虚拟环境
 # ----------------------------caution--------------------------------------------------
