@@ -26,14 +26,15 @@ https://$1%40gmail.com:$2@github.com
 EOF
 
 # 拉取项目
-git clone https://github.com/nichuanfang/config-server.git
-git clone https://github.com/nichuanfang/xray-parser.git
-git clone https://github.com/nichuanfang/hexo-blog.git
-git clone https://github.com/nichuanfang/docker.git
-git clone https://github.com/nichuanfang/crawler.git
-git clone https://github.com/nichuanfang/nginx-config.git
-git clone https://github.com/nichuanfang/MyScripts.git
-git clone https://github.com/nichuanfang/certbot.git
 git clone https://github.com/nichuanfang/bitwarden-backup.git
-git clone https://github.com/nichuanfang/domestic-rules-generator.git
+git clone https://github.com/nichuanfang/blog-docs-next.git
+git clone https://github.com/nichuanfang/certbot.git
+git clone https://github.com/nichuanfang/config-server.git
+git clone https://github.com/nichuanfang/docker.git
+git clone https://github.com/nichuanfang/hexo-blog.git
+git clone https://github.com/nichuanfang/MyScripts.git
+git clone https://github.com/nichuanfang/nginx-config.git
+git clone https://github.com/nichuanfang/nogfw.git
+git clone https://github.com/nichuanfang/xray-parser.git
+git clone https://github.com/nichuanfang/tgbot.git
 echo "==========================================git配置完成!"

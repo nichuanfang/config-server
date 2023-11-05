@@ -71,8 +71,7 @@ ln -fs /root/.pyenv/versions/3.11.0/bin/pip3.11 /usr/local/bin/pip3.11
 pyenv virtualenv 3.8.0 ve-3.8.0 && pyenv virtualenv 3.11.0 ve-3.11.0
 
 # 设置默认的python和pip版本为3.11.0
-# echo 'pyenv activate ve-3.11.0' >>/etc/profile
-# source /etc/profile
+pyenv global 3.11.0
 # ----------------------------caution--------------------------------------------------
 # 推荐用法:   服务器运行python脚本/项目时 需要主动激活虚拟环境 脚本/项目运行完成后关闭虚拟环境
 # ----------------------------caution--------------------------------------------------
