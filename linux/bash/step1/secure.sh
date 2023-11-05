@@ -23,12 +23,12 @@ sudo egrep -q "^\s*StrictModes\s+.+$" /etc/ssh/sshd_config && sed -ri "s/^(#)?\s
 if [ -e $1 ]; then export SSHPORT=$1; fi
 sudo egrep -q "^\s*Port\s+.+$" /etc/ssh/sshd_config && sed -ri "s/^(#)?\s*Port\s+.+$/Port $1/" /etc/ssh/sshd_config || echo "Port "$1 >>/etc/ssh/sshd_config
 # 禁用X11转发以及端口转发
-sudo egrep -q "^\s*X11Forwarding\s+.+$" /etc/ssh/sshd_config && sed -ri "s/^(#)?\s*X11Forwarding\s+.+$/X11Forwarding no/" /etc/ssh/sshd_config || echo "X11Forwarding no" >>/etc/ssh/sshd_config
-sudo egrep -q "^\s*X11UseLocalhost\s+.+$" /etc/ssh/sshd_config && sed -ri "s/^(#)?\s*X11UseLocalhost\s+.+$/X11UseLocalhost yes/" /etc/ssh/sshd_config || echo "X11UseLocalhost yes" >>/etc/ssh/sshd_config
-sudo egrep -q "^\s*AllowTcpForwarding\s+.+$" /etc/ssh/sshd_config && sed -ri "s/^(#)?\s*AllowTcpForwarding\s+.+$/AllowTcpForwarding no/" /etc/ssh/sshd_config || echo "AllowTcpForwarding no" >>/etc/ssh/sshd_config
-sudo egrep -q "^\s*AllowAgentForwarding\s+.+$" /etc/ssh/sshd_config && sed -ri "s/^(#)?\s*AllowAgentForwarding\s+.+$/AllowAgentForwarding no/" /etc/ssh/sshd_config || echo "AllowAgentForwarding no" >>/etc/ssh/sshd_config
+# sudo egrep -q "^\s*X11Forwarding\s+.+$" /etc/ssh/sshd_config && sed -ri "s/^(#)?\s*X11Forwarding\s+.+$/X11Forwarding no/" /etc/ssh/sshd_config || echo "X11Forwarding no" >>/etc/ssh/sshd_config
+# sudo egrep -q "^\s*X11UseLocalhost\s+.+$" /etc/ssh/sshd_config && sed -ri "s/^(#)?\s*X11UseLocalhost\s+.+$/X11UseLocalhost yes/" /etc/ssh/sshd_config || echo "X11UseLocalhost yes" >>/etc/ssh/sshd_config
+# sudo egrep -q "^\s*AllowTcpForwarding\s+.+$" /etc/ssh/sshd_config && sed -ri "s/^(#)?\s*AllowTcpForwarding\s+.+$/AllowTcpForwarding no/" /etc/ssh/sshd_config || echo "AllowTcpForwarding no" >>/etc/ssh/sshd_config
+# sudo egrep -q "^\s*AllowAgentForwarding\s+.+$" /etc/ssh/sshd_config && sed -ri "s/^(#)?\s*AllowAgentForwarding\s+.+$/AllowAgentForwarding no/" /etc/ssh/sshd_config || echo "AllowAgentForwarding no" >>/etc/ssh/sshd_config
 # 关闭禁用用户的 .rhosts 文件  ~/.ssh/.rhosts 来做为认证: 缺省IgnoreRhosts yes
-egrep -q "^(#)?\s*IgnoreRhosts\s+.+$" /etc/ssh/sshd_config && sed -ri "s/^(#)?\s*IgnoreRhosts\s+.+$/IgnoreRhosts yes/" /etc/ssh/sshd_config || echo "IgnoreRhosts yes" >>/etc/ssh/sshd_config
+# egrep -q "^(#)?\s*IgnoreRhosts\s+.+$" /etc/ssh/sshd_config && sed -ri "s/^(#)?\s*IgnoreRhosts\s+.+$/IgnoreRhosts yes/" /etc/ssh/sshd_config || echo "IgnoreRhosts yes" >>/etc/ssh/sshd_config
 # 禁止root远程登录（推荐配置-根据需求配置）
 # egrep -q "^\s*PermitRootLogin\s+.+$" /etc/ssh/sshd_config && sed -ri "s/^\s*PermitRootLogin\s+.+$/PermitRootLogin no/" /etc/ssh/sshd_config || echo "PermitRootLogin no" >>/etc/ssh/sshd_config
 
@@ -37,11 +37,10 @@ egrep -q "^\s*(banner|Banner)\s+\W+.*$" /etc/ssh/sshd_config && sed -ri "s/^\s*(
     echo "Banner /etc/issue" >>/etc/ssh/sshd_config
 echo "[-] 远程SSH登录前后提示警告Banner设置"
 # SSH登录前警告Banner
-sudo tee /etc/issue <<'EOF'
+sudo tee /etc/issue <<'EOF'  
 ****************** [ 安全登陆 (Security Login) ] *****************
 Authorized only. All activity will be monitored and reported.By Security Center.
-Author: Nichuanfang, Site: https://www.vencenter.cn
-
+Author: Nichuanfang, Site: https://www.jaychou.site
 EOF
 # SSH登录后提示Banner
 sed -i '/^fi/a\\n\necho "\\e[1;37;41;5m################## 安全运维 (Security Operation) ####################\\e[0m"\necho "\\e[32mLogin success. Please execute the commands and operation data carefully.By Nichuanfang.\\e[0m"' /etc/update-motd.d/00-header

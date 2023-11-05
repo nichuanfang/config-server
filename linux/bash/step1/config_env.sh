@@ -146,7 +146,9 @@ alias f='fgrep --color -rn '
 alias llt='ls -rlt'
 alias gp='git checkout .&& git pull --allow-unrelated-histories'
 # 杀进程 $1: 进程可执行文件绝对路径
-alias kp='/bin/bash ~/scripts/kill_process.sh'
+# alias kp='/bin/bash ~/scripts/kill_process.sh'
+alias pyenv3.8='pyenv activate ve-3.8.0' 
+alias pyenv3.11='pyenv active ve-3.11.0'
 
 export LANG=en_US.UTF-8
 
@@ -158,6 +160,7 @@ export PS1="$PS1\[\e]1337;CurrentDir="'$(pwd)\a\]'
 EOF
 
 echo 'export GH_TOKEN='$1 >>~/.bashrc
+echo 'export GITHUB_TOKEN='$1 >>~/.bashrc
 
 cat /dev/null >/etc/profile
 
