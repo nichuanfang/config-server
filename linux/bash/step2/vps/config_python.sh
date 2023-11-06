@@ -20,7 +20,7 @@ fi
 pyenv install 3.7.0 -v
 
 # 安装3.8.0版本的python
-pyenv install 3.8.0 -v
+# pyenv install 3.8.0 -v
 
 # 安装3.11.0版本的python
 pyenv install 3.11.0 -v
@@ -34,10 +34,10 @@ ln -fs /root/.pyenv/versions/3.7.0/bin/pip3.7 /usr/bin/pip3.7
 ln -fs /root/.pyenv/versions/3.7.0/bin/pip3.7 /usr/local/bin/pip3.7
 
 # 3.8.0
-ln -fs /root/.pyenv/versions/3.8.0/bin/python3.8 /usr/bin/python3.8
-ln -fs /root/.pyenv/versions/3.8.0/bin/python3.8 /usr/local/bin/python3.8
-ln -fs /root/.pyenv/versions/3.8.0/bin/pip3.8 /usr/bin/pip3.8
-ln -fs /root/.pyenv/versions/3.8.0/bin/pip3.8 /usr/local/bin/pip3.8
+# ln -fs /root/.pyenv/versions/3.8.0/bin/python3.8 /usr/bin/python3.8
+# ln -fs /root/.pyenv/versions/3.8.0/bin/python3.8 /usr/local/bin/python3.8
+# ln -fs /root/.pyenv/versions/3.8.0/bin/pip3.8 /usr/bin/pip3.8
+# ln -fs /root/.pyenv/versions/3.8.0/bin/pip3.8 /usr/local/bin/pip3.8
 
 # 3.11.0
 ln -fs /root/.pyenv/versions/3.11.0/bin/python3.11 /usr/bin/python3.11
