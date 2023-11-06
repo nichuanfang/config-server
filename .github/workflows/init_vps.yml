@@ -163,30 +163,6 @@ jobs:
       #     first_ssh: |
       #       /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/config_cert.sh) $EMAIL_PREFIX $VPS_DOMAIN
 
-      # - name: 生成xray配置(部署之前需要去 nichuanfang/.github同步密钥库)
-      #   uses: rshop/trigger-workflow-action@v1
-      #   with:
-      #     token: ${{ secrets.GH_TOKEN }}
-      #     repository: 'nichuanfang/xray-parser'
-      #     workflowId: 57684819
-      #     branch: server
-
-      # - name: 初始化服务器-重启后-部署xray (部署之前需要去 nichuanfang/.github同步密钥库)
-      #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-      #   continue-on-error: true
-      #   env:
-      #     VPS_DOMAIN: ${{ secrets.VPS_DOMAIN }}
-      #     VPS_CONFIG_USER: ${{ secrets.VPS_CONFIG_USER }}
-      #     VPS_CONFIG_PASS: ${{ secrets.VPS_CONFIG_PASS }}
-      #   with:
-      #     host: ${{ secrets.VPS_HOST }}
-      #     user: ${{ secrets.VPS_USER }}
-      #     pass: ${{ secrets.VPS_PASS }}
-      #     port: ${{ secrets.VPS_PORT }}
-      #     connect_timeout: 10s
-      #     first_ssh: |
-      #       /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/deploy_xray.sh) $VPS_DOMAIN $VPS_CONFIG_USER $VPS_CONFIG_PASS
-
       # - name: 初始化服务器-重启后-部署bitwarden
       #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
       #   continue-on-error: true
@@ -211,17 +187,33 @@ jobs:
       #     first_ssh: |
       #       /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/deploy_metube.sh)
 
-      - name: 初始化服务器-重启后-部署bark_server
-        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-        continue-on-error: true
+      # - name: 初始化服务器-重启后-部署bark_server
+      #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+      #   continue-on-error: true
+      #   with:
+      #     host: ${{ secrets.VPS_HOST }}
+      #     user: ${{ secrets.VPS_USER }}
+      #     pass: ${{ secrets.VPS_PASS }}
+      #     port: ${{ secrets.VPS_PORT }}
+      #     connect_timeout: 10s
+      #     first_ssh: |
+      #       /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/deploy_bark_server.sh)
+
+      - name: 部署hexo-blog
+        uses: rshop/trigger-workflow-action@v1
         with:
-          host: ${{ secrets.VPS_HOST }}
-          user: ${{ secrets.VPS_USER }}
-          pass: ${{ secrets.VPS_PASS }}
-          port: ${{ secrets.VPS_PORT }}
-          connect_timeout: 10s
-          first_ssh: |
-            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/deploy_bark_server.sh)
+          token: ${{ secrets.GH_TOKEN }}
+          repository: 'nichuanfang/hexo-blog'
+          workflowId: 56880669
+          branch: main
+
+      - name: 部署doc文档平台
+        uses: rshop/trigger-workflow-action@v1
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          repository: 'nichuanfang/blog-docs-next'
+          workflowId: 64357258
+          branch: main
 
       # - name: 初始化服务器-重启后-部署nginx
       #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
@@ -237,6 +229,30 @@ jobs:
       #     connect_timeout: 10s
       #     first_ssh: |
       #       /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/deploy_nginx.sh) $VPS_DOMAIN $VPS_CONFIG_USER $VPS_CONFIG_PASS
+
+      # - name: 生成xray配置(部署之前需要去 nichuanfang/.github同步密钥库)
+      #   uses: rshop/trigger-workflow-action@v1
+      #   with:
+      #     token: ${{ secrets.GH_TOKEN }}
+      #     repository: 'nichuanfang/xray-parser'
+      #     workflowId: 57684819
+      #     branch: server
+
+      # - name: 初始化服务器-重启后-部署xray (部署之前需要去 nichuanfang/.github同步密钥库)
+      #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+      #   continue-on-error: true
+      #   env:
+      #     VPS_DOMAIN: ${{ secrets.VPS_DOMAIN }}
+      #     VPS_CONFIG_USER: ${{ secrets.VPS_CONFIG_USER }}
+      #     VPS_CONFIG_PASS: ${{ secrets.VPS_CONFIG_PASS }}
+      #   with:
+      #     host: ${{ secrets.VPS_HOST }}
+      #     user: ${{ secrets.VPS_USER }}
+      #     pass: ${{ secrets.VPS_PASS }}
+      #     port: ${{ secrets.VPS_PORT }}
+      #     connect_timeout: 10s
+      #     first_ssh: |
+      #       /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/deploy_xray.sh) $VPS_DOMAIN $VPS_CONFIG_USER $VPS_CONFIG_PASS
 
       # - name: 初始化服务器-重启后-配置定时任务
       #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
