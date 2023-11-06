@@ -87,8 +87,7 @@ http {
 		#ssl证书的key文件路径
 		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
 
-		add_header Strict-Transport-Security
-			"max-age=63072000; includeSubDomains; preload";
+		add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
 		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
 		ssl_protocols TLSv1.2 TLSv1.3;
 		ssl_stapling on;
@@ -151,8 +150,7 @@ http {
 		#ssl证书的key文件路径
 		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
 
-		add_header Strict-Transport-Security
-			"max-age=63072000; includeSubDomains; preload";
+		add_header Strict-Transport-Security  "max-age=63072000; includeSubDomains; preload";
 		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
 		ssl_protocols TLSv1.2 TLSv1.3;
 		ssl_stapling on;
@@ -178,8 +176,7 @@ http {
 			index index.html index.htm;
 			# 将缓存策略用if语句写在location里面，生效了
 			if ($request_filename ~* .*\.(?:htm|html)$) {
-				add_header Cache-Control
-					"private, no-store, no-cache, must-revalidate, proxy-revalidate";
+				add_header Cache-Control  "private, no-store, no-cache, must-revalidate, proxy-revalidate";
 			}
 			if ($request_filename ~* .*\.(?:js|css)$) {
 				expires 30d;
@@ -216,8 +213,7 @@ http {
 		#ssl证书的key文件路径
 		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
 
-		add_header Strict-Transport-Security
-			"max-age=63072000; includeSubDomains; preload";
+		add_header Strict-Transport-Security  "max-age=63072000; includeSubDomains; preload";
 		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
 		ssl_protocols TLSv1.2 TLSv1.3;
 		ssl_stapling on;
@@ -243,8 +239,7 @@ http {
 			index index.html index.htm;
 			# 将缓存策略用if语句写在location里面，生效了
 			if ($request_filename ~* .*\.(?:htm|html)$) {
-				add_header Cache-Control
-					"private, no-store, no-cache, must-revalidate, proxy-revalidate";
+				add_header Cache-Control  "private, no-store, no-cache, must-revalidate, proxy-revalidate";
 			}
 			if ($request_filename ~* .*\.(?:js|css)$) {
 				expires 30d;
@@ -272,8 +267,7 @@ http {
 		#ssl证书的key文件路径
 		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
 
-		add_header Strict-Transport-Security
-			"max-age=63072000; includeSubDomains; preload";
+		add_header Strict-Transport-Security  "max-age=63072000; includeSubDomains; preload";
 		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
 		ssl_protocols TLSv1.2 TLSv1.3;
 		ssl_stapling on;
@@ -326,8 +320,7 @@ http {
 		#ssl证书的key文件路径
 		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
 
-		add_header Strict-Transport-Security
-			"max-age=63072000; includeSubDomains; preload";
+		add_header Strict-Transport-Security  "max-age=63072000; includeSubDomains; preload";
 		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
 		ssl_protocols TLSv1.2 TLSv1.3;
 		ssl_stapling on;
