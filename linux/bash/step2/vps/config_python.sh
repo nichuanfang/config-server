@@ -7,23 +7,6 @@ sudo rm -f /var/lib/dpkg/lock-frontend
 sudo rm -f /var/lib/dpkg/lock
 sudo rm -f /var/cache/apt/archives/lock
 sudo rm -f /var/lib/dpkg/lock-frontend
-sudo apt-get install -y gcc make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev
-# 安装pyenv
-curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
-
-# 添加到环境变量
-
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >>~/.bashrc
-echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >>~/.bashrc
-echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nfi' >>~/.bashrc
-
-# 刷新配置
-source ~/.bashrc
-
-# 配置虚拟环境
-git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
-echo 'eval "$(pyenv virtualenv-init -)"' >>~/.bashrc
-source ~/.bashrc
 
 # 安装3.7.0版本的python
 pyenv install 3.7.0 -v
