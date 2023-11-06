@@ -14,14 +14,6 @@ systemctl start nginx
 printf "$2:$(openssl passwd -crypt $3)\n" >>/etc/nginx/passwdfile
 chmod 777 /etc/nginx/passwdfile
 
-# 准备博客目录 启动博客项目
-mkdir -p /root/blog
-chmod 777 /root/blog
-
-# 准备个人文档目录 启动个人文档项目
-mkdir -p /root/docs
-chmod 777 /root/docs
-
 # 通过nginx发布xray客户端http服务
 sudo cat <<EOF >/etc/nginx/nginx.conf
 user root;
