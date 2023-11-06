@@ -175,26 +175,26 @@ http {
 			root /root/blog;
 			index index.html index.htm;
 			# 将缓存策略用if语句写在location里面，生效了
-			if (\$request_filename ~* .*\.(?:htm|html)$) {
+			if (\$request_filename ~* .*\.(?:htm|html)\$) {
 				add_header Cache-Control  "private, no-store, no-cache, must-revalidate, proxy-revalidate";
 			}
-			if (\$request_filename ~* .*\.(?:js|css)$) {
+			if (\$request_filename ~* .*\.(?:js|css)\$) {
 				expires 30d;
 			}
 
-			if (\$request_filename ~* .*\.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|woff|woff2|webp)$) {
+			if (\$request_filename ~* .*\.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|woff|woff2|webp)\$) {
 				expires 30d;
 			}
 
 			# 修复null报错
-			rewrite ^/about/null$ / break;
+			rewrite ^/about/null\$ / break;
 
-			rewrite ^/null$ / break;
+			rewrite ^/null\$ / break;
 
 			# 修复博客页面404 break隐藏式跳转 更推荐 
-			rewrite ^/post/(.*)?(?<!html)$ /post/$1.html break;
+			rewrite ^/post/(.*)?(?<!html)\$ /post/\$1.html break;
 
-			rewrite ^/api/articles/(.*)(.html.json)$ /api/articles/$1.json break;
+			rewrite ^/api/articles/(.*)(.html.json)\$ /api/articles/\$1.json break;
 		}
 	}
 
@@ -238,14 +238,14 @@ http {
 			root /root/docs;
 			index index.html index.htm;
 			# 将缓存策略用if语句写在location里面，生效了
-			if (\$request_filename ~* .*\.(?:htm|html)$) {
+			if (\$request_filename ~* .*\.(?:htm|html)\$) {
 				add_header Cache-Control  "private, no-store, no-cache, must-revalidate, proxy-revalidate";
 			}
-			if (\$request_filename ~* .*\.(?:js|css)$) {
+			if (\$request_filename ~* .*\.(?:js|css)\$) {
 				expires 30d;
 			}
 
-			if (\$request_filename ~* .*\.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|woff|woff2|webp)$) {
+			if (\$request_filename ~* .*\.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|woff|woff2|webp)\$) {
 				expires 30d;
 			}
 
@@ -288,15 +288,15 @@ http {
 		#bitwarden
 		location / {
 			proxy_pass http://127.0.0.1:7006;
-			proxy_set_header Host $host;
-			proxy_set_header X-Real-IP $remote_addr;
-			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-			proxy_set_header X-Forwarded-Proto $scheme;
+			proxy_set_header Host \$host;
+			proxy_set_header X-Real-IP \$remote_addr;
+			proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+			proxy_set_header X-Forwarded-Proto \$scheme;
 		}
 
 		location /notifications/hub {
 			proxy_pass http://127.0.0.1:7007;
-			proxy_set_header Upgrade $http_upgrade;
+			proxy_set_header Upgrade \$http_upgrade;
 			proxy_set_header Connection "upgrade";
 		}
 
@@ -349,11 +349,11 @@ http {
 			proxy_redirect off;
 			proxy_buffering off;
 			proxy_http_version 1.1;
-			proxy_set_header Upgrade $http_upgrade;
+			proxy_set_header Upgrade \$http_upgrade;
 			proxy_set_header Connection "upgrade";
-			proxy_set_header Host $http_host;
-			proxy_set_header X-Real-IP $remote_addr;
-			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+			proxy_set_header Host \$http_host;
+			proxy_set_header X-Real-IP \$remote_addr;
+			proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
 			proxy_pass http://127.0.0.1:8080/;
 		}
 	}
@@ -362,7 +362,7 @@ http {
 		listen 80;
 		server_name $1 *.$1;
 		#将请求转成https
-		rewrite ^(.*)$ https://$host$1 permanent;
+		rewrite ^(.*)$ https://\$host\$1 permanent;
 	}
 
 }
