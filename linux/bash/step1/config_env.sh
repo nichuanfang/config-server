@@ -163,7 +163,6 @@ echo 'export GH_TOKEN='$1 >>~/.bashrc
 echo 'export GITHUB_TOKEN='$1 >>~/.bashrc
 
 cat /dev/null >/etc/profile
-
 sudo cat <<'EOF' >/etc/profile
 # /etc/profile: system-wide .profile file for the Bourne shell (sh(1))
 # and Bourne compatible shells (bash(1), ksh(1), ash(1), ...).
@@ -197,6 +196,17 @@ fi
 HISTSIZE=101
 EOF
 
+sudo apt-get install -y gcc make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev
+# 安装pyenv
+curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+
+# 添加到环境变量
+
+echo 'export PATH="~/.pyenv/bin:$PATH"' >>~/.bashrc
+echo 'eval "$(pyenv init -)"' >>~/.bashrc
+echo 'eval "$(pyenv virtualenv-init -)"' >>~/.bashrc
+
+# 刷新配置
 source ~/.bashrc
 source /etc/profile
 echo "==================================================环境变量配置完成"
