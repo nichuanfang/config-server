@@ -175,14 +175,14 @@ http {
 			root /root/blog;
 			index index.html index.htm;
 			# 将缓存策略用if语句写在location里面，生效了
-			if ($request_filename ~* .*\.(?:htm|html)$) {
+			if (\$request_filename ~* .*\.(?:htm|html)$) {
 				add_header Cache-Control  "private, no-store, no-cache, must-revalidate, proxy-revalidate";
 			}
-			if ($request_filename ~* .*\.(?:js|css)$) {
+			if (\$request_filename ~* .*\.(?:js|css)$) {
 				expires 30d;
 			}
 
-			if ($request_filename ~* .*\.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|woff|woff2|webp)$) {
+			if (\$request_filename ~* .*\.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|woff|woff2|webp)$) {
 				expires 30d;
 			}
 
@@ -238,14 +238,14 @@ http {
 			root /root/docs;
 			index index.html index.htm;
 			# 将缓存策略用if语句写在location里面，生效了
-			if ($request_filename ~* .*\.(?:htm|html)$) {
+			if (\$request_filename ~* .*\.(?:htm|html)$) {
 				add_header Cache-Control  "private, no-store, no-cache, must-revalidate, proxy-revalidate";
 			}
-			if ($request_filename ~* .*\.(?:js|css)$) {
+			if (\$request_filename ~* .*\.(?:js|css)$) {
 				expires 30d;
 			}
 
-			if ($request_filename ~* .*\.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|woff|woff2|webp)$) {
+			if (\$request_filename ~* .*\.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|woff|woff2|webp)$) {
 				expires 30d;
 			}
 
