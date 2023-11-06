@@ -69,18 +69,12 @@ cat <<EOF >/root/cron
 30 13 1 * * curl -s https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/backup_bitwarden.sh | bash
 #每天定时清理缓存
 30 13 1 * * sync && echo 3 >/proc/sys/vm/drop_caches
-# 定期更新xray客户端配置文件
-0 12 1 * * curl -s https://raw.githubusercontent.com/nichuanfang/domestic-rules-generator/main/crontab.sh | bash
 # 定期删除xray日志
 30 13 1 * * cat /dev/null > /var/log/xray/access.log
 # 定期删除cron日志
 30 13 1 * * cat /dev/null > /var/log/cron.log
 # 定期删除journalctl日志
 30 13 1 * * sudo journalctl --vacuum-time=30d
-#每天9点启动应用服务器
-0 9 * * * curl --location -g --header "API-KEY: $2" --request PUT 'https://api.dogyun.com/cvm/server/43541/resume'
-#每天1点暂停应用服务器
-0 1 * * * curl --location -g --header "API-KEY: $2" --request PUT 'https://api.dogyun.com/cvm/server/43541/suspend'
 EOF
 
 # 载入crontab

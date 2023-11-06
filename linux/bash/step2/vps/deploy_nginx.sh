@@ -118,7 +118,7 @@ http {
 		}
 
 		# 静态文件的过期时间，可以不需要此配置
-		location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|js|css)$
+		location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|js|css)\$
  {
 			expires 30d;
 			error_log off;
@@ -362,7 +362,7 @@ http {
 		listen 80;
 		server_name $1 *.$1;
 		#将请求转成https
-		rewrite ^(.*)$ https://\$host\$1 permanent;
+		rewrite ^(.*)\$ https://\$host\$1 permanent;
 	}
 
 }
