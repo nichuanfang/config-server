@@ -140,6 +140,7 @@ jobs:
 
       - name: 初始化服务器-重启后-配置python
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        continue-on-error: true
         with:
           host: ${{ secrets.VPS_HOST }}
           user: ${{ secrets.VPS_USER }}
