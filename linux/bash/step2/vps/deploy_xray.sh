@@ -157,6 +157,9 @@ sysctl net.ipv4.tcp_available_congestion_control
 # 检测BBR是否开启
 lsmod | grep bbr
 
+# 内核参数优化
+# wget https://gist.githubusercontent.com/taurusxin/a9fc3ad039c44ab66fca0320045719b0/raw/3906efed227ee14fc5b4ac8eb4eea8855021ef19/optimize.sh && sudo bash optimize.sh 
+
 # 启动xray
 cd /root/code/docker/dockerfile_work/xray
 docker-compose up -d
