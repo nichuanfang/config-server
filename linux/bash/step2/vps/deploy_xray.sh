@@ -11,20 +11,8 @@ echo "=========================================开始部署xray..."
 systemctl enable nginx
 systemctl start nginx
 
-# 启动xray
-cd /root/code/docker/dockerfile_work/xray
-docker-compose up -d
-
 printf "$2:$(openssl passwd -crypt $3)\n" >>/etc/nginx/passwdfile
 chmod 777 /etc/nginx/passwdfile
-
-# 准备博客目录 启动博客项目
-mkdir -p /root/blog
-chmod 777 /root/blog
-
-# 准备个人文档目录 启动个人文档项目
-mkdir -p /root/docs
-chmod 777 /root/docs
 
 # 通过nginx发布xray客户端http服务
 sudo cat <<EOF >/etc/nginx/nginx.conf
@@ -148,235 +136,6 @@ http {
 
 	}
 
-	# 个人博客
-	server {
-		listen 443 ssl http2;
-		server_name blog.$1;
-
-		##
-		# SSL Settings
-		##
-		ssl on;
-		# 注意文件位置，是从/etc/nginx/下开始算起的
-		#ssl证书的pem文件路径
-		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
-		#ssl证书的key文件路径
-		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
-
-		add_header Strict-Transport-Security
-			"max-age=63072000; includeSubDomains; preload";
-		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
-		ssl_protocols TLSv1.2 TLSv1.3;
-		ssl_stapling on;
-		ssl_stapling_verify on;
-		ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
-		ssl_prefer_server_ciphers on;
-		ssl_session_cache shared:SSL:1m;
-		ssl_verify_depth 10;
-		ssl_session_timeout 30m;
-
-
-		# 这里配置拒绝访问的目录或文件
-		# location ~ (repos) 
-		# {
-		#     deny all;
-		# }
-
-		# 博客站点
-		location / {
-			charset utf-8;
-			# 博客存放根目录
-			root /root/blog;
-			index index.html index.htm;
-			# 将缓存策略用if语句写在location里面，生效了
-			if ($request_filename ~* .*\.(?:htm|html)$) {
-				add_header Cache-Control
-					"private, no-store, no-cache, must-revalidate, proxy-revalidate";
-			}
-			if ($request_filename ~* .*\.(?:js|css)$) {
-				expires 30d;
-			}
-
-			if ($request_filename ~* .*\.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|woff|woff2|webp)$) {
-				expires 30d;
-			}
-
-			# 修复null报错
-			rewrite ^/about/null$ / break;
-
-			rewrite ^/null$ / break;
-
-			# 修复博客页面404 break隐藏式跳转 更推荐 
-			rewrite ^/post/(.*)?(?<!html)$ /post/$1.html break;
-
-			rewrite ^/api/articles/(.*)(.html.json)$ /api/articles/$1.json break;
-		}
-	}
-
-	# 个人文档平台
-	server {
-		listen 443 ssl http2;
-		server_name doc.$1;
-
-		##
-		# SSL Settings
-		##
-		ssl on;
-		# 注意文件位置，是从/etc/nginx/下开始算起的
-		#ssl证书的pem文件路径
-		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
-		#ssl证书的key文件路径
-		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
-
-		add_header Strict-Transport-Security
-			"max-age=63072000; includeSubDomains; preload";
-		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
-		ssl_protocols TLSv1.2 TLSv1.3;
-		ssl_stapling on;
-		ssl_stapling_verify on;
-		ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
-		ssl_prefer_server_ciphers on;
-		ssl_session_cache shared:SSL:1m;
-		ssl_verify_depth 10;
-		ssl_session_timeout 30m;
-
-
-		# 这里配置拒绝访问的目录或文件
-		# location ~ (repos) 
-		# {
-		#     deny all;
-		# }
-
-		# 博客站点
-		location / {
-			charset utf-8;
-			# 博客存放根目录
-			root /root/docs;
-			index index.html index.htm;
-			# 将缓存策略用if语句写在location里面，生效了
-			if ($request_filename ~* .*\.(?:htm|html)$) {
-				add_header Cache-Control
-					"private, no-store, no-cache, must-revalidate, proxy-revalidate";
-			}
-			if ($request_filename ~* .*\.(?:js|css)$) {
-				expires 30d;
-			}
-
-			if ($request_filename ~* .*\.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|woff|woff2|webp)$) {
-				expires 30d;
-			}
-
-		}
-	}
-
-	# 自建密码平台Bitwarden
-	server {
-		listen 443 ssl http2;
-		server_name password.$1;
-
-		##
-		# SSL Settings
-		##
-		ssl on;
-		# 注意文件位置，是从/etc/nginx/下开始算起的
-		#ssl证书的pem文件路径
-		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
-		#ssl证书的key文件路径
-		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
-
-		add_header Strict-Transport-Security
-			"max-age=63072000; includeSubDomains; preload";
-		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
-		ssl_protocols TLSv1.2 TLSv1.3;
-		ssl_stapling on;
-		ssl_stapling_verify on;
-		ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
-		ssl_prefer_server_ciphers on;
-		ssl_session_cache shared:SSL:1m;
-		ssl_verify_depth 10;
-		ssl_session_timeout 30m;
-
-
-		# 这里配置拒绝访问的目录或文件
-		# location ~ (repos) 
-		# {
-		#     deny all;
-		# }
-
-		#bitwarden
-		location / {
-			proxy_pass http://127.0.0.1:7006;
-			proxy_set_header Host $host;
-			proxy_set_header X-Real-IP $remote_addr;
-			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-			proxy_set_header X-Forwarded-Proto $scheme;
-		}
-
-		location /notifications/hub {
-			proxy_pass http://127.0.0.1:7007;
-			proxy_set_header Upgrade $http_upgrade;
-			proxy_set_header Connection "upgrade";
-		}
-
-		location /notifications/hub/negotiate {
-			proxy_pass http://127.0.0.1:7006;
-		}
-	}
-
-	# bark server
-	server {
-		listen 443 ssl http2;
-		server_name bark.$1;
-
-		##
-		# SSL Settings
-		##
-		ssl on;
-		# 注意文件位置，是从/etc/nginx/下开始算起的
-		#ssl证书的pem文件路径
-		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
-		#ssl证书的key文件路径
-		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
-
-		add_header Strict-Transport-Security
-			"max-age=63072000; includeSubDomains; preload";
-		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
-		ssl_protocols TLSv1.2 TLSv1.3;
-		ssl_stapling on;
-		ssl_stapling_verify on;
-		ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
-		ssl_prefer_server_ciphers on;
-		ssl_session_cache shared:SSL:1m;
-		ssl_verify_depth 10;
-		ssl_session_timeout 30m;
-
-
-		# 这里配置拒绝访问的目录或文件
-		# location ~ (repos) 
-		# {
-		#     deny all;
-		# }
-
-		# bark服务
-		location / {
-			proxy_connect_timeout 10;
-			proxy_read_timeout 1d;
-			proxy_send_timeout 1d;
-			proxy_set_header Connection "";
-			proxy_request_buffering off;
-			proxy_pass_request_body off;
-			proxy_redirect off;
-			proxy_buffering off;
-			proxy_http_version 1.1;
-			proxy_set_header Upgrade $http_upgrade;
-			proxy_set_header Connection "upgrade";
-			proxy_set_header Host $http_host;
-			proxy_set_header X-Real-IP $remote_addr;
-			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-			proxy_pass http://127.0.0.1:8080/;
-		}
-	}
-
 	server {
 		listen 80;
 		server_name $1 *.$1;
@@ -390,11 +149,16 @@ systemctl daemon-reload
 systemctl restart nginx
 
 # 开启bbr加速 (ubuntu18.04)
-echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
-echo net.ipv4.tcp_congestion_control=bbr >> /etc/sysctl.conf
+echo "net.core.default_qdisc=fq" >>/etc/sysctl.conf
+echo net.ipv4.tcp_congestion_control=bbr >>/etc/sysctl.conf
 sysctl -p
 sysctl net.ipv4.tcp_available_congestion_control
 
 # 检测BBR是否开启
 lsmod | grep bbr
+
+# 启动xray
+cd /root/code/docker/dockerfile_work/xray
+docker-compose up -d
+
 echo "=========================================xray部署完成!"
