@@ -15,7 +15,6 @@ if [ -d "${PYENV_ROOT}" ]; then
     eval "$(pyenv init -)"
 fi
 
-
 # 安装3.7.0版本的python
 pyenv install 3.7.0 -v
 
