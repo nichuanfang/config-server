@@ -8,6 +8,14 @@ sudo rm -f /var/lib/dpkg/lock
 sudo rm -f /var/cache/apt/archives/lock
 sudo rm -f /var/lib/dpkg/lock-frontend
 
+export PYENV_ROOT="${HOME}/.pyenv"
+
+if [ -d "${PYENV_ROOT}" ]; then
+    export PATH="${PYENV_ROOT}/bin:${PATH}"
+    eval "$(pyenv init -)"
+fi
+
+
 # 安装3.7.0版本的python
 pyenv install 3.7.0 -v
 
