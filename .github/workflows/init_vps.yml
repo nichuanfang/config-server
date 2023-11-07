@@ -254,6 +254,10 @@ jobs:
           workflowId: 57684819
           branch: server
 
+      - name: 等待配置生成完成...
+        run: |
+          sleep 60s
+
       - name: 初始化服务器-重启后-部署xray (部署之前需要去 nichuanfang/.github同步密钥库)
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
         continue-on-error: true
