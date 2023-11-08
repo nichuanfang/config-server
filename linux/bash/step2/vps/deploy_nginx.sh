@@ -188,7 +188,7 @@ http {
 
 			# 修复null报错
 			rewrite ^/about/null\$ / break;
-
+			error_page 404 = /404.html;
 			rewrite ^/null\$ / break;
 
 			# 修复博客页面404 break隐藏式跳转 更推荐 
