@@ -98,6 +98,11 @@ http {
 		ssl_verify_depth 10;
 		ssl_session_timeout 30m;
 
+  		# 针对 https 协议，将 @ 记录，即不带 www 的主域名 https://lovesofttech.com 跳转至带 www 的二级域名 https://www.lovesofttech.com，域名后面的路径以及参数保持不变
+		if ($host != 'www.$1') {
+			rewrite ^/(.*)\$ https://www.$1/\$1 permanent;
+		}
+
 
 		# 这里配置拒绝访问的目录或文件
 		# location ~ (repos) 
