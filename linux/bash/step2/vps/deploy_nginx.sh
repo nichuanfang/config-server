@@ -388,10 +388,10 @@ http {
 		listen 80;
 		server_name $1 *.$1;
 		if ( \$host = "$1" ) {
-			rewrite ^/(.*)\$ http://www.$1/\$1 permanent;
+			rewrite ^/(.*)\$ http://www.$1\$1 permanent;
 			return 200;
 		}
-		rewrite ^(.*)\$ https://\$host/\$1 permanent;
+		rewrite ^(.*)\$ https://\$host\$1 permanent;
 	}
 
 }
