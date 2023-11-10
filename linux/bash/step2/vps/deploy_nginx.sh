@@ -417,7 +417,7 @@ http {
 		#     deny all;
 		# }
 
-		# bark服务
+		# waline评论服务
 		location / {
 			proxy_connect_timeout 10;
 			proxy_read_timeout 1d;
