@@ -17,12 +17,12 @@ chmod 777 /etc/nginx/passwdfile
 # 通过nginx发布xray客户端http服务
 sudo cat <<EOF >/etc/nginx/nginx.conf
 user root;
-worker_processes auto;
+worker_processes 1;
 pid /run/nginx.pid;
 include /etc/nginx/modules-enabled/*.conf;
 
 events {
-	worker_connections 2048;
+	worker_connections 1024;
 	# multi_accept on;
 }
 
@@ -58,12 +58,11 @@ http {
 
 	gzip on;
 
-	# gzip_vary on;
-	# gzip_proxied any;
-	# gzip_comp_level 6;
-	# gzip_buffers 16 8k;
-	# gzip_http_version 1.1;
-	# gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+	gzip             on;
+	gzip_comp_level  2;
+	gzip_min_length  1000;
+	gzip_proxied     expired no-cache no-store private auth;
+	gzip_types       text/plain application/x-javascript text/xml text/css application/xml;
 
 	##
 	# Virtual Host Configs
@@ -151,7 +150,7 @@ http {
 		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
 
 		add_header Strict-Transport-Security  "max-age=63072000; includeSubDomains; preload";
-		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
+		ssl_ciphers ALL:!kEDH!ADH:RC4+RSA:+HIGH:+EXP;
 		ssl_protocols TLSv1.2 TLSv1.3;
 		ssl_stapling on;
 		ssl_stapling_verify on;
@@ -159,8 +158,22 @@ http {
 		ssl_prefer_server_ciphers on;
 		ssl_session_cache shared:SSL:1m;
 		ssl_verify_depth 10;
-		ssl_session_timeout 30m;
+		ssl_session_timeout 10m;
 
+  		# timeout
+		client_body_timeout 12;
+		client_header_timeout 12;
+		keepalive_timeout 15;
+		send_timeout 10;
+		
+		# buffer
+		client_body_buffer_size 10K;
+		client_header_buffer_size 1k;
+		client_max_body_size 8m;
+		large_client_header_buffers 2 1k;
+		
+		# 关闭访问日志
+		access_log off;
 
 		# 这里配置拒绝访问的目录或文件
 		# location ~ (repos) 
@@ -178,6 +191,8 @@ http {
     			}
 			proxy_pass https://v2.jinrishici.com/one.json;
 		}
+
+  
 
 		# 博客站点
 		location / {
