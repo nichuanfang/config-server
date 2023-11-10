@@ -124,16 +124,11 @@ http {
 
 		# 静态文件的过期时间，可以不需要此配置
 		location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|js|css)\$
- {
+ 		{
 			expires 30d;
 			error_log off;
 			access_log /dev/null;
 		}
-
-
-
-
-
 
 		# 这里很重要! 将日志转发到 /dev/stdout ，可以通过 docker logs -f  来查看容器日志
 		# access_log  /dev/stdout;
@@ -247,7 +242,7 @@ http {
 		#     deny all;
 		# }
 
-		# 博客站点
+		# 文档站点
 		location / {
 			charset utf-8;
 			# 博客存放根目录
@@ -374,11 +369,14 @@ http {
 		}
 	}
 
-	server {
+ 	server {
 		listen 80;
 		server_name $1 *.$1;
-		#将请求转成https
-		rewrite ^(.*)\$ https://\$host\$1 permanent;
+		if ( \$host = "$1" ) {
+			rewrite ^/(.*)\$ http://www.$1/\$1 permanent;
+			return 200;
+		}
+		rewrite ^(.*)\$ https://\$host/\$1 permanent;
 	}
 
 }
