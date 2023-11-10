@@ -280,8 +280,6 @@ jobs:
         env:
           VPS_DOMAIN: ${{ secrets.VPS_DOMAIN }}
           VPS_HOST: ${{ secrets.VPS_HOST }}
-          DOGYUN_API_KEY: ${{ secrets.DOGYUN_API_KEY }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           host: ${{ secrets.VPS_HOST }}
           user: ${{ secrets.VPS_USER }}
@@ -289,4 +287,4 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           connect_timeout: 10s
           first_ssh: |
-            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/config_cron.sh) $VPS_DOMAIN  $VPS_HOST $DOGYUN_API_KEY $GH_TOKEN 
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/config_cron.sh) $VPS_DOMAIN  $VPS_HOST
