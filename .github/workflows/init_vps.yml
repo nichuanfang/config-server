@@ -153,6 +153,7 @@ jobs:
         env:
           EMAIL_PREFIX: ${{ secrets.EMAIL_PREFIX }}
           VPS_DOMAIN: ${{ secrets.VPS_DOMAIN }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
         continue-on-error: true
         with:
           host: ${{ secrets.VPS_HOST }}
@@ -161,7 +162,7 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           connect_timeout: 10s
           first_ssh: |
-            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/config_cert.sh) $EMAIL_PREFIX $VPS_DOMAIN
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/config_cert.sh) $EMAIL_PREFIX $VPS_DOMAIN $VPS_HOST
 
       - name: 初始化服务器-重启后-部署bitwarden
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
@@ -278,6 +279,7 @@ jobs:
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
         env:
           VPS_DOMAIN: ${{ secrets.VPS_DOMAIN }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
           DOGYUN_API_KEY: ${{ secrets.DOGYUN_API_KEY }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
@@ -287,4 +289,4 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           connect_timeout: 10s
           first_ssh: |
-            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/config_cron.sh) $VPS_DOMAIN $DOGYUN_API_KEY $GH_TOKEN
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/config_cron.sh) $VPS_DOMAIN  $VPS_HOST $DOGYUN_API_KEY $GH_TOKEN 
