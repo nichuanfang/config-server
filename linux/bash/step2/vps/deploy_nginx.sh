@@ -222,6 +222,21 @@ http {
 
 			rewrite ^/api/articles/(.*)(.html.json)\$ /api/articles/\$1.json break;
 		}
+
+  		# waline评论
+  		location /waline/ {
+	            # 把 /api 路径下的请求转发给真正的后端服务器
+	            proxy_pass http://localhost:8360/;
+	
+	            # 把host头传过去，后端服务程序将收到your.domain.name, 否则收到的是localhost:18080
+	            proxy_set_header Host $http_host;
+	
+	            # 把cookie中的path部分从/api替换成/service
+	            #proxy_cookie_path /api /;
+	
+	            # 把cookie的path部分从localhost:18080替换成your.domain.name
+	            proxy_cookie_domain localhost:8360 blog.$1;
+        	}
 	}
 
 	# 个人文档平台
