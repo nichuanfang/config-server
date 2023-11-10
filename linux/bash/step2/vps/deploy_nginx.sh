@@ -228,8 +228,8 @@ http {
 	            # 把 /api 路径下的请求转发给真正的后端服务器
 	            proxy_pass http://localhost:8360/;
 	
-	            # 把host头传过去，后端服务程序将收到your.domain.name, 否则收到的是localhost:18080
-	            proxy_set_header Host $http_host;
+	            # 把host头传过去，后端服务程序将收到your.domain.name, 否则收到的是localhost:8360
+	            proxy_set_header Host \$http_host;
 	
 	            # 把cookie中的path部分从/api替换成/service
 	            #proxy_cookie_path /api /;
@@ -398,43 +398,6 @@ http {
 			proxy_pass http://127.0.0.1:8080/;
 		}
 	}
-
- 	# waline评论服务
-	server {
-		listen 80;
-		listen 443 ssl http2;
-		server_name waline.$1;
-		# root /www/wwwroot/your.domain.server.name;
-		if (\$server_port !~ 443){
-			rewrite ^(/.*)\$ https://\$host\$1 permanent;
-		}
-
-		# SSL setting
-		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
-		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
-		ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
-		ssl_protocols TLSv1.1 TLSv1.2 TLSv1.3;
-		ssl_ciphers EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;
-		ssl_prefer_server_ciphers on;
-		ssl_session_cache shared:SSL:1m;
-		ssl_session_timeout 10m;
-		add_header Strict-Transport-Security "max-age=31536000";
-
-		# proxy to 8360
-		location / {
-			proxy_pass http://127.0.0.1:8360;
-			proxy_set_header Host $host;
-			proxy_set_header X-Real-IP $remote_addr;
-			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-			proxy_set_header X-Forwarded-Proto $scheme;
-			proxy_set_header REMOTE-HOST $remote_addr;
-			add_header X-Cache $upstream_cache_status;
-			# cache
-			add_header Cache-Control no-cache;
-			expires 12h;
-		}
-	}
-
  
  	server {
 		listen 80;

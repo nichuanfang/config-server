@@ -220,6 +220,18 @@ jobs:
           workflowId: 56880669
           branch: main
 
+      - name: 初始化服务器-重启后-部署博客评论插件waline后端服务
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        continue-on-error: true
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          user: ${{ secrets.VPS_USER }}
+          pass: ${{ secrets.VPS_PASS }}
+          port: ${{ secrets.VPS_PORT }}
+          connect_timeout: 10s
+          first_ssh: |
+            /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/deploy_waline.sh)
+
       - name: 部署doc文档平台
         uses: rshop/trigger-workflow-action@v1
         with:

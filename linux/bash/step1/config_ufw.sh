@@ -21,6 +21,7 @@ sudo ufw allow 6379
 sudo ufw allow 8000
 sudo ufw allow 8080
 sudo ufw allow 8090
+sudo ufw allow 8360
 sudo ufw allow 8443
 sudo ufw allow 8888
 sudo ufw allow 9000
