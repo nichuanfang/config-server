@@ -386,57 +386,41 @@ http {
 
  	# waline评论服务
 	server {
+		listen 80;
 		listen 443 ssl http2;
 		server_name waline.$1;
+		# root /www/wwwroot/your.domain.server.name;
+		if (\$server_port !~ 443){
+			rewrite ^(/.*)\$ https://\$host\$1 permanent;
+		}
 
-		##
-		# SSL Settings
-		##
-		ssl on;
-		# 注意文件位置，是从/etc/nginx/下开始算起的
-		#ssl证书的pem文件路径
+		# SSL setting
 		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
-		#ssl证书的key文件路径
 		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
-
-		add_header Strict-Transport-Security  "max-age=63072000; includeSubDomains; preload";
-		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
-		ssl_protocols TLSv1.2 TLSv1.3;
-		ssl_stapling on;
-		ssl_stapling_verify on;
 		ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+		ssl_protocols TLSv1.1 TLSv1.2 TLSv1.3;
+		ssl_ciphers EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;
 		ssl_prefer_server_ciphers on;
 		ssl_session_cache shared:SSL:1m;
-		ssl_verify_depth 10;
-		ssl_session_timeout 30m;
+		ssl_session_timeout 10m;
+		add_header Strict-Transport-Security "max-age=31536000";
 
-
-		# 这里配置拒绝访问的目录或文件
-		# location ~ (repos) 
-		# {
-		#     deny all;
-		# }
-
-		# waline评论服务
+		# proxy to 8360
 		location / {
-			proxy_connect_timeout 10;
-			proxy_read_timeout 1d;
-			proxy_send_timeout 1d;
-			proxy_set_header Connection "";
-			proxy_request_buffering off;
-			proxy_pass_request_body off;
-			proxy_redirect off;
-			proxy_buffering off;
-			proxy_http_version 1.1;
-			proxy_set_header Upgrade $http_upgrade;
-			proxy_set_header Connection "upgrade";
-			proxy_set_header Host $http_host;
+			proxy_pass http://127.0.0.1:8360;
+			proxy_set_header Host $host;
 			proxy_set_header X-Real-IP $remote_addr;
 			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-			proxy_pass http://127.0.0.1:8360/;
+			proxy_set_header X-Forwarded-Proto $scheme;
+			proxy_set_header REMOTE-HOST $remote_addr;
+			add_header X-Cache $upstream_cache_status;
+			# cache
+			add_header Cache-Control no-cache;
+			expires 12h;
 		}
 	}
 
+ 
  	server {
 		listen 80;
 		server_name $1 *.$1;
