@@ -43,7 +43,7 @@ http {
 	# server_name_in_redirect off;
 
 	include /etc/nginx/mime.types;
-	default_type application/octet-stream;
+	
 
 	##
 	# Logging Settings
@@ -76,10 +76,9 @@ http {
 		listen 443 ssl http2 default_server;
 		server_name $1 www.$1;
 
-		##
 		# SSL Settings
 		##
-		ssl on;
+		#ssl on;
 		# 注意文件位置，是从/etc/nginx/下开始算起的
 		#ssl证书的pem文件路径
 		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
@@ -93,14 +92,18 @@ http {
 		ssl_stapling_verify on;
 		ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
 		ssl_prefer_server_ciphers on;
-		ssl_session_cache shared:SSL:1m;
+		ssl_session_cache shared:SSL:10m;
 		ssl_verify_depth 10;
-		ssl_session_timeout 30m;
+		# ssl_reject_handshake    on;
+	        ssl_session_timeout     1h;
+	        ssl_early_data          on;
+
+  		default_type application/octet-stream;
 
   		# 针对 https 协议，将 @ 记录，即不带 www 的主域名 https://lovesofttech.com 跳转至带 www 的二级域名 https://www.lovesofttech.com，域名后面的路径以及参数保持不变
-		if ($host != 'www.$1') {
-			rewrite ^/(.*)\$ https://www.$1/\$1 permanent;
-		}
+		#if ($host != 'www.$1') {
+		#	rewrite ^/(.*)\$ https://www.$1/\$1 permanent;
+		#}
 
 
 		# 这里配置拒绝访问的目录或文件
@@ -142,7 +145,7 @@ http {
 		##
 		# SSL Settings
 		##
-		ssl on;
+		#ssl on;
 		# 注意文件位置，是从/etc/nginx/下开始算起的
 		#ssl证书的pem文件路径
 		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
@@ -156,7 +159,7 @@ http {
 		ssl_stapling_verify on;
 		ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
 		ssl_prefer_server_ciphers on;
-		ssl_session_cache shared:SSL:1m;
+		ssl_session_cache shared:SSL:10m;
 		ssl_verify_depth 10;
 		ssl_session_timeout 10m;
 
@@ -233,7 +236,7 @@ http {
 		##
 		# SSL Settings
 		##
-		ssl on;
+		#ssl on;
 		# 注意文件位置，是从/etc/nginx/下开始算起的
 		#ssl证书的pem文件路径
 		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
@@ -247,7 +250,7 @@ http {
 		ssl_stapling_verify on;
 		ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
 		ssl_prefer_server_ciphers on;
-		ssl_session_cache shared:SSL:1m;
+		ssl_session_cache shared:SSL:10m;
 		ssl_verify_depth 10;
 		ssl_session_timeout 30m;
 
@@ -287,7 +290,7 @@ http {
 		##
 		# SSL Settings
 		##
-		ssl on;
+		#ssl on;
 		# 注意文件位置，是从/etc/nginx/下开始算起的
 		#ssl证书的pem文件路径
 		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
@@ -301,7 +304,7 @@ http {
 		ssl_stapling_verify on;
 		ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
 		ssl_prefer_server_ciphers on;
-		ssl_session_cache shared:SSL:1m;
+		ssl_session_cache shared:SSL:10m;
 		ssl_verify_depth 10;
 		ssl_session_timeout 30m;
 
@@ -340,7 +343,7 @@ http {
 		##
 		# SSL Settings
 		##
-		ssl on;
+		#ssl on;
 		# 注意文件位置，是从/etc/nginx/下开始算起的
 		#ssl证书的pem文件路径
 		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
@@ -354,7 +357,7 @@ http {
 		ssl_stapling_verify on;
 		ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
 		ssl_prefer_server_ciphers on;
-		ssl_session_cache shared:SSL:1m;
+		ssl_session_cache shared:SSL:10m;
 		ssl_verify_depth 10;
 		ssl_session_timeout 30m;
 
