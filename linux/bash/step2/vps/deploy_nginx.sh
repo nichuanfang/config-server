@@ -7,6 +7,17 @@ sudo rm -f /var/cache/apt/archives/lock
 sudo rm -f /var/lib/dpkg/lock-frontend
 echo "=========================================开始部署nginx..."
 
+sudo apt-get --purge remove nginx -y
+sudo apt-get autoremove
+
+# 升级nginx
+echo "deb http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" \
+    | sudo tee /etc/apt/sources.list.d/nginx.list
+
+curl -o /tmp/nginx_signing.key https://nginx.org/keys/nginx_signing.key
+
+sudo apt install nginx -y
+
 # 提供配置服务 应用服务器不再提供
 systemctl enable nginx
 systemctl start nginx
