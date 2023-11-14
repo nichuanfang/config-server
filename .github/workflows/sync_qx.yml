@@ -32,11 +32,11 @@ jobs:
         working-directory: ./qx/handle
         env:
           VPS_DOMAIN: ${{ secrets.VPS_DOMAIN }}
-          QX_GIST_ID: ${{ secrets.QX_CONFIG_GIST_ID }}
+          QX_SUBSCRIBE_ID: ${{ secrets.QX_SUBSCRIBE_ID }}
           QX_USERNAME: ${{ secrets.QX_USERNAME }}
           QX_PASSWORD: ${{ secrets.QX_PASSWORD }}
         run: |
-          python convert.py $VPS_DOMAIN $QX_GIST_ID $QX_USERNAME $QX_PASSWORD
+          python convert.py $VPS_DOMAIN $QX_SUBSCRIBE_ID $QX_USERNAME $QX_PASSWORD
 
       - name: Deploy quanx-sub
         uses: exuanbo/actions-deploy-gist@v1.1.4
