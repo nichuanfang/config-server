@@ -11,7 +11,7 @@ QX_USERNAME = sys.argv[3]
 QX_PASSWORD = sys.argv[4]
 
 # 读取上一级目录的qx.conf
-with open(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'qx.conf'), 'r+',encoding='utf-8') as f:
+with open(os.path.join('../qx.conf'), 'r+',encoding='utf-8') as f:
     conf = f.read()
 # 替换qx.conf中的qx域名
 conf = conf.replace('{VPS_DOMAIN}', VPS_DOMAIN)
@@ -22,5 +22,5 @@ conf = conf.replace('{QX_USERNAME}', QX_USERNAME)
 # 替换qx.conf中的qx密码
 conf = conf.replace('{QX_PASSWORD}', QX_PASSWORD)
 # 写入qx.conf
-with open(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'qx.conf'), 'w+',encoding='utf-8') as f:
+with open(os.path.join('../qx.conf'), 'w+',encoding='utf-8') as f:
     f.write(conf)
