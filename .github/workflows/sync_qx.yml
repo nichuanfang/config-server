@@ -1,0 +1,47 @@
+name: 同步qx配置
+
+on:
+  push:
+    paths:
+      - 'qx/qx.conf'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+        with:
+          fetch-depth: 0
+
+      # set python
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2.2.2
+        with:
+          python-version: 3.8
+
+      # install requirements
+      - name: Install requirements
+        working-directory: ./qx/handle
+        run: |
+          pip install -r requirements.txt
+
+      # sync
+      - name: Sync
+        working-directory: ./qx/handle
+        env:
+          VPS_DOMAIN: ${{ secrets.VPS_DOMAIN }}
+          QX_GIST_ID: ${{ secrets.QX_CONFIG_GIST_ID }}
+          QX_USERNAME: ${{ secrets.QX_USERNAME }}
+          QX_PASSWORD: ${{ secrets.QX_PASSWORD }}
+        run: |
+          python convert.py $VPS_DOMAIN $QX_GIST_ID $QX_USERNAME $QX_PASSWORD
+
+      - name: Deploy quanx-sub
+        uses: exuanbo/actions-deploy-gist@v1.1.4
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          gist_id: ${{ secrets.QX_CONFIG_GIST_ID }}
+          file_path: qx/qx.conf
+          file_type: text
