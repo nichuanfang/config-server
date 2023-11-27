@@ -27,6 +27,6 @@
 
 ### audio and subtitle auto switch plugin
 
-[service.saasbops]([https://github.com/mvdwetering/service.saasbops](http://ftp.halifax.rwth-aachen.de/xbmc/addons/nexus/service.languagepreferencemanager/service.languagepreferencemanager-1.0.2.zip)http://ftp.halifax.rwth-aachen.de/xbmc/addons/nexus/service.languagepreferencemanager/service.languagepreferencemanager-1.0.2.zip)
+[service.saasbops](https://github.com/mvdwetering/service.saasbops](http://ftp.halifax.rwth-aachen.de/xbmc/addons/nexus/service.languagepreferencemanager/service.languagepreferencemanager-1.0.2.zip)http://ftp.halifax.rwth-aachen.de/xbmc/addons/nexus/service.languagepreferencemanager/service.languagepreferencemanager-1.0.2.zip)
 
 直接从nas文件夹的zip文件安装到kodi即可.剧集只要选择一次音频字幕 会记住选择
