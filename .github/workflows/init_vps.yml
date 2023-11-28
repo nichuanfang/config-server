@@ -212,14 +212,6 @@ jobs:
           first_ssh: |
             /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/deploy_tgbot.sh)
 
-      - name: 部署hexo-blog
-        uses: rshop/trigger-workflow-action@v1
-        with:
-          token: ${{ secrets.GH_TOKEN }}
-          repository: 'nichuanfang/hexo-blog'
-          workflowId: 56880669
-          branch: main
-
       - name: 部署doc文档平台
         uses: rshop/trigger-workflow-action@v1
         with:
