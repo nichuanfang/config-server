@@ -212,14 +212,6 @@ jobs:
           first_ssh: |
             /bin/bash <(curl -L https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/deploy_tgbot.sh)
 
-      - name: 部署doc文档平台
-        uses: rshop/trigger-workflow-action@v1
-        with:
-          token: ${{ secrets.GH_TOKEN }}
-          repository: 'nichuanfang/blog-docs-next'
-          workflowId: 64357258
-          branch: main
-
       - name: 等待部署完成
         run: |
           sleep 300s
