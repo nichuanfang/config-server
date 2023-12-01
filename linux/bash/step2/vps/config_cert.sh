@@ -16,7 +16,7 @@ sudo apt-get install python3-certbot-nginx -y
 
 cd /root/code/certbot && git checkout . && git pull --allow-unrelated-histories
 # $1: 邮箱前缀 $2: 根域名  $3: ip
-certbot certonly -m $1@gmail.com -n --agree-tos --manual-public-ip-logging-ok -d *.$2 --manual --preferred-challenges dns --manual-auth-hook "/root/code/certbot/au.sh python aly add $3" --manual-cleanup-hook "/root/code/certbot/au.sh python aly clean"
+certbot certonly -m $1@gmail.com -n --agree-tos --manual-public-ip-logging-ok -d $2 -d *.$2 --manual --preferred-challenges dns --manual-auth-hook "/root/code/certbot/au.sh python aly add $3" --manual-cleanup-hook "/root/code/certbot/au.sh python aly clean"
 # 验证证书
 # cat /etc/letsencrypt/live/$2/cert.pem
 # 证书的保存目录
