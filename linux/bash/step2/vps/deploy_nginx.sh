@@ -78,15 +78,68 @@ http {
 	gzip_vary off;
 	gzip_disable "MSIE [1-6]\.";
 	# Virtual Host Configs
-	##
+	
+	set_real_ip_from 127.0.0.1;
+	real_ip_header proxy_protocol;
 
 	include /etc/nginx/conf.d/*.conf;
 	include /etc/nginx/sites-enabled/*;
+	
+	# 防窥探服务
+	server {
+		listen 127.0.0.1:5001 proxy_protocol default_server;
+		listen 127.0.0.1:5002 proxy_protocol default_server http2;
+
+		location / {
+			resolver 1.1.1.1;
+			set \$example https://www.lovelive-anime.jp;
+			proxy_pass \$example;
+			proxy_ssl_server_name on;
+			
+		}
+	}
+	
+	# xray自己偷自己
+	server {
+		listen 5555 proxy_protocol ssl http2 proxy_protocol;
+		
+		# SSL Settings
+		##
+		#ssl on;
+		# 注意文件位置，是从/etc/nginx/下开始算起的
+		#ssl证书的pem文件路径
+		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+		#ssl证书的key文件路径
+		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
+
+		add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
+		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
+		ssl_protocols TLSv1.2 TLSv1.3;
+		ssl_stapling on;
+		ssl_stapling_verify on;
+		ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+		ssl_prefer_server_ciphers on;
+		ssl_session_cache shared:SSL:10m;
+		ssl_verify_depth 10;
+		# ssl_reject_handshake    on;
+		ssl_session_timeout     1h;
+		ssl_early_data          on;
+
+		location / {
+			resolver 1.1.1.1;
+			set \$example https://www.lovelive-anime.jp;
+			proxy_pass \$example;
+			proxy_ssl_server_name on;
+			
+		}
+	}
 
 	# xray配置服务器
 	server {
-		listen 443 ssl http2 default_server;
-		server_name $1 www.$1;
+		listen 5003 proxy_protocol;
+		listen 5004  proxy_protocol http2;
+		
+		server_name  www.$1;
 
 		# SSL Settings
 		##
@@ -113,8 +166,8 @@ http {
   		default_type application/octet-stream;
 
   		# 针对 https 协议，将 @ 记录，即不带 www 的主域名 https://lovesofttech.com 跳转至带 www 的二级域名 https://www.lovesofttech.com，域名后面的路径以及参数保持不变
-		#if ($host != 'www.$1') {
-		#	rewrite ^/(.*)\$ https://www.$1/\$1 permanent;
+		#if ( != 'www.jaychou.site') {
+		#	rewrite ^/(.*)$ https://www.$1/\$1 permanent;
 		#}
 
 
@@ -151,7 +204,9 @@ http {
 	
 	# 自建密码平台Bitwarden
 	server {
-		listen 443 ssl http2;
+		listen 5005 proxy_protocol;
+		listen 5006  proxy_protocol http2;
+		
 		server_name password.$1;
 
 		##
@@ -206,7 +261,9 @@ http {
 
 	# bark server
 	server {
-		listen 443 ssl http2;
+		listen 5007 proxy_protocol;
+		listen 5008  proxy_protocol http2;
+		
 		server_name bark.$1;
 
 		##
@@ -261,14 +318,13 @@ http {
  
  	server {
 		listen 80;
-		server_name $1 *.$1;
+		server_name jaychou.site *.jaychou.site;
 		if ( \$host = "$1" ) {
-			rewrite ^/(.*)\$ http://www.$1\$1 permanent;
+			rewrite ^/(.*)$ http://www.$1\$1 permanent;
 			return 200;
 		}
-		rewrite ^(.*)\$ https://\$host\$1 permanent;
+		rewrite ^(.*)$ https://$host\$1 permanent;
 	}
-
 }
 EOF
 systemctl daemon-reload
