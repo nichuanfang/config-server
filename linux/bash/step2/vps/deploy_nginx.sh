@@ -165,17 +165,7 @@ http {
 
   		default_type application/octet-stream;
 
-  		# 针对 https 协议，将 @ 记录，即不带 www 的主域名 https://lovesofttech.com 跳转至带 www 的二级域名 https://www.lovesofttech.com，域名后面的路径以及参数保持不变
-		#if ( != 'www.jaychou.site') {
-		#	rewrite ^/(.*)$ https://www.$1/\$1 permanent;
-		#}
-
-
-		# 这里配置拒绝访问的目录或文件
-		# location ~ (repos) 
-		# {
-		#     deny all;
-		# }
+  	
 
 
 		# 静态站点
@@ -188,17 +178,6 @@ http {
 			charset utf-8;
 			root /root/code/docker/dockerfile_work/xray/config;
 		}
-
-		# 静态文件的过期时间，可以不需要此配置
-		location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|js|css)\$
- 		{
-			expires 30d;
-			error_log off;
-			access_log /dev/null;
-		}
-
-		# 这里很重要! 将日志转发到 /dev/stdout ，可以通过 docker logs -f  来查看容器日志
-		# access_log  /dev/stdout;
 
 	}
 	
