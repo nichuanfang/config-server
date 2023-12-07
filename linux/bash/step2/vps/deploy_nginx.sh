@@ -92,7 +92,7 @@ http {
 
 		location / {
 			resolver 1.1.1.1;
-			set \$example https://www.lovelive-anime.jp;
+			set \$example https://blog.$1;
 			proxy_pass \$example;
 			proxy_ssl_server_name on;
 			
@@ -127,7 +127,7 @@ http {
 
 		location / {
 			resolver 1.1.1.1;
-			set \$example https://www.lovelive-anime.jp;
+			set \$example https://blog.$1;
 			proxy_pass \$example;
 			proxy_ssl_server_name on;
 			
