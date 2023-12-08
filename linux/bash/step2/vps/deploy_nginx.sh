@@ -39,6 +39,22 @@ events {
 
 http {
 
+    map $http_upgrade $connection_upgrade {
+        default upgrade;
+        ""      close;
+    }
+
+    map $proxy_protocol_addr $proxy_forwarded_elem {
+        ~^[0-9.]+$        "for=$proxy_protocol_addr";
+        ~^[0-9A-Fa-f:.]+$ "for=\"[$proxy_protocol_addr]\"";
+        default           "for=unknown";
+    }
+
+    map $http_forwarded $proxy_add_forwarded {
+        "~^(,[ \\t]*)*([!#$%&'*+.^_`|~0-9A-Za-z-]+=([!#$%&'*+.^_`|~0-9A-Za-z-]+|\"([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\"))?(;([!#$%&'*+.^_`|~0-9A-Za-z-]+=([!#$%&'*+.^_`|~0-9A-Za-z-]+|\"([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\"))?)*([ \\t]*,([ \\t]*([!#$%&'*+.^_`|~0-9A-Za-z-]+=([!#$%&'*+.^_`|~0-9A-Za-z-]+|\"([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\"))?(;([!#$%&'*+.^_`|~0-9A-Za-z-]+=([!#$%&'*+.^_`|~0-9A-Za-z-]+|\"([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\"))?)*)?)*$" "$http_forwarded, $proxy_forwarded_elem";
+        default "$proxy_forwarded_elem";
+    }
+
 	##
 	# Basic Settings
 	##
@@ -89,6 +105,7 @@ http {
 	server {
 		listen 127.0.0.1:5001 proxy_protocol default_server;
 		listen 127.0.0.1:5002 proxy_protocol default_server http2;
+        server_name      xtls.$1;
 
 		location / {
 			resolver 1.1.1.1;
@@ -102,6 +119,7 @@ http {
 	# xray自己偷自己
 	server {
 		listen 5555 proxy_protocol ssl http2 proxy_protocol;
+        server_name      xtls.$1;
 		
 		# SSL Settings
 		##
@@ -120,18 +138,46 @@ http {
 		ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
 		ssl_prefer_server_ciphers on;
 		ssl_session_cache shared:SSL:10m;
+
+        ssl_session_tickets   on;
+		resolver  1.1.1.1 valid=60s;
+        resolver_timeout  2s;        
+
 		ssl_verify_depth 10;
 		# ssl_reject_handshake    on;
 		ssl_session_timeout     1h;
 		ssl_early_data          on;
 
 		location / {
-			resolver 1.1.1.1;
-			set \$example https://password.$1;
-			proxy_pass \$example;
-			proxy_ssl_server_name on;
-			
-		}
+            sub_filter                            $proxy_host $host;
+            sub_filter_once                       off;
+
+            set $website                          password.$1;
+            proxy_pass                            https://$website;
+            resolver                              1.1.1.1;
+
+            proxy_set_header Host                 $proxy_host;
+
+            proxy_http_version                    1.1;
+            proxy_cache_bypass                    $http_upgrade;
+
+            proxy_ssl_server_name                 on;
+
+            proxy_set_header Upgrade              $http_upgrade;
+            proxy_set_header Connection           $connection_upgrade;
+            proxy_set_header X-Real-IP            $proxy_protocol_addr;
+            proxy_set_header Forwarded            $proxy_add_forwarded;
+            proxy_set_header X-Forwarded-For      $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto    $scheme;
+            proxy_set_header X-Forwarded-Host     $host;
+            proxy_set_header X-Forwarded-Port     $server_port;
+
+            proxy_connect_timeout                 60s;
+            proxy_send_timeout                    60s;
+            proxy_read_timeout                    60s;
+
+            proxy_set_header Early-Data           $ssl_early_data;
+        }
 	}
 
 	# xray配置服务器
@@ -159,6 +205,9 @@ http {
 		ssl_prefer_server_ciphers on;
 		ssl_session_cache shared:SSL:10m;
 		ssl_verify_depth 10;
+		ssl_session_tickets   on;
+		resolver  1.1.1.1 valid=60s;
+        resolver_timeout  2s;   
 		# ssl_reject_handshake    on;
 		ssl_session_timeout     1h;
 		ssl_early_data          on;
@@ -206,6 +255,11 @@ http {
 		ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
 		ssl_prefer_server_ciphers on;
 		ssl_session_cache shared:SSL:10m;
+
+        ssl_session_tickets   on;
+		resolver  1.1.1.1 valid=60s;
+        resolver_timeout  2s;        
+        
 		ssl_verify_depth 10;
 		# ssl_reject_handshake    on;
         ssl_session_timeout     1h;
@@ -264,6 +318,9 @@ http {
 		ssl_prefer_server_ciphers on;
 		ssl_session_cache shared:SSL:10m;
 		ssl_verify_depth 10;
+		ssl_session_tickets   on;
+		resolver  1.1.1.1 valid=60s;
+        resolver_timeout  2s;   
 		# ssl_reject_handshake    on;
         ssl_session_timeout     1h;
         ssl_early_data          on;
