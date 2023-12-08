@@ -27,6 +27,6 @@
 
 ### audio and subtitle auto switch plugin
 
-[service.saasbops](https://github.com/ace20022/service.LanguagePreferenceManager/archive/refs/heads/master.zip)
+[service.saasbops](https://github.com/nichuanfang/service.saasbops/archive/refs/heads/master.zip)
 
 直接从nas文件夹的zip文件安装到kodi即可.剧集只要选择一次音频字幕 会记住选择
