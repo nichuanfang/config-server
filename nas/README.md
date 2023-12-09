@@ -25,8 +25,14 @@
 </advancedsettings>
 ```
 
-### audio and subtitle auto switch plugin
+### 必装的插件
 
-[service.saasbops](https://github.com/nichuanfang/service.saasbops/archive/refs/heads/master.zip)
+> [!NOTE]
+>
+> 1. 音频和字幕轨道选择修正插件:  [service.saasbops](https://github.com/nichuanfang/service.saasbops/archive/refs/heads/master.zip)
+> 2. 备份插件: **backup**
+> 3. 电影和剧集同步插件: **trakt**
 
-直接从nas文件夹的zip文件安装到kodi即可.剧集只要选择一次音频字幕 会记住选择
+
+
+
