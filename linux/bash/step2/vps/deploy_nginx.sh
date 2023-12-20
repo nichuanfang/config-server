@@ -105,7 +105,6 @@ http {
 	server {
 		listen 127.0.0.1:5001 proxy_protocol default_server;
 		listen 127.0.0.1:5002 proxy_protocol default_server http2;
-        server_name      xtls.$1;
 
 		location / {
 			resolver 1.1.1.1;
