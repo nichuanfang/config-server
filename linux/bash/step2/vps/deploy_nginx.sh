@@ -107,7 +107,7 @@ http {
 		listen 127.0.0.1:5002 proxy_protocol default_server http2;
 
 		location / {
-			#resolver 1.1.1.1;
+			resolver 1.1.1.1 valid=365d;
 			set \$example https://password.$1;
 			proxy_pass \$example;
 			proxy_ssl_server_name on;
@@ -139,11 +139,9 @@ http {
 		ssl_session_cache shared:SSL:10m;
 
         ssl_session_tickets   on;
-		#resolver  1.1.1.1 valid=60s;
-        resolver_timeout  2s;        
+		resolver 1.1.1.1 valid=365d;
 
 		ssl_verify_depth 10;
-		# ssl_reject_handshake    on;
 		ssl_session_timeout     1h;
 		ssl_early_data          on;
 
@@ -153,7 +151,6 @@ http {
 
             set $website                          password.$1;
             proxy_pass                            https://$website;
-            #resolver                              1.1.1.1;
 
             proxy_set_header Host                 $proxy_host;
 
@@ -205,9 +202,7 @@ http {
 		ssl_session_cache shared:SSL:10m;
 		ssl_verify_depth 10;
 		ssl_session_tickets   on;
-		#resolver  1.1.1.1 valid=60s;
-        resolver_timeout  2s;   
-		# ssl_reject_handshake    on;
+		resolver 1.1.1.1 valid=365d;
 		ssl_session_timeout     1h;
 		ssl_early_data          on;
 
@@ -256,11 +251,9 @@ http {
 		ssl_session_cache shared:SSL:10m;
 
         ssl_session_tickets   on;
-		#resolver  1.1.1.1 valid=60s;
-        resolver_timeout  2s;        
+		resolver 1.1.1.1 valid=365d;
         
 		ssl_verify_depth 10;
-		# ssl_reject_handshake    on;
         ssl_session_timeout     1h;
         ssl_early_data          on;
 
@@ -318,9 +311,7 @@ http {
 		ssl_session_cache shared:SSL:10m;
 		ssl_verify_depth 10;
 		ssl_session_tickets   on;
-		#resolver  1.1.1.1 valid=60s;
-        resolver_timeout  2s;   
-		# ssl_reject_handshake    on;
+		resolver 1.1.1.1 valid=365d;
         ssl_session_timeout     1h;
         ssl_early_data          on;
 
