@@ -116,65 +116,65 @@ http {
 	}
 	
 	# xray自己偷自己
-	server {
-		listen 5555 proxy_protocol ssl http2 proxy_protocol;
-        server_name      xtls.$1;
+	# server {
+	# 	listen 5555 proxy_protocol ssl http2 proxy_protocol;
+ #        server_name      xtls.$1;
 		
-		# SSL Settings
-		##
-		#ssl on;
-		# 注意文件位置，是从/etc/nginx/下开始算起的
-		#ssl证书的pem文件路径
-		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
-		#ssl证书的key文件路径
-		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
+	# 	# SSL Settings
+	# 	##
+	# 	#ssl on;
+	# 	# 注意文件位置，是从/etc/nginx/下开始算起的
+	# 	#ssl证书的pem文件路径
+	# 	ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+	# 	#ssl证书的key文件路径
+	# 	ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
 
-		add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
-		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
-		ssl_protocols TLSv1.2 TLSv1.3;
-		ssl_stapling on;
-		ssl_stapling_verify on;
-		ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
-		ssl_prefer_server_ciphers on;
-		ssl_session_cache shared:SSL:10m;
+	# 	add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
+	# 	ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
+	# 	ssl_protocols TLSv1.2 TLSv1.3;
+	# 	ssl_stapling on;
+	# 	ssl_stapling_verify on;
+	# 	ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+	# 	ssl_prefer_server_ciphers on;
+	# 	ssl_session_cache shared:SSL:10m;
 
-        ssl_session_tickets   on;
-		resolver 1.1.1.1 valid=365d;
+ #        ssl_session_tickets   on;
+	# 	resolver 1.1.1.1 valid=365d;
 
-		ssl_verify_depth 10;
-		ssl_session_timeout     1h;
-		ssl_early_data          on;
+	# 	ssl_verify_depth 10;
+	# 	ssl_session_timeout     1h;
+	# 	ssl_early_data          on;
 
-		location / {
-            sub_filter                            $proxy_host $host;
-            sub_filter_once                       off;
+	# 	location / {
+ #            sub_filter                            $proxy_host $host;
+ #            sub_filter_once                       off;
 
-            set $website                          password.$1;
-            proxy_pass                            https://$website;
+ #            set $website                          password.$1;
+ #            proxy_pass                            https://$website;
 
-            proxy_set_header Host                 $proxy_host;
+ #            proxy_set_header Host                 $proxy_host;
 
-            proxy_http_version                    1.1;
-            proxy_cache_bypass                    $http_upgrade;
+ #            proxy_http_version                    1.1;
+ #            proxy_cache_bypass                    $http_upgrade;
 
-            proxy_ssl_server_name                 on;
+ #            proxy_ssl_server_name                 on;
 
-            proxy_set_header Upgrade              $http_upgrade;
-            proxy_set_header Connection           $connection_upgrade;
-            proxy_set_header X-Real-IP            $proxy_protocol_addr;
-            proxy_set_header Forwarded            $proxy_add_forwarded;
-            proxy_set_header X-Forwarded-For      $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto    $scheme;
-            proxy_set_header X-Forwarded-Host     $host;
-            proxy_set_header X-Forwarded-Port     $server_port;
+ #            proxy_set_header Upgrade              $http_upgrade;
+ #            proxy_set_header Connection           $connection_upgrade;
+ #            proxy_set_header X-Real-IP            $proxy_protocol_addr;
+ #            proxy_set_header Forwarded            $proxy_add_forwarded;
+ #            proxy_set_header X-Forwarded-For      $proxy_add_x_forwarded_for;
+ #            proxy_set_header X-Forwarded-Proto    $scheme;
+ #            proxy_set_header X-Forwarded-Host     $host;
+ #            proxy_set_header X-Forwarded-Port     $server_port;
 
-            proxy_connect_timeout                 60s;
-            proxy_send_timeout                    60s;
-            proxy_read_timeout                    60s;
+ #            proxy_connect_timeout                 60s;
+ #            proxy_send_timeout                    60s;
+ #            proxy_read_timeout                    60s;
 
-            proxy_set_header Early-Data           $ssl_early_data;
-        }
-	}
+ #            proxy_set_header Early-Data           $ssl_early_data;
+ #        }
+	# }
 
 	# xray配置服务器
 	server {
