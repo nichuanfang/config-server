@@ -341,7 +341,7 @@ http {
  
  	server {
 		listen 80;
-		server_name jaychou.site *.jaychou.site;
+		server_name jaychou.site *.$1;
 		if ( \$host = "$1" ) {
 			rewrite ^/(.*)$ http://www.$1\$1 permanent;
 			return 200;
