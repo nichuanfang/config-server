@@ -178,8 +178,7 @@ http {
 
 	# xray配置服务器
 	server {
-		listen 5003 proxy_protocol;
-		listen 5004  proxy_protocol http2;
+		listen 443  ssl http2;
 		
 		server_name  www.$1;
 
@@ -226,8 +225,7 @@ http {
 	
 	# 自建密码平台Bitwarden
 	server {
-		listen 5005 proxy_protocol;
-		listen 5006  proxy_protocol http2;
+		listen 443  ssl http2;
 		
 		server_name password.$1;
 
@@ -286,8 +284,7 @@ http {
 
 	# bark server
 	server {
-		listen 5007 proxy_protocol;
-		listen 5008  proxy_protocol http2;
+		listen 443  ssl http2;
 		
 		server_name bark.$1;
 
