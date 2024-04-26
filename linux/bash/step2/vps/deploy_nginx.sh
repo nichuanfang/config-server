@@ -120,20 +120,45 @@ http {
 
 	include /etc/nginx/conf.d/*.conf;
 	include /etc/nginx/sites-enabled/*;
-	
-	# 防窥探服务
-	server {
-		listen 127.0.0.1:5001 proxy_protocol default_server;
-		listen 127.0.0.1:5002 proxy_protocol default_server http2;
 
-		location / {
-			resolver 1.1.1.1 valid=365d;
-			set \$example https://password.$1;
-			proxy_pass \$example;
-			proxy_ssl_server_name on;
-			
-		}
-	}
+
+ 	# 防窥探服务
+	server {
+	        listen 127.0.0.1:5001 proxy_protocol default_server;
+	        listen 127.0.0.1:5002 proxy_protocol default_server http2;
+	
+	        set_real_ip_from    127.0.0.1;
+	        real_ip_header      proxy_protocol;
+	
+	        location / {
+	            sub_filter                            \$proxy_host \$host;
+	            sub_filter_once                       off;
+	
+	            set $website                          www.lovelive-anime.jp;
+	            proxy_pass                            https://\$website;
+	            resolver                              1.1.1.1;
+	
+	            proxy_set_header Host                 \$proxy_host;
+	
+	            proxy_http_version                    1.1;
+	            proxy_cache_bypass                    \$http_upgrade;
+	
+	            proxy_ssl_server_name                 on;
+	
+	            proxy_set_header Upgrade              \$http_upgrade;
+	            proxy_set_header Connection           \$connection_upgrade;
+	            proxy_set_header X-Real-IP            \$proxy_protocol_addr;
+	            proxy_set_header Forwarded            \$proxy_add_forwarded;
+	            proxy_set_header X-Forwarded-For      \$proxy_add_x_forwarded_for;
+	            proxy_set_header X-Forwarded-Proto    \$scheme;
+	            proxy_set_header X-Forwarded-Host     \$host;
+	            proxy_set_header X-Forwarded-Port     \$server_port;
+	
+	            proxy_connect_timeout                 60s;
+	            proxy_send_timeout                    60s;
+	            proxy_read_timeout                    60s;
+	         }
+       }
 	
 	# xray自己偷自己
 	# server {
