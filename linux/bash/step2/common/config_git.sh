@@ -36,6 +36,6 @@ git clone https://github.com/nichuanfang/MyScripts.git
 git clone https://github.com/nichuanfang/nginx-config.git
 git clone https://github.com/nichuanfang/nogfw.git
 git clone https://github.com/nichuanfang/xray-parser.git
-git clone https://github.com/nichuanfang/tgbot.git
+git clone https://github.com/nichuanfang/telegram-bot.git
 git clone https://github.com/nichuanfang/nichuanfang.github.io.git
 echo "==========================================git配置完成!"
