@@ -28,7 +28,7 @@ chmod 777 /etc/nginx/passwdfile
 # 通过nginx发布xray客户端http服务
 sudo cat <<EOF >/etc/nginx/nginx.conf
 user root;
-worker_processes 1;
+worker_processes auto;
 pid /run/nginx.pid;
 include /etc/nginx/modules-enabled/*.conf;
 
@@ -111,7 +111,7 @@ http {
 	#gzip_http_version 1.0;
 	gzip_comp_level 2;
 	gzip_types text/plain application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png image/webp font/woff2;
-	gzip_vary off;
+	gzip_vary on;
 	gzip_disable "MSIE [1-6]\.";
 	# Virtual Host Configs
 	
@@ -128,75 +128,20 @@ http {
 		listen 127.0.0.1:5002 proxy_protocol default_server http2;
 
 		location / {
-			resolver 1.1.1.1 valid=365d;
+			resolver 1.1.1.1 8.8.8.8 valid=365d;
 			set \$example https://password.$1;
 			proxy_pass \$example;
 			proxy_ssl_server_name on;
-			
+      proxy_set_header Host \$host;
+      proxy_set_header X-Real-IP \$remote_addr;
+      proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto \$scheme;
+      proxy_buffering on;
+      proxy_buffers 16 16k;
+      proxy_buffer_size 32k;
 		}
 	}
 	
-	# xray自己偷自己
-	# server {
-	# 	listen 5555 proxy_protocol ssl http2 proxy_protocol;
- #        server_name      xtls.$1;
-		
-	# 	# SSL Settings
-	# 	##
-	# 	#ssl on;
-	# 	# 注意文件位置，是从/etc/nginx/下开始算起的
-	# 	#ssl证书的pem文件路径
-	# 	ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
-	# 	#ssl证书的key文件路径
-	# 	ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
-
-	# 	add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
-	# 	ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
-	# 	ssl_protocols TLSv1.2 TLSv1.3;
-	# 	ssl_stapling on;
-	# 	ssl_stapling_verify on;
-	# 	ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
-	# 	ssl_prefer_server_ciphers on;
-	# 	ssl_session_cache shared:SSL:10m;
-
- #        ssl_session_tickets   on;
-	# 	resolver 1.1.1.1 valid=365d;
-
-	# 	ssl_verify_depth 10;
-	# 	ssl_session_timeout     1h;
-	# 	ssl_early_data          on;
-
-	# 	location / {
- #            sub_filter                            $proxy_host $host;
- #            sub_filter_once                       off;
-
- #            set $website                          password.$1;
- #            proxy_pass                            https://$website;
-
- #            proxy_set_header Host                 $proxy_host;
-
- #            proxy_http_version                    1.1;
- #            proxy_cache_bypass                    $http_upgrade;
-
- #            proxy_ssl_server_name                 on;
-
- #            proxy_set_header Upgrade              $http_upgrade;
- #            proxy_set_header Connection           $connection_upgrade;
- #            proxy_set_header X-Real-IP            $proxy_protocol_addr;
- #            proxy_set_header Forwarded            $proxy_add_forwarded;
- #            proxy_set_header X-Forwarded-For      $proxy_add_x_forwarded_for;
- #            proxy_set_header X-Forwarded-Proto    $scheme;
- #            proxy_set_header X-Forwarded-Host     $host;
- #            proxy_set_header X-Forwarded-Port     $server_port;
-
- #            proxy_connect_timeout                 60s;
- #            proxy_send_timeout                    60s;
- #            proxy_read_timeout                    60s;
-
- #            proxy_set_header Early-Data           $ssl_early_data;
- #        }
-	# }
-
 	# xray配置服务器
 	server {
 		listen 443  ssl http2;
@@ -221,24 +166,26 @@ http {
 		ssl_prefer_server_ciphers on;
 		ssl_session_cache shared:SSL:10m;
 		ssl_verify_depth 10;
-		ssl_session_tickets   on;
-		resolver 1.1.1.1 valid=365d;
+		ssl_session_tickets   off;
+		resolver 1.1.1.1 8.8.8.8 valid=365d;
 		ssl_session_timeout     1h;
 		ssl_early_data          on;
 
-  		default_type application/octet-stream;
+  	default_type application/octet-stream;
 
 
 		# 静态站点
-		location / {
-			autoindex on;
-			autoindex_exact_size off;
-			autoindex_localtime on;
-			auth_basic "authentication";
-			auth_basic_user_file /etc/nginx/passwdfile;
-			charset utf-8;
-			root /root/code/docker/dockerfile_work/xray/config;
-		}
+    location / {
+        autoindex on;
+        autoindex_exact_size off;
+        autoindex_localtime on;
+        auth_basic "authentication";
+        auth_basic_user_file /etc/nginx/passwdfile;
+        charset utf-8;
+        root /root/code/docker/dockerfile_work/xray/config;
+        expires max;
+        add_header Cache-Control "public, max-age=31536000";
+    }
 
 	}
 	
@@ -267,12 +214,12 @@ http {
 		ssl_prefer_server_ciphers on;
 		ssl_session_cache shared:SSL:10m;
 
-        ssl_session_tickets   on;
-		resolver 1.1.1.1 valid=365d;
+    ssl_session_tickets   off;
+		resolver 1.1.1.1 8.8.8.8  valid=365d;
         
 		ssl_verify_depth 10;
-        ssl_session_timeout     1h;
-        ssl_early_data          on;
+    ssl_session_timeout     1h;
+    ssl_early_data          on;
 
 
 		# 这里配置拒绝访问的目录或文件
@@ -332,10 +279,10 @@ http {
 		ssl_prefer_server_ciphers on;
 		ssl_session_cache shared:SSL:10m;
 		ssl_verify_depth 10;
-		ssl_session_tickets   on;
-		resolver 1.1.1.1 valid=365d;
-        ssl_session_timeout     1h;
-        ssl_early_data          on;
+		ssl_session_tickets   off;
+		resolver 1.1.1.1 8.8.8.8 valid=365d;
+    ssl_session_timeout     1h;
+    ssl_early_data          on;
 
 
 		# 这里配置拒绝访问的目录或文件
@@ -378,8 +325,8 @@ http {
   		ssl_prefer_server_ciphers on;
   		ssl_session_cache shared:SSL:10m;
 
-      ssl_session_tickets   on;
-  		resolver 1.1.1.1 valid=365d;
+      ssl_session_tickets   off;
+  		resolver 1.1.1.1 8.8.8.8 valid=365d;
 
   		ssl_verify_depth 10;
       ssl_session_timeout     1h;
@@ -452,8 +399,8 @@ http {
   		ssl_prefer_server_ciphers on;
   		ssl_session_cache shared:SSL:10m;
   		ssl_verify_depth 10;
-  		ssl_session_tickets   on;
-  		resolver 1.1.1.1 valid=365d;
+  		ssl_session_tickets   off;
+  		resolver 1.1.1.1 8.8.8.8 valid=365d;
           ssl_session_timeout     1h;
           ssl_early_data          on;
 
@@ -492,10 +439,10 @@ http {
     		ssl_prefer_server_ciphers on;
     		ssl_session_cache shared:SSL:10m;
     		ssl_verify_depth 10;
-    		ssl_session_tickets   on;
-    		resolver 1.1.1.1 valid=365d;
-            ssl_session_timeout     1h;
-            ssl_early_data          on;
+    		ssl_session_tickets   off;
+    		resolver 1.1.1.1 8.8.8.8 valid=365d;
+        ssl_session_timeout     1h;
+        ssl_early_data          on;
 
 
     		location / {
