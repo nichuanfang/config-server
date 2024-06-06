@@ -30,6 +30,5 @@ EOF
 # 重载配置 重启容器
 systemctl daemon-reload && systemctl restart docker
 
-docker network create npm-net
 
 echo "==========================================docker环境配置完成!"
