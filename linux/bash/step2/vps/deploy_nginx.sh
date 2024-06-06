@@ -292,12 +292,18 @@ http {
 
 		location /notifications/hub {
 			proxy_pass http://127.0.0.1:7007;
-			proxy_set_header Upgrade \$http_upgrade;
-			proxy_set_header Connection "upgrade";
+			proxy_set_header Host \$host;
+      proxy_set_header X-Real-IP \$remote_addr;
+      proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto \$scheme;
 		}
 
 		location /notifications/hub/negotiate {
 			proxy_pass http://127.0.0.1:7006;
+			proxy_set_header Host \$host;
+      proxy_set_header X-Real-IP \$remote_addr;
+      proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto \$scheme;
 		}
 	}
 
@@ -340,28 +346,17 @@ http {
 
 		# bark服务
 		location / {
-			proxy_connect_timeout 10;
-			proxy_read_timeout 1d;
-			proxy_send_timeout 1d;
-			proxy_set_header Connection "";
-			proxy_request_buffering off;
-			proxy_pass_request_body off;
-			proxy_redirect off;
-			proxy_buffering off;
-			proxy_http_version 1.1;
-			proxy_set_header Upgrade \$http_upgrade;
-			proxy_set_header Connection "upgrade";
-			proxy_set_header Host \$http_host;
-			proxy_set_header X-Real-IP \$remote_addr;
-			proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
 			proxy_pass http://127.0.0.1:8080/;
+			proxy_set_header Host \$host;
+      proxy_set_header X-Real-IP \$remote_addr;
+      proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto \$scheme;
 		}
 	}
 
 	# telegram bot webhook
-  	server {
+  server {
   		listen 443  ssl http2;
-
   		server_name bot.$1;
 
   		##
@@ -422,7 +417,47 @@ http {
   			proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
   			proxy_set_header X-Forwarded-Proto \$scheme;
   		}
-  	}
+  }
+
+  # portainer监控
+  server {
+  		listen 443  ssl http2;
+
+  		server_name monitor.$1;
+
+  		##
+  		# SSL Settings
+  		##
+  		#ssl on;
+  		# 注意文件位置，是从/etc/nginx/下开始算起的
+  		#ssl证书的pem文件路径
+  		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+  		#ssl证书的key文件路径
+  		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
+
+  		add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
+  		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
+  		ssl_protocols TLSv1.2 TLSv1.3;
+  		ssl_stapling on;
+  		ssl_stapling_verify on;
+  		ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+  		ssl_prefer_server_ciphers on;
+  		ssl_session_cache shared:SSL:10m;
+  		ssl_verify_depth 10;
+  		ssl_session_tickets   on;
+  		resolver 1.1.1.1 valid=365d;
+          ssl_session_timeout     1h;
+          ssl_early_data          on;
+
+
+  		location / {
+  			proxy_pass http://127.0.0.1:9000/;
+  			proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+  		}
+  }
  
  	server {
 		listen 80;
