@@ -1,6 +1,7 @@
 #!/bin/bash
-# clouddrive2 install script for CoreELEC
 
+
+# clouddrive2 install script for CoreELEC
 echo "开始更新clouddrive2...."
 
 #enable shared mount option for mapped volume in host
