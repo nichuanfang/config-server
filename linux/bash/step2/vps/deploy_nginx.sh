@@ -124,23 +124,17 @@ http {
 
  	# 防窥探服务
 	server {
-		listen 127.0.0.1:5001 proxy_protocol default_server;
-		listen 127.0.0.1:5002 proxy_protocol default_server http2;
+  		listen 127.0.0.1:5001 proxy_protocol default_server;
+  		listen 127.0.0.1:5002 proxy_protocol default_server http2;
 
-		location / {
-			resolver 1.1.1.1 8.8.8.8 valid=365d;
-			set \$example https://password.$1;
-			proxy_pass \$example;
-			proxy_ssl_server_name on;
-      proxy_set_header Host \$host;
-      proxy_set_header X-Real-IP \$remote_addr;
-      proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-      proxy_set_header X-Forwarded-Proto \$scheme;
-      proxy_buffering on;
-      proxy_buffers 16 16k;
-      proxy_buffer_size 32k;
-		}
-	}
+  		location / {
+  			resolver 1.1.1.1 valid=365d;
+  			set \$example https://password.$1;
+  			proxy_pass \$example;
+  			proxy_ssl_server_name on;
+
+  		}
+  }
 	
 	# xray配置服务器
 	server {
