@@ -2,16 +2,21 @@
 
 #创建相应目录赋予权限     [   ]  内  前后都要有空格 if与[ ]之间也要有空格
 
-#日志目录
+#配置文件目录
+if [ ! -d "/storage/xray/config" ]; then
+mkdir -p /storage/xray/config
+chmod 777 /storage/xray/config
+fi
+
 if [ ! -d "/storage/xray/log" ]; then
 mkdir -p /storage/xray/log
 chmod 777 /storage/xray/log
 fi
 
-#配置文件目录
-if [ ! -d "/storage/xray/config" ]; then
-mkdir -p /storage/xray/config
-chmod 777 /storage/xray/config
+#geo目录
+if [ ! -d "/storage/xray/geo" ]; then
+mkdir -p /storage/xray/geo
+chmod 777 /storage/xray/geo
 fi
 
 #xray配置文件用户名
@@ -19,7 +24,11 @@ USERNAME=$1
 #xray配置文件密码
 PASSWORD=$2
 
+#更新xray配置文件
 wget https://"$USERNAME":"$PASSWORD"@www.jaychou.site/client/client-windows-config.json -O /storage/xray/config/config.json
+#更新geo文件
+wget https://github.com/nichuanfang/v2ray-rules-dat/releases/latest/download/geosite.dat -O /storage/xray/geo/geosite.dat
+wget https://github.com/nichuanfang/v2ray-rules-dat/releases/latest/download/geoip.dat -O /storage/xray/geo/geoip.dat
 
 #检测是否需要更新
 latest_version=$(curl -s 'https://proxy.jaychou.site/https://hub.docker.com/v2/repositories/teddysun/xray/tags/' | \
@@ -60,6 +69,8 @@ docker run -d \
     --restart always \
     -v /storage/xray/log:/log \
     -v /storage/xray/config:/etc/xray \
+    -v /storage/xray/geo/geoip.dat:/etc/xray/geoip.dat \
+    -v /storage/xray/geo/geosite.dat:/etc/xray/geosite.dat \
     --network host \
     teddysun/xray:"$latest_version"
 
