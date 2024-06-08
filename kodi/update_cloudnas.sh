@@ -1,5 +1,27 @@
 #!/bin/bash
 
+#检测是否需要更新
+
+# 设置镜像名称和Docker Hub仓库
+image_name="cloudnas"
+docker_hub_repo="clouddrive2"
+
+# 调用Docker Hub的API获取镜像的tags信息
+tags=$(curl -s "https://hub.docker.com/v2/repositories/${docker_hub_repo}/${image_name}/tags/")
+
+# 解析JSON数据并提取最新版本信息
+latest_version=""
+while IFS= read -r line; do
+    if [[ "$line" =~ ^s+"name": "(.*)",$ ]]; then
+        version="${BASH_REMATCH[1]}"
+        if [[ "$version" != "latest" ]]; then
+            latest_version="$version"
+            break
+        fi
+    fi
+done <<< "$tags"
+
+echo "$latest_version"
 
 # clouddrive2 install script for CoreELEC
 echo "开始更新clouddrive2...."
