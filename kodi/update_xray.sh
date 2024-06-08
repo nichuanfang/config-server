@@ -69,8 +69,8 @@ docker run -d \
     --restart always \
     -v /storage/xray/log:/log \
     -v /storage/xray/config:/etc/xray \
-    -v /storage/xray/geo/geoip.dat:/etc/xray/geoip.dat \
-    -v /storage/xray/geo/geosite.dat:/etc/xray/geosite.dat \
+    -v /storage/xray/geo/geoip.dat:/usr/share/xray/geoip.dat \
+    -v /storage/xray/geo/geosite.dat:/usr/share/xray/geosite.dat \
     --network host \
     teddysun/xray:"$latest_version"
 
