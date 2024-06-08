@@ -37,8 +37,10 @@ fi
 
 #更新clouddrive2
 echo "开始更新clouddrive2镜像..."
+if [ -n "$current_version" ]; then
 docker rm -f clouddrive2
 docker rmi -f cloudnas/clouddrive2:"$current_version"
+fi
 docker pull docker.m.daocloud.io/cloudnas/clouddrive2:"$latest_version"
 docker tag docker.m.daocloud.io/cloudnas/clouddrive2:"$latest_version" cloudnas/clouddrive2:"$latest_version"
 docker rmi -f docker.m.daocloud.io/cloudnas/clouddrive2:"$latest_version"
