@@ -3,25 +3,20 @@
 #检测是否需要更新
 
 # 设置镜像名称和Docker Hub仓库
-image_name="cloudnas"
-docker_hub_repo="clouddrive2"
 
-# 调用Docker Hub的API获取镜像的tags信息
-tags=$(curl -s "https://hub.docker.com/v2/repositories/${docker_hub_repo}/${image_name}/tags/")
+latest_version=$(curl -s 'https://proxy.jaychou.site/https://hub.docker.com/v2/repositories/cloudnas/clouddrive2/tags/' | \
+  python3 -c "import sys, json; print(json.load(sys.stdin)['results'][1]['name'])")
 
-# 解析JSON数据并提取最新版本信息
-latest_version=""
-while IFS= read -r line; do
-    if [[ "$line" =~ ^s+"name": "(.*)",$ ]]; then
-        version="${BASH_REMATCH[1]}"
-        if [[ "$version" != "latest" ]]; then
-            latest_version="$version"
-            break
-        fi
-    fi
-done <<< "$tags"
+echo "cloudnas最新版本: $latest_version"
 
-echo "$latest_version"
+#获取当前版本
+current_version=$(docker images | grep cloudnas/clouddrive2 | awk '{print $2}')
+echo "当前版本: $current_version"
+
+if [ -n "$current_version" ] && [ "$latest_version" == "$current_version" ]; then
+echo  "无需更新cloudnas"
+exit 0
+fi
 
 # clouddrive2 install script for CoreELEC
 echo "开始更新clouddrive2...."
@@ -43,10 +38,10 @@ fi
 #更新clouddrive2
 echo "开始更新clouddrive2镜像..."
 docker rm -f clouddrive2
-docker rmi -f cloudnas/clouddrive2:latest
-docker pull docker.m.daocloud.io/cloudnas/clouddrive2:latest
-docker tag docker.m.daocloud.io/cloudnas/clouddrive2:latest cloudnas/clouddrive2:latest
-docker rmi -f docker.m.daocloud.io/cloudnas/clouddrive2:latest
+docker rmi -f cloudnas/clouddrive2:"$current_version"
+docker pull docker.m.daocloud.io/cloudnas/clouddrive2:"$latest_version"
+docker tag docker.m.daocloud.io/cloudnas/clouddrive2:"$latest_version" cloudnas/clouddrive2:"$latest_version"
+docker rmi -f docker.m.daocloud.io/cloudnas/clouddrive2:"$latest_version"
 echo "clouddrive2镜像更新完毕!"
 
 # 删除原挂载目录
@@ -71,7 +66,7 @@ docker run -d \
       --pid host \
      --privileged \
      --device /dev/fuse:/dev/fuse \
-     cloudnas/clouddrive2:latest
+     cloudnas/clouddrive2:"$latest_version"
 
 echo "clouddrive2启动完成!"
 
