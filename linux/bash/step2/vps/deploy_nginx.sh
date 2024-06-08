@@ -26,6 +26,7 @@ printf "$2:$(openssl passwd -crypt $3)\n" >>/etc/nginx/passwdfile
 chmod 777 /etc/nginx/passwdfile
 
 # 通过nginx发布xray客户端http服务
+# shellcheck disable=SC2024
 sudo cat <<EOF >/etc/nginx/nginx.conf
 user root;
 worker_processes 1;
@@ -39,20 +40,20 @@ events {
 
 http {
 
-    map $http_upgrade $connection_upgrade {
+    map \$http_upgrade \$connection_upgrade {
         default upgrade;
         ""      close;
     }
 
-    map $proxy_protocol_addr $proxy_forwarded_elem {
-        ~^[0-9.]+$        "for=$proxy_protocol_addr";
-        ~^[0-9A-Fa-f:.]+$ "for=\"[$proxy_protocol_addr]\"";
+    map \$proxy_protocol_addr \$proxy_forwarded_elem {
+        ~^[0-9.]+$        "for=\$proxy_protocol_addr";
+        ~^[0-9A-Fa-f:.]+$ "for=\"[\$proxy_protocol_addr]\"";
         default           "for=unknown";
     }
 
-    map $http_forwarded $proxy_add_forwarded {
-        "~^(,[ \\t]*)*([!#$%&'*+.^_`|~0-9A-Za-z-]+=([!#$%&'*+.^_`|~0-9A-Za-z-]+|\"([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\"))?(;([!#$%&'*+.^_`|~0-9A-Za-z-]+=([!#$%&'*+.^_`|~0-9A-Za-z-]+|\"([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\"))?)*([ \\t]*,([ \\t]*([!#$%&'*+.^_`|~0-9A-Za-z-]+=([!#$%&'*+.^_`|~0-9A-Za-z-]+|\"([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\"))?(;([!#$%&'*+.^_`|~0-9A-Za-z-]+=([!#$%&'*+.^_`|~0-9A-Za-z-]+|\"([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\"))?)*)?)*$" "$http_forwarded, $proxy_forwarded_elem";
-        default "$proxy_forwarded_elem";
+    map \$http_forwarded \$proxy_add_forwarded {
+        "~^(,[ \\t]*)*([!#$%&'*+.^_`|~0-9A-Za-z-]+=([!#$%&'*+.^_`|~0-9A-Za-z-]+|\"([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\"))?(;([!#$%&'*+.^_`|~0-9A-Za-z-]+=([!#$%&'*+.^_`|~0-9A-Za-z-]+|\"([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\"))?)*([ \\t]*,([ \\t]*([!#$%&'*+.^_`|~0-9A-Za-z-]+=([!#$%&'*+.^_`|~0-9A-Za-z-]+|\"([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\"))?(;([!#$%&'*+.^_`|~0-9A-Za-z-]+=([!#$%&'*+.^_`|~0-9A-Za-z-]+|\"([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\"))?)*)?)*$" "\$http_forwarded, \$proxy_forwarded_elem";
+        default "\$proxy_forwarded_elem";
     }
 
 	##
@@ -94,7 +95,7 @@ http {
 	gzip_vary off;
 	gzip_disable "MSIE [1-6]\.";
 	# Virtual Host Configs
-	
+
 	set_real_ip_from 127.0.0.1;
 	real_ip_header proxy_protocol;
 
@@ -111,7 +112,6 @@ http {
 			set \$example https://password.$1;
 			proxy_pass \$example;
 			proxy_ssl_server_name on;
-			
 		}
 	}
 	
@@ -119,62 +119,6 @@ http {
 	# server {
 	# 	listen 5555 proxy_protocol ssl http2 proxy_protocol;
  #        server_name      xtls.$1;
-		
-	# 	# SSL Settings
-	# 	##
-	# 	#ssl on;
-	# 	# 注意文件位置，是从/etc/nginx/下开始算起的
-	# 	#ssl证书的pem文件路径
-	# 	ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
-	# 	#ssl证书的key文件路径
-	# 	ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
-
-	# 	add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
-	# 	ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
-	# 	ssl_protocols TLSv1.2 TLSv1.3;
-	# 	ssl_stapling on;
-	# 	ssl_stapling_verify on;
-	# 	ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
-	# 	ssl_prefer_server_ciphers on;
-	# 	ssl_session_cache shared:SSL:10m;
-
- #        ssl_session_tickets   on;
-	# 	resolver 1.1.1.1 valid=365d;
-
-	# 	ssl_verify_depth 10;
-	# 	ssl_session_timeout     1h;
-	# 	ssl_early_data          on;
-
-	# 	location / {
- #            sub_filter                            $proxy_host $host;
- #            sub_filter_once                       off;
-
- #            set $website                          password.$1;
- #            proxy_pass                            https://$website;
-
- #            proxy_set_header Host                 $proxy_host;
-
- #            proxy_http_version                    1.1;
- #            proxy_cache_bypass                    $http_upgrade;
-
- #            proxy_ssl_server_name                 on;
-
- #            proxy_set_header Upgrade              $http_upgrade;
- #            proxy_set_header Connection           $connection_upgrade;
- #            proxy_set_header X-Real-IP            $proxy_protocol_addr;
- #            proxy_set_header Forwarded            $proxy_add_forwarded;
- #            proxy_set_header X-Forwarded-For      $proxy_add_x_forwarded_for;
- #            proxy_set_header X-Forwarded-Proto    $scheme;
- #            proxy_set_header X-Forwarded-Host     $host;
- #            proxy_set_header X-Forwarded-Port     $server_port;
-
- #            proxy_connect_timeout                 60s;
- #            proxy_send_timeout                    60s;
- #            proxy_read_timeout                    60s;
-
- #            proxy_set_header Early-Data           $ssl_early_data;
- #        }
-	# }
 
 	# xray配置服务器
 	server {
@@ -249,7 +193,7 @@ http {
 		ssl_session_cache shared:SSL:10m;
 
         ssl_session_tickets   on;
-		resolver 1.1.1.1 valid=365d;
+		resolver 1.1.1.1 8.8.8.8 valid=365d;
         
 		ssl_verify_depth 10;
         ssl_session_timeout     1h;
@@ -338,6 +282,82 @@ http {
 			proxy_pass http://127.0.0.1:8080/;
 		}
 	}
+
+	# 代理服务
+  server {
+  		listen  443  ssl http2;
+
+  		server_name proxy.$1;
+
+  		##
+  		# SSL Settings
+  		##
+  		#ssl on;
+  		# 注意文件位置，是从/etc/nginx/下开始算起的
+  		#ssl证书的pem文件路径
+  		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+  		#ssl证书的key文件路径
+  		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
+
+  		add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
+  		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
+  		ssl_protocols TLSv1.2 TLSv1.3;
+  		ssl_stapling on;
+  		ssl_stapling_verify on;
+  		ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+  		ssl_prefer_server_ciphers on;
+  		ssl_session_cache shared:SSL:10m;
+  		ssl_verify_depth 10;
+  		ssl_session_tickets   off;
+  		resolver 1.1.1.1 8.8.8.8 valid=365d;
+      ssl_session_timeout     1h;
+      ssl_early_data          on;
+
+  		client_max_body_size  0;
+
+  		set \$proxy_scheme http;
+  		if (\$request ~* "^\S+ /https://") {
+  			set \$proxy_scheme https;
+  		}
+
+  		set \$proxy_domain "";
+  		if (\$request ~* "^\S+ /[^/]+://([^/]+)") {
+  			set \$proxy_domain $1;
+  		}
+
+  		set \$location @not_found;
+  		if (\$proxy_domain != "") {
+  			set \$location @proxy_\$proxy_scheme;
+  		}
+
+  		set \$proxy_request_path /;
+  		if (\$request ~* "^\S+ /[^/]+://[^/]+(/[\S^\?]*)") {
+  			set \$proxy_request_path $1;
+  		}
+  		if (\$proxy_request_path ~* "^(.*)\?") {
+  			set \$proxy_request_path $1;
+  		}
+
+  		location / {
+  			try_files  /dev/null \$location;
+  		}
+
+  		location @not_found {
+  			try_files  /dev/null =404;
+  		}
+
+  		location @proxy_https {
+  			rewrite ^.*$  \$proxy_request_path break;
+
+  			proxy_ssl_server_name  on;
+  			proxy_ssl_name         \$proxy_domain;
+  			proxy_pass             https://\$proxy_domain;
+  		}
+
+  		location @proxy_http {
+  			proxy_pass  http://\$proxy_domain;
+  		}
+  }
  
  	server {
 		listen 80;
@@ -346,7 +366,7 @@ http {
 			rewrite ^/(.*)$ http://www.$1\$1 permanent;
 			return 200;
 		}
-		rewrite ^(.*)$ https://$host\$1 permanent;
+		rewrite ^(.*)$ https://\$host\$1 permanent;
 	}
 }
 EOF
