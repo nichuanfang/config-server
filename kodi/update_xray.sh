@@ -23,18 +23,15 @@ fi
 USERNAME=$1
 #xray配置文件密码
 PASSWORD=$2
-#github脚本代理
-GITHUB_PROXY='proxy.jaychou.site'
-
 
 #更新xray配置文件
 wget https://"$USERNAME":"$PASSWORD"@www.jaychou.site/client/client-windows-config.json -O /storage/xray/config/config.json
 #更新geo文件
-wget https://"$GITHUB_PROXY"/https://github.com/nichuanfang/v2ray-rules-dat/releases/latest/download/geosite.dat -O /storage/xray/geo/geosite.dat
-wget https://"$GITHUB_PROXY"/https://github.com/nichuanfang/v2ray-rules-dat/releases/latest/download/geoip.dat -O /storage/xray/geo/geoip.dat
+wget https://github.com/nichuanfang/v2ray-rules-dat/releases/latest/download/geosite.dat -O /storage/xray/geo/geosite.dat
+wget https://github.com/nichuanfang/v2ray-rules-dat/releases/latest/download/geoip.dat -O /storage/xray/geo/geoip.dat
 
 #检测是否需要更新
-latest_version=$(curl -s 'https://'$GITHUB_PROXY'/https://hub.docker.com/v2/repositories/teddysun/xray/tags/' | \
+latest_version=$(curl -s 'https://proxy.jaychou.site/https://hub.docker.com/v2/repositories/teddysun/xray/tags/' | \
   python3 -c "import sys, json; print(json.load(sys.stdin)['results'][1]['name'])")
 
 echo "xray最新版本: $latest_version"
