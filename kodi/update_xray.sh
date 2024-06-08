@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #github代理
-GITHUB_PROXY="mirror.ghproxy.com"
+GITHUB_PROXY="proxy.jaychou.site"
 
 #创建相应目录赋予权限     [   ]  内  前后都要有空格 if与[ ]之间也要有空格
 
@@ -25,8 +25,8 @@ PASSWORD=$2
 #更新xray配置文件
 wget https://"$USERNAME":"$PASSWORD"@www.jaychou.site/client/client-windows-config.json -O /storage/xray/config/config.json
 #更新geo文件
-wget "https://$GITHUB_PROXY/https://github.com/nichuanfang/v2ray-rules-dat/releases/latest/download/geosite.dat" -O /storage/xray/geo/geosite.dat
-wget "https://$GITHUB_PROXY/https://github.com/nichuanfang/v2ray-rules-dat/releases/latest/download/geoip.dat" -O /storage/xray/geo/geoip.dat
+wget "https://mirror.ghproxy.com/https://github.com/nichuanfang/v2ray-rules-dat/releases/latest/download/geosite.dat" -O /storage/xray/geo/geosite.dat
+wget "https://mirror.ghproxy.com/https://github.com/nichuanfang/v2ray-rules-dat/releases/latest/download/geoip.dat" -O /storage/xray/geo/geoip.dat
 
 #检测是否需要更新
 latest_version=$(curl -s "https://$GITHUB_PROXY/https://hub.docker.com/v2/repositories/teddysun/xray/tags/" | \

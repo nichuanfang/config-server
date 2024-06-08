@@ -1,11 +1,10 @@
 #!/bin/bash
 
 #github代理
-GITHUB_PROXY="mirror.ghproxy.com"
+GITHUB_PROXY="proxy.jaychou.site"
 #检测是否需要更新
 
-latest_version=$(curl -s "https://$GITHUB_PROXY/https://hub.docker.com/v2/repositories/cloudnas/clouddrive2/tags/" | \
-  python3 -c "import sys, json; print(json.load(sys.stdin)['results'][1]['name'])")
+latest_version=$(curl -s "https://$GITHUB_PROXY/https://hub.docker.com/v2/repositories/cloudnas/clouddrive2/tags/" | python3 -c "import sys, json; print(json.load(sys.stdin)['results'][1]['name'])")
 
 echo "cloudnas最新版本: $latest_version"
 
