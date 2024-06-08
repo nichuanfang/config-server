@@ -1,5 +1,19 @@
 #!/bin/bash
 
+#创建相应目录赋予权限     [   ]  内  前后都要有空格 if与[ ]之间也要有空格
+
+#日志目录
+if [ ! -d "/storage/xray/log" ]; then
+mkdir -p /storage/xray/log
+chmod 777 /storage/xray/log
+fi
+
+#配置文件目录
+if [ ! -d "/storage/xray/config" ]; then
+mkdir -p /storage/xray/config
+chmod 777 /storage/xray/config
+fi
+
 #xray配置文件用户名
 USERNAME=$1
 #xray配置文件密码
@@ -25,20 +39,6 @@ exit 0
 fi
 
 echo "开始更新xray...."
-
-#创建相应目录赋予权限     [   ]  内  前后都要有空格 if与[ ]之间也要有空格
-
-#日志目录
-if [ ! -d "/storage/xray/log" ]; then
-mkdir -p /storage/xray/log
-chmod 777 /storage/xray/log
-fi
-
-#配置文件目录
-if [ ! -d "/storage/xray/config" ]; then
-mkdir -p /storage/xray/config
-chmod 777 /storage/xray/config
-fi
 
 #更新xray镜像
 echo "开始更新xray镜像..."
