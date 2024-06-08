@@ -3,9 +3,7 @@
 cacheFile=/storage/.kodi/userdata/advancedsettings.xml
 
 if [ ! -f "$cacheFile" ]; then
-  touch "$cacheFile"
-fi
-
+touch "$cacheFile"
 cat << EOF > "$cacheFile"
 <advancedsettings>
   <cache>
@@ -15,5 +13,5 @@ cat << EOF > "$cacheFile"
   </cache>
 </advancedsettings>
 EOF
-
 reboot
+fi
