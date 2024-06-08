@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #github代理
-GITHUB_PROXY='mirror.ghproxy.com'
+GITHUB_PROXY="mirror.ghproxy.com"
 #检测是否需要更新
 
 latest_version=$(curl -s "https://$GITHUB_PROXY/https://hub.docker.com/v2/repositories/cloudnas/clouddrive2/tags/" | \

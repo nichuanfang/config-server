@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #github代理
-GITHUB_PROXY='mirror.ghproxy.com'
+GITHUB_PROXY="mirror.ghproxy.com"
 #统一管理启动的脚本
 
 #缓存检测
