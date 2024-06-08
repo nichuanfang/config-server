@@ -25,12 +25,8 @@ PASSWORD=$2
 #更新xray配置文件
 wget https://"$USERNAME":"$PASSWORD"@www.jaychou.site/client/client-windows-config.json -O /storage/xray/config/config.json
 #更新geo文件
-# shellcheck disable=SC2164
-cd /storage/xray/geo
-# shellcheck disable=SC2035
-rm -f *
-wget https://"$USERNAME":"$PASSWORD"@www.jaychou.site/client/geoip.dat
-wget https://"$USERNAME":"$PASSWORD"@www.jaychou.site/client/geosite.dat
+wget https://"$USERNAME":"$PASSWORD"@www.jaychou.site/client/geoip.dat -O /storage/xray/geo/geoip.dat
+wget https://"$USERNAME":"$PASSWORD"@www.jaychou.site/client/geosite.dat -O /storage/xray/geo/geosite.dat
 
 #检测是否需要更新
 latest_version=$(curl -s "https://$GITHUB_PROXY/https://hub.docker.com/v2/repositories/teddysun/xray/tags/" | \
