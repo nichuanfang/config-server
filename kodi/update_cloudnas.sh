@@ -22,7 +22,7 @@ fi
 echo "开始更新clouddrive2镜像..."
 docker rm -f clouddrive2
 docker rmi -f cloudnas/clouddrive2:latest
-rm -rf /storage/cloudnas/CloudDrive
+#rm -rf /storage/cloudnas/CloudDrive
 docker pull docker.m.daocloud.io/cloudnas/clouddrive2:latest
 docker tag docker.m.daocloud.io/cloudnas/clouddrive2:latest cloudnas/clouddrive2:latest
 docker rmi -f docker.m.daocloud.io/cloudnas/clouddrive2:latest
