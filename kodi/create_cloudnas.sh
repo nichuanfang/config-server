@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Clouddrive2 install script for common linux server
 
+# clouddrive2 install script for CoreELEC
 echo "开始更新clouddrive2...."
 
 #enable shared mount option for mapped volume in host
-mount --make-shared /
+mount --make-shared /storage
 
 #创建相应目录赋予权限     [   ]  内  前后都要有空格 if与[ ]之间也要有空格
 if [ ! -d "/cloudnas" ]; then
@@ -20,21 +20,10 @@ fi
 
 #更新clouddrive2
 
-# 删除原clouddrive2容器
-docker rm -f clouddrive2
-
-# 删除原clouddrive2容器镜像
-docker rmi -f cloudnas/clouddrive2:latest
-
 # 删除原挂载目录
 if [ -d  "/cloudnas/CloudDrive" ]; then
 rm -rf /cloudnas/CloudDrive
 fi
-
-#拉取代理镜像并重命名
-docker pull dockerproxy.com/cloudnas/clouddrive2:latest
-docker tag dockerproxy.com/cloudnas/clouddrive2:latest cloudnas/clouddrive2:latest
-docker rmi dockerproxy.com/cloudnas/clouddrive2:latest
 
 echo "Clouddrive2更新完毕!"
 #启动容器
@@ -56,3 +45,6 @@ docker run -d \
 echo "clouddrive2启动完成!"
 
 exit 0
+
+
+

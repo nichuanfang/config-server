@@ -82,4 +82,12 @@ crontab /root/cron
 # 删除临时文件
 rm -f /root/cron
 
+#补充 对于docker的网络不受ufw控制的处理办法:
+sudo wget -O /usr/local/bin/ufw-docker \
+  https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker
+chmod +x /usr/local/bin/ufw-docker
+#防止外界直接访问docker端口 统一使用nginx访问  具体请看 `ufw-docker` 命令
+ufw-docker install
+
+
 echo "==========================================定时任务配置完成!"
