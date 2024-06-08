@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#github代理
+GITHUB_PROXY='mirror.ghproxy.com'
+
 #创建相应目录赋予权限     [   ]  内  前后都要有空格 if与[ ]之间也要有空格
 
 #配置文件目录
@@ -27,11 +30,11 @@ PASSWORD=$2
 #更新xray配置文件
 wget https://"$USERNAME":"$PASSWORD"@www.jaychou.site/client/client-windows-config.json -O /storage/xray/config/config.json
 #更新geo文件
-wget https://mirror.ghproxy.com/https://github.com/nichuanfang/v2ray-rules-dat/releases/latest/download/geosite.dat -O /storage/xray/geo/geosite.dat
-wget https://mirror.ghproxy.com/https://github.com/nichuanfang/v2ray-rules-dat/releases/latest/download/geoip.dat -O /storage/xray/geo/geoip.dat
+wget https://$GITHUB_PROXY/https://github.com/nichuanfang/v2ray-rules-dat/releases/latest/download/geosite.dat -O /storage/xray/geo/geosite.dat
+wget https://$GITHUB_PROXY/https://github.com/nichuanfang/v2ray-rules-dat/releases/latest/download/geoip.dat -O /storage/xray/geo/geoip.dat
 
 #检测是否需要更新
-latest_version=$(curl -s 'https://proxy.jaychou.site/https://hub.docker.com/v2/repositories/teddysun/xray/tags/' | \
+latest_version=$(curl -s "https://$GITHUB_PROXY/https://hub.docker.com/v2/repositories/teddysun/xray/tags/" | \
   python3 -c "import sys, json; print(json.load(sys.stdin)['results'][1]['name'])")
 
 echo "xray最新版本: $latest_version"
@@ -67,7 +70,7 @@ echo "开始启动xray...."
 docker run -d \
     --name xray \
     --restart always \
-    -v /storage/xray/log:/log \
+    -v /storage/xray/log:/var/log/xray \
     -v /storage/xray/config:/etc/xray \
     -v /storage/xray/geo/geoip.dat:/usr/share/xray/geoip.dat \
     -v /storage/xray/geo/geosite.dat:/usr/share/xray/geosite.dat \
