@@ -22,7 +22,6 @@ fi
 echo "开始更新clouddrive2镜像..."
 docker rm -f clouddrive2
 docker rmi -f cloudnas/clouddrive2:latest
-#rm -rf /storage/cloudnas/CloudDrive
 docker pull docker.m.daocloud.io/cloudnas/clouddrive2:latest
 docker tag docker.m.daocloud.io/cloudnas/clouddrive2:latest cloudnas/clouddrive2:latest
 docker rmi -f docker.m.daocloud.io/cloudnas/clouddrive2:latest
@@ -30,6 +29,8 @@ echo "clouddrive2镜像更新完毕!"
 
 # 删除原挂载目录
 if [ -d  "/storage/cloudnas/CloudDrive" ]; then
+#  卸载挂载目录
+umount /storage/cloudnas/CloudDrive
 rm -rf /storage/cloudnas/CloudDrive
 fi
 
