@@ -24,6 +24,7 @@ curl -s https://proxy.jaychou.site/https://raw.githubusercontent.com/nichuanfang
 
 开机启动 真正执行的代码在这里 目前有以下功能:
 
+- 脚本中使用的代理网站`https://proxy.jaychou.site`为自建 也可以换成其他代理
 - 自动更新**cloudnas**镜像版本
 - 自动检测缓存(300m)是否设置 如没有设置会自动设置
 - 自动启动**xray-core[client]**  代理客户端,且自动更新xray客户端镜像版本和配置文件

@@ -2,8 +2,6 @@
 
 #检测是否需要更新
 
-# 设置镜像名称和Docker Hub仓库
-
 latest_version=$(curl -s 'https://proxy.jaychou.site/https://hub.docker.com/v2/repositories/cloudnas/clouddrive2/tags/' | \
   python3 -c "import sys, json; print(json.load(sys.stdin)['results'][1]['name'])")
 
