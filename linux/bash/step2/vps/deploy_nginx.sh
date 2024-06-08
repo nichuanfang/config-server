@@ -448,6 +448,82 @@ http {
           proxy_set_header X-Forwarded-Proto \$scheme;
     		}
     }
+
+    # 代理服务
+      server {
+      		listen  443  ssl http2;
+
+      		server_name proxy.$1;
+
+      		##
+      		# SSL Settings
+      		##
+      		#ssl on;
+      		# 注意文件位置，是从/etc/nginx/下开始算起的
+      		#ssl证书的pem文件路径
+      		ssl_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+      		#ssl证书的key文件路径
+      		ssl_certificate_key /root/code/docker/dockerfile_work/xray/cert/key.pem;
+
+      		add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
+      		ssl_ciphers TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-256-GCM-SHA384:TLS13-AES-128-GCM-SHA256:EECDH+CHACHA20:EECDH+AESGCM:EECDH+AES;
+      		ssl_protocols TLSv1.2 TLSv1.3;
+      		ssl_stapling on;
+      		ssl_stapling_verify on;
+      		ssl_trusted_certificate /root/code/docker/dockerfile_work/xray/cert/cert.pem;
+      		ssl_prefer_server_ciphers on;
+      		ssl_session_cache shared:SSL:10m;
+      		ssl_verify_depth 10;
+      		ssl_session_tickets   off;
+      		resolver 1.1.1.1 8.8.8.8 valid=365d;
+          ssl_session_timeout     1h;
+          ssl_early_data          on;
+
+      		client_max_body_size  0;
+
+      		set \$proxy_scheme http;
+      		if (\$request ~* "^\S+ /https://") {
+      			set \$proxy_scheme https;
+      		}
+
+      		set \$proxy_domain "";
+      		if (\$request ~* "^\S+ /[^/]+://([^/]+)") {
+      			set \$proxy_domain $1;
+      		}
+
+      		set \$location @not_found;
+      		if (\$proxy_domain != "") {
+      			set \$location @proxy_\$proxy_scheme;
+      		}
+
+      		set \$proxy_request_path /;
+      		if (\$request ~* "^\S+ /[^/]+://[^/]+(/[\S^\?]*)") {
+      			set \$proxy_request_path $1;
+      		}
+      		if (\$proxy_request_path ~* "^(.*)\?") {
+      			set \$proxy_request_path $1;
+      		}
+
+      		location / {
+      			try_files  /dev/null \$location;
+      		}
+
+      		location @not_found {
+      			try_files  /dev/null =404;
+      		}
+
+      		location @proxy_https {
+      			rewrite ^.*$  \$proxy_request_path break;
+
+      			proxy_ssl_server_name  on;
+      			proxy_ssl_name         \$proxy_domain;
+      			proxy_pass             https://\$proxy_domain;
+      		}
+
+      		location @proxy_http {
+      			proxy_pass  http://\$proxy_domain;
+      		}
+    }
  
  	server {
 		listen 80;
