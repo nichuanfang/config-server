@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #github代理
-GITHUB_PROXY="proxy.jaychou.site"
+GITHUB_PROXY=$1
 
 #创建相应目录赋予权限     [   ]  内  前后都要有空格 if与[ ]之间也要有空格
 
@@ -14,6 +14,9 @@ fi
 #geo目录
 if [ ! -d "/storage/xray/geo" ]; then
 mkdir -p /storage/xray/geo
+#下载geo文件
+wget https://"$USERNAME":"$PASSWORD"@www.jaychou.site/client/geoip.dat -O /storage/xray/geo/geoip.dat
+wget https://"$USERNAME":"$PASSWORD"@www.jaychou.site/client/geosite.dat -O /storage/xray/geo/geosite.dat
 chmod 777 /storage/xray/geo
 fi
 
@@ -24,10 +27,6 @@ PASSWORD=$2
 
 #更新xray配置文件
 wget https://"$USERNAME":"$PASSWORD"@www.jaychou.site/client/client-windows-config.json -O /storage/xray/config/config.json
-#更新geo文件
-wget https://"$USERNAME":"$PASSWORD"@www.jaychou.site/client/geoip.dat -O /storage/xray/geo/geoip.dat
-wget https://"$USERNAME":"$PASSWORD"@www.jaychou.site/client/geosite.dat -O /storage/xray/geo/geosite.dat
-
 #检测是否需要更新
 latest_version=$(curl -s "https://$GITHUB_PROXY/https://hub.docker.com/v2/repositories/teddysun/xray/tags/" | \
   python3 -c "import sys, json; print(json.load(sys.stdin)['results'][1]['name'])")
