@@ -38,4 +38,5 @@ git clone https://github.com/nichuanfang/nogfw.git
 git clone https://github.com/nichuanfang/xray-parser.git
 git clone https://github.com/nichuanfang/telegram-bot.git
 git clone https://github.com/nichuanfang/nichuanfang.github.io.git
+git clone https://github.com/nichuanfang/doc.git
 echo "==========================================git配置完成!"
