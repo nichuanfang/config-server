@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Interview Progress Saver
-// @namespace    https://doc-blond-eight.vercel.app/interview
+// @namespace    https://github.com/nichuanfang/config-server/blob/master/tampermonkey/scripts/interview_progress_saver.js
 // @version      1.0
 // @description  Save and restore progress on the interview website
 // @author       ncf
@@ -25,7 +25,7 @@
     function restoreProgress() {
         var savedProgress = localStorage.getItem('interview_progress');
         if (savedProgress && firstURL === 'https://doc-blond-eight.vercel.app/interview') {
-            window.location.href = savedProgress;
+            window.location.replace(savedProgress);
         }
     }
 
