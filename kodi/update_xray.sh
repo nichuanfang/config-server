@@ -21,9 +21,9 @@ chmod 777 /storage/xray/geo
 fi
 
 #xray配置文件用户名
-USERNAME=$1
+USERNAME=$2
 #xray配置文件密码
-PASSWORD=$2
+PASSWORD=$3
 
 #更新xray配置文件
 wget https://"$USERNAME":"$PASSWORD"@www.jaychou.site/client/client-windows-config.json -O /storage/xray/config/config.json
