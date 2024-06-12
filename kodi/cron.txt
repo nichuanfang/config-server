@@ -1,1 +1,0 @@
-0 4 1 * * /bin/bash -c "$(curl -L  https://ghproxy.com/https://raw.githubusercontent.com/nichuanfang/config-server/master/kodi/create_update_cloudnas.sh)"
