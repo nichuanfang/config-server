@@ -448,7 +448,7 @@ http {
     		}
     }
 
-    # portainer监控
+    # Chatgpt-Next-Web
     server {
       		listen 443  ssl http2;
 
