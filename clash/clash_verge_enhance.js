@@ -20,7 +20,7 @@ function overwriteRules(params) {
         "GEOIP,LAN,DIRECT,no-resolve",
         "GEOIP,CN,DIRECT,no-resolve",
         "RULE-SET,applications,DIRECT",
-        "DOMAIN,chatgpt.com,US-自动选择",
+        "DOMAIN-SUFFIX,chatgpt.com,US-自动选择",
         "RULE-SET,tld-not-cn," + proxyName,
         "RULE-SET,google," + proxyName,
         "RULE-SET,icloud," + proxyName,
