@@ -238,20 +238,20 @@ function overwriteDns(params) {
         "https://1.12.12.12/dns-query",
     ];
     const trustDnsList = [
-        'quic://dns.cooluc.com',
+        // 'quic://dns.cooluc.com',
         "https://1.0.0.1/dns-query",
         "https://1.1.1.1/dns-query",
     ];
-    // const notionDns = 'tls://dns.jerryw.cn'
-    // const notionUrls = [
-    //     'http-inputs-notion.splunkcloud.com',
-    //     '+.notion-static.com',
-    //     '+.notion.com',
-    //     '+.notion.new',
-    //     '+.notion.site',
-    //     '+.notion.so',
-    // ]
-    // const combinedUrls = notionUrls.join(',');
+    const notionDns = 'tls://dns.jerryw.cn'
+    const notionUrls = [
+        'http-inputs-notion.splunkcloud.com',
+        '+.notion-static.com',
+        '+.notion.com',
+        '+.notion.new',
+        '+.notion.site',
+        '+.notion.so',
+    ]
+    const combinedUrls = notionUrls.join(',');
     const dnsOptions = {
         enable: true,
         "prefer-h3": true, // 如果DNS服务器支持DoH3会优先使用h3
@@ -260,7 +260,7 @@ function overwriteDns(params) {
 
         // 这个用于覆盖上面的 nameserver
         "nameserver-policy": {
-            //[combinedUrls]: notionDns,
+            [combinedUrls]: notionDns,
             "geosite:cn": cnDnsList,
             "geosite:geolocation-!cn": trustDnsList,
             // 如果你有一些内网使用的DNS，应该定义在这里，多个域名用英文逗号分割
