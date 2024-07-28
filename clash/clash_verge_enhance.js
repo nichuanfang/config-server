@@ -91,7 +91,7 @@ function overwriteRules(params) {
         chatgpt: {
             type: "http",
             behavior: "domain",
-            url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/chatgpt.txt",
+            url: "https://ghproxy.com/https://raw.githubusercontent.com/nichuanfang/config-server/master/clash/rules/chatgpt.txt",
             path: "./ruleset/chatgpt.yaml",
             interval: 86400,
         },
