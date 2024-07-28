@@ -236,14 +236,17 @@ function overwriteProxyGroups(params) {
 function overwriteDns(params) {
   const cnDnsList = [
     'https://1.12.12.12/dns-query',
-    'https://223.5.5.5/dns-query',
+    // 'https://223.5.5.5/dns-query',
+    '180.184.1.1'
   ]
   
   // 大部分的网络请求都会走这个里面的，这里目前是腾讯、阿里、和使用节点查询的1.0.0.1的dns
   const trustDnsList = [
-    'https://doh.pub/dns-query', // 腾讯
-    'https://dns.alidns.com/dns-query', // 阿里（这里会触发h3和普通的并发查询）
-    '180.184.1.1', // 字节-火山引擎的DNS
+    // 'https://doh.pub/dns-query', // 腾讯
+    // 'https://dns.alidns.com/dns-query', // 阿里（这里会触发h3和普通的并发查询）
+    // '180.184.1.1', // 字节-火山引擎的DNS
+    "https://1.0.0.1/dns-query",
+    "https://1.1.1.1/dns-query",
   ]
    const notionDns = 'tls://dns.jerryw.cn' // notion加速dns
    const notionUrls = [
