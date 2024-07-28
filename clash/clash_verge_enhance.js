@@ -234,62 +234,50 @@ function overwriteProxyGroups(params) {
 }
 //防止dns泄露
 function overwriteDns(params) {
-    const cnDnsList = [
-        "https://223.5.5.5/dns-query",
-        "https://1.12.12.12/dns-query",
-    ];
-    const trustDnsList = [
-        // 'quic://dns.cooluc.com',
-        "https://1.0.0.1/dns-query",
-        "https://1.1.1.1/dns-query",
-    ];
-    // const notionDns = 'tls://dns.jerryw.cn'
-    // const notionUrls = [
-    //     'http-inputs-notion.splunkcloud.com',
-    //     '+.notion-static.com',
-    //     '+.notion.com',
-    //     '+.notion.new',
-    //     '+.notion.site',
-    //     '+.notion.so',
-    // ]
-    // const combinedUrls = notionUrls.join(',');
-    const dnsOptions = {
-        enable: true,
-        "prefer-h3": true, // 如果DNS服务器支持DoH3会优先使用h3
-        "default-nameserver": cnDnsList, // 用于解析其他DNS服务器、和节点的域名, 必须为IP, 可为加密DNS。注意这个只用来解析节点和其他的dns，其他网络请求不归他管
-        nameserver: trustDnsList, // 其他网络请求都归他管
-
-        // 这个用于覆盖上面的 nameserver
-        "nameserver-policy": {
-            // [combinedUrls]: notionDns,
-            "geosite:cn": cnDnsList,
-            "geosite:geolocation-!cn": trustDnsList,
-            // 如果你有一些内网使用的DNS，应该定义在这里，多个域名用英文逗号分割
-            // '+.公司域名.com, www.4399.com, +.baidu.com': '10.0.0.1'
-        },
-        fallback: trustDnsList,
-        "fallback-filter": {
-            geoip: true,
-            //除了 geoip-code 配置的国家 IP, 其他的 IP 结果会被视为污染 geoip-code 配置的国家的结果会直接采用，否则将采用 fallback结果
-            "geoip-code": "CN",
-            //geosite 列表的内容被视为已污染，匹配到 geosite 的域名，将只使用 fallback解析，不去使用 nameserver
-            geosite: ["gfw"],
-            ipcidr: ["240.0.0.0/4"],
-            domain: ["+.google.com", "+.facebook.com", "+.youtube.com"],
-        },
-    };
-
+  const cnDnsList = [
+    'https://1.12.12.12/dns-query',
+    'https://223.5.5.5/dns-query',
+  ]
+  
+  // 大部分的网络请求都会走这个里面的，这里目前是腾讯、阿里、和使用节点查询的1.0.0.1的dns
+  const trustDnsList = [
+    'https://doh.pub/dns-query', // 腾讯
+    'https://dns.alidns.com/dns-query', // 阿里（这里会触发h3和普通的并发查询）
+    '180.184.1.1', // 字节-火山引擎的DNS
+  ]
+   const notionDns = 'tls://dns.jerryw.cn' // notion加速dns
+   const notionUrls = [
+     'http-inputs-notion.splunkcloud.com',
+     '+.notion-static.com',
+     '+.notion.com',
+     '+.notion.new',
+     '+.notion.site',
+     '+.notion.so',
+   ]
+   const combinedUrls = notionUrls.join(',');
+   const dnsOptions = {
+    'enable': true,
+    'prefer-h3': true, // 如果DNS服务器支持DoH3会优先使用h3（本例子中只有阿里DNS支持）
+    'default-nameserver': cnDnsList, // 用于解析其他DNS服务器、和节点的域名, 必须为IP, 可为加密DNS。注意这个只用来解析节点和其他的dns，其他网络请求不归他管
+    'nameserver': trustDnsList, // 其他网络请求都归他管
+    
+    // 这个用于覆盖上面的 nameserver
+    'nameserver-policy': {
+      [combinedUrls]: notionDns,
+      'geosite:geolocation-!cn': trustDnsList,
+      // 如果你有一些内网使用的DNS，应该定义在这里，多个域名用英文逗号分割
+      // '+.公司域名.com, www.4399.com, +.baidu.com': '10.0.0.1'
+     },
+    }
     // GitHub加速前缀
     const githubPrefix = "https://fastgh.lainbo.com/";
 
-    // GEO数据GitHub资源原始下载地址
+     // GEO数据GitHub资源原始下载地址
     const rawGeoxURLs = {
-        geoip:
-            "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat",
-        geosite:
-            "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat",
-        mmdb: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country-lite.mmdb",
-    };
+        geoip: 'https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat',
+        geosite: 'https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat',
+        mmdb: 'https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country-lite.mmdb',
+    }
 
     // 生成带有加速前缀的GEO数据资源对象
     const accelURLs = Object.fromEntries(
@@ -320,6 +308,10 @@ function overwriteDns(params) {
         },
         "geodata-mode": true,
         "geox-url": accelURLs,
+        'geo-auto-update': true,
+        'geo-update-interval': 24,
+        'geodata-loader': 'standard',
+        'find-process-mode': 'strict',
     };
 
     params.dns = { ...params.dns, ...dnsOptions };
