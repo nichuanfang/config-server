@@ -24,6 +24,7 @@ function overwriteRules(params) {
         "RULE-SET,google," + proxyName,
         "RULE-SET,icloud," + proxyName,
         "RULE-SET,apple," + proxyName,
+        "RULE-SET,chatgpt,US-自动选择", // 添加针对 ChatGPT 域名的规则
         "RULE-SET,gfw," + proxyName,
         "RULE-SET,greatfire," + proxyName,
         "RULE-SET,telegramcidr," + proxyName,
@@ -85,6 +86,13 @@ function overwriteRules(params) {
             behavior: "domain",
             url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/gfw.txt",
             path: "./ruleset/gfw.yaml",
+            interval: 86400,
+        },
+        chatgpt: {
+            type: "http",
+            behavior: "domain",
+            url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/chatgpt.txt",
+            path: "./ruleset/chatgpt.yaml",
             interval: 86400,
         },
         greatfire: {
