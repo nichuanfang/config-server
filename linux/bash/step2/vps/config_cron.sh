@@ -67,6 +67,10 @@ cat <<EOF >/root/cron
 30 13 1 * * curl -s https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/renew_cert.sh | bash -s $1 $2
 # 每天凌晨备份bitwarden
 30 0 * * * curl -s https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/backup_bitwarden.sh | bash
+# 每天凌晨备份redis
+30 0 * * * curl -s https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/backup_redis.sh | bash
+# 每天凌晨备份memos
+30 0 * * * curl -s https://raw.githubusercontent.com/nichuanfang/config-server/master/linux/bash/step2/vps/backup_memos.sh | bash
 #每天定时清理缓存
 30 13 1 * * sync && echo 3 >/proc/sys/vm/drop_caches
 # 定期删除xray日志

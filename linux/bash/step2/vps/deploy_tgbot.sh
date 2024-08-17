@@ -7,7 +7,7 @@ sudo rm -f /var/cache/apt/archives/lock
 sudo rm -f /var/lib/dpkg/lock-frontend
 echo "=========================================开始部署telegram bot..."
 
-cd /root/code/telegram-bot
+cd /root/code/telegram-bot || exit
 
 # 启动telegram bot
 docker-compose -f docker-compose.local.yml up -d

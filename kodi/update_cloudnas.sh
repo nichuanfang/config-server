@@ -2,6 +2,8 @@
 
 #github代理
 GITHUB_PROXY=$1
+# dockerhub代理
+DOCKER_HUB_PROXY=$2
 #检测是否需要更新
 
 latest_version=$(curl -s "https://$GITHUB_PROXY/https://hub.docker.com/v2/repositories/cloudnas/clouddrive2/tags/" | python3 -c "import sys, json; print(json.load(sys.stdin)['results'][1]['name'])")
@@ -40,9 +42,9 @@ if [ -n "$current_version" ]; then
 docker rm -f clouddrive2
 docker rmi -f cloudnas/clouddrive2:"$current_version"
 fi
-docker pull docker.m.daocloud.io/cloudnas/clouddrive2:"$latest_version"
-docker tag docker.m.daocloud.io/cloudnas/clouddrive2:"$latest_version" cloudnas/clouddrive2:"$latest_version"
-docker rmi -f docker.m.daocloud.io/cloudnas/clouddrive2:"$latest_version"
+docker pull $DOCKER_HUB_PROXY/cloudnas/clouddrive2:"$latest_version"
+docker tag $DOCKER_HUB_PROXY/cloudnas/clouddrive2:"$latest_version" cloudnas/clouddrive2:"$latest_version"
+docker rmi -f $DOCKER_HUB_PROXY/cloudnas/clouddrive2:"$latest_version"
 echo "clouddrive2镜像更新完毕!"
 
 # 删除原挂载目录
@@ -72,6 +74,3 @@ docker run -d \
 echo "clouddrive2启动完成!"
 
 exit 0
-
-
-
