@@ -2,6 +2,7 @@
 
 #github代理
 GITHUB_PROXY=$1
+# dockerhub代理
 DOCKER_HUB_PROXY=$2
 #检测是否需要更新
 
