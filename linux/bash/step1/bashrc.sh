@@ -9,3 +9,6 @@ alias gp='git pull --rebase --autostash'
 cd() {
     builtin cd "$@" && ls
 }
+
+#配置sftp
+export PS1="$PS1\[\e]1337;CurrentDir="'$(pwd)\a\]'
