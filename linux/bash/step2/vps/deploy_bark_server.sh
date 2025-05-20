@@ -7,6 +7,7 @@ sudo rm -f /var/cache/apt/archives/lock
 sudo rm -f /var/lib/dpkg/lock-frontend
 echo "=========================================开始部署bark_server..."
 
+mkdir -p ~/data/bark-server
 cd /root/code/docker/dockerfile_work/barkserver
 
 docker-compose up -d
