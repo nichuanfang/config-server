@@ -8,6 +8,18 @@ sudo rm -f /var/lib/dpkg/lock
 sudo rm -f /var/cache/apt/archives/lock
 sudo rm -f /var/lib/dpkg/lock-frontend
 
+# 安装pyenv
+curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+
+# 添加到环境变量
+
+echo 'export PATH="~/.pyenv/bin:$PATH"' >>~/.bashrc
+echo 'eval "$(pyenv init -)"' >>~/.bashrc
+echo 'eval "$(pyenv virtualenv-init -)"' >>~/.bashrc
+
+# 刷新配置
+source ~/.bashrc
+
 # 安装3.7.0版本的python
 pyenv install 3.7.0 -v
 
