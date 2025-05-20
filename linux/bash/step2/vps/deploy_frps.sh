@@ -13,7 +13,7 @@ After = network.target syslog.target
 Wants = network.target
 [Service]
 Type = simple
-ExecStart = ~/data/frp/frps -c ~/data/frp/frps.toml
+ExecStart = /root/data/frp/frps -c /root/data/frp/frps.toml
 [Install]
 WantedBy = multi-user.target
 EOF
