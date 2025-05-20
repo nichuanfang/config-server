@@ -8,6 +8,8 @@ sudo rm -f /var/lib/dpkg/lock
 sudo rm -f /var/cache/apt/archives/lock
 sudo rm -f /var/lib/dpkg/lock-frontend
 
+apt-get install -y gcc make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev
+
 # 安装pyenv
 curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 
@@ -20,9 +22,6 @@ echo 'eval "$(pyenv virtualenv-init -)"' >>~/.bashrc
 # 刷新配置
 source ~/.bashrc
 
-# 安装3.7.0版本的python
-pyenv install 3.7.0 -v
-
 # 安装3.8.0版本的python
 pyenv install 3.8.0 -v
 
@@ -30,12 +29,6 @@ pyenv install 3.8.0 -v
 pyenv install 3.11.0 -v
 
 # 设置python和pip的软链接
-
-# 3.7.0
-ln -fs /root/.pyenv/versions/3.7.0/bin/python3.7 /usr/bin/python3.7
-ln -fs /root/.pyenv/versions/3.7.0/bin/python3.7 /usr/local/bin/python3.7
-ln -fs /root/.pyenv/versions/3.7.0/bin/pip3.7 /usr/bin/pip3.7
-ln -fs /root/.pyenv/versions/3.7.0/bin/pip3.7 /usr/local/bin/pip3.7
 
 # 3.8.0
 ln -fs /root/.pyenv/versions/3.8.0/bin/python3.8 /usr/bin/python3.8
