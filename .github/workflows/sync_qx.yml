@@ -28,15 +28,15 @@ jobs:
           pip install -r requirements.txt
 
       # sync
-      - name: Sync
-        working-directory: ./qx/handle
-        env:
-          VPS_DOMAIN: ${{ secrets.VPS_DOMAIN }}
-          QX_SUBSCRIBE_ID: ${{ secrets.QX_SUBSCRIBE_ID }}
-          QX_USERNAME: ${{ secrets.VPS_CONFIG_USER }}
-          QX_PASSWORD: ${{ secrets.VPS_CONFIG_PASS }}
-        run: |
-          python convert.py $VPS_DOMAIN $QX_SUBSCRIBE_ID $QX_USERNAME $QX_PASSWORD
+      # - name: Sync
+      #   working-directory: ./qx/handle
+      #   env:
+      #     VPS_DOMAIN: ${{ secrets.VPS_DOMAIN }}
+      #     QX_SUBSCRIBE_ID: ${{ secrets.QX_SUBSCRIBE_ID }}
+      #     QX_USERNAME: ${{ secrets.VPS_CONFIG_USER }}
+      #     QX_PASSWORD: ${{ secrets.VPS_CONFIG_PASS }}
+      #   run: |
+      #     python convert.py $VPS_DOMAIN $QX_SUBSCRIBE_ID $QX_USERNAME $QX_PASSWORD
 
       - name: Deploy quanx-sub
         uses: exuanbo/actions-deploy-gist@v1.1.4
